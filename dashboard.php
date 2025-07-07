@@ -1,36 +1,19 @@
-<?php
-require_once './functions/dashboard-handler.php';
-?>
+<?php require_once './functions/dashboard-handler.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <script src="Assets/chart.js"></script>
-    <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
-    <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for mobile menu toggle */
-        .mobile-menu-hidden {
-            transform: translateX(-100%);
-        }
-
-        .mobile-menu-visible {
-            transform: translateX(0);
-        }
-
-        /* Ensure chart container is responsive */
         .chart-container {
             position: relative;
             height: 300px;
             width: 100%;
         }
-
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -60,11 +43,11 @@ require_once './functions/dashboard-handler.php';
         </div>
 
         <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="clients.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-user mr-2"></i>
                 <span class="md:inline">Clients</span>
             </a>
@@ -94,72 +77,85 @@ require_once './functions/dashboard-handler.php';
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
-    <!-- Main Content -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
-        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
-                    Hello, <?= $vetName ?>.
-                </h1>
-                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
-                    Dashboard
-                </h1>
-            </div>
 
-            <!-- Stats Grid - Responsive -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+    <!-- Main Dashboard Container -->
+    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
+        <!-- Header with Welcome and Metrics -->
+        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
+            <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
+                <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= $vetName ?>.</h1>
+                <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                 <div class="bg-green-100 p-4 rounded-md text-center">
-                    <h3 class="text-base lg:text-lg font-bold">Clients</h3>
-                    <p class="text-xl lg:text-2xl"><?= $clientCount ?></p>
+                    <h3 class="font-semibold">Clients</h3>
+                    <p class="text-xl"><?= $clientCount ?></p>
                 </div>
                 <div class="bg-green-100 p-4 rounded-md text-center">
-                    <h3 class="text-base lg:text-lg font-bold">Pets</h3>
-                    <p class="text-xl lg:text-2xl"><?= $petCount ?></p>
+                    <h3 class="font-semibold">Pets</h3>
+                    <p class="text-xl"><?= $petCount ?></p>
                 </div>
-                <div class="bg-green-100 p-4 rounded-md text-center sm:col-span-2 lg:col-span-1">
-                    <h3 class="text-base lg:text-lg font-bold">Medical Records</h3>
-                    <p class="text-xl lg:text-2xl"><?= $recordCount ?></p>
+                <div class="bg-green-100 p-4 rounded-md text-center">
+                    <h3 class="font-semibold">Medical Records</h3>
+                    <p class="text-xl"><?= $recordCount ?></p>
+                </div>
+                <div class="bg-green-100 p-4 rounded-md text-center">
+                    <h3 class="font-semibold">Total Payments</h3>
+                    <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
                 </div>
             </div>
         </header>
 
+       <!-- Graph Section -->
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-4">Most Common Medical Conditions</h2>
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Analytics Overview</h2>
 
-            <!-- Chart: Medical Conditions Bar Chart -->
-            <div class="chart-container">
-                <canvas id="conditionChart"></canvas>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Monthly Income Box -->
+                <div class="flex-1 bg-gray-50 border border-green-200 rounded-lg p-4 shadow-sm">
+                    <h3 class="text-base lg:text-lg font-semibold text-green-700 mb-4">Monthly Income</h3>
+                    <div class="chart-container">
+                        <canvas id="incomeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Most Common Medical Conditions Box -->
+                <div class="flex-0.5 bg-gray-50 border border-green-200 rounded-lg p-4 shadow-sm">
+                    <h3 class="text-base lg:text-lg font-semibold text-green-700 mb-4">Most Common Medical Conditions</h3>
+                    <div class="chart-container">
+                        <canvas id="conditionChart"></canvas>
+                    </div>
+                </div>
             </div>
         </main>
+
     </div>
 
-
+    <!-- Chart.js Scripts -->
     <script>
-        // Data for the medical conditions chart
-        const conditionLabels = <?= json_encode($conditionLabels) ?>;
-        const conditionCounts = <?= json_encode($conditionCounts) ?>;
+        // Monthly Income Bar Chart
+        const monthlyLabels = <?= json_encode($monthlyLabels) ?>;
+        const monthlyTotals = <?= json_encode($monthlyTotals) ?>;
 
-        // Chart.js configuration
-        const data = {
-            labels: conditionLabels,
-            datasets: [{
-                label: 'Medical Condition Frequency',
-                data: conditionCounts,
-                backgroundColor: ['#2C6B2F', '#388E3C', '#4CAF50', '#66BB6A', '#81C784'],
-                borderColor: ['#2C6B2F', '#388E3C', '#4CAF50', '#66BB6A', '#81C784'],
-                borderWidth: 1
-            }]
-        };
-
-        const config = {
+        const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+        const incomeChart = new Chart(incomeCtx, {
             type: 'bar',
-            data: data,
+            data: {
+                labels: monthlyLabels,
+                datasets: [{
+                    label: 'Total Income (₱)',
+                    data: monthlyTotals,
+                    backgroundColor: '#4CAF50',
+                    borderColor: '#388E3C',
+                    borderWidth: 1
+                }]
+            },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: window.innerWidth > 768
+                        display: true
                     }
                 },
                 scales: {
@@ -167,32 +163,42 @@ require_once './functions/dashboard-handler.php';
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Count of Conditions'
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            maxRotation: window.innerWidth > 768 ? 45 : 90,
-                            minRotation: window.innerWidth > 768 ? 0 : 45
+                            text: 'Amount (₱)'
                         }
                     }
                 }
             }
-        };
+        });
 
-        // Render the chart
-        const ctx = document.getElementById('conditionChart').getContext('2d');
-        const chart = new Chart(ctx, config);
+        // Most Common Medical Conditions Pie Chart
+        const conditionLabels = <?= json_encode($conditionLabels) ?>;
+        const conditionCounts = <?= json_encode($conditionCounts) ?>;
 
-        // Update chart on window resize
-        window.addEventListener('resize', function() {
-            chart.options.plugins.legend.display = window.innerWidth > 768;
-            chart.options.scales.x.ticks.maxRotation = window.innerWidth > 768 ? 45 : 90;
-            chart.options.scales.x.ticks.minRotation = window.innerWidth > 768 ? 0 : 45;
-            chart.update();
+        const conditionCtx = document.getElementById('conditionChart').getContext('2d');
+        const conditionChart = new Chart(conditionCtx, {
+            type: 'pie',
+            data: {
+                labels: conditionLabels,
+                datasets: [{
+                    data: conditionCounts,
+                    backgroundColor: [
+                        '#2E7D32', '#43A047', '#66BB6A', '#81C784', '#A5D6A7'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
         });
     </script>
-    <script src="./js/sidebarHandler.js"></script>
-</body>
 
+</body>
 </html>

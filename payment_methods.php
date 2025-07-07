@@ -83,37 +83,61 @@ $payments = $stmt->fetchAll();
 
 <body class="bg-gray-100 flex">
 
-    <!-- Sidebar -->
-    <div class="w-64 bg-gradient-to-b from-green-500 to-green-600 text-white h-[120vh] p-4">
-        <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-            <img src="image/MainIconWhite.png" alt="Dashboard" class="w-8"> Dashboard
-        </h2>
-        <nav class="mt-36">
-            <a href="dashboard.php" class="block text-lg text-white bg-green-600 hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-tachometer-alt"></i> Dashboard
-            </a>
-            <a href="clients.php" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md mb-2">
-                <i class="fas fa-user mr-2"></i> Clients
-            </a>
-            <a href="pets.php" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md mb-2">
-                <i class="fas fa-paw mr-2"></i> Pets
-            </a>
-            <a href="medical_records.php" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md mb-2">
-                <i class="fas fa-file-medical mr-2"></i> Medical Records
-            </a>
-            <a href="profile.php" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md mb-2">
-                <i class="fas fa-id-badge mr-2"></i> Profile
-            </a>
-            <a href="payment_methods.php" class="block text-lg hover:bg-green-600 px-4 py-2 rounded-md mb-2"><i class="fas fa-credit-card mr-2"></i> Payments</a>
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
+        <i class="fas fa-bars"></i>
+    </button>
 
-            <a href="logout.php" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md mb-2">
-                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+        <!-- Close button for mobile -->
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+                <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
+                <span class="md:inline">Dashboard</span>
+            </h2>
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="mt-8 lg:mt-36">
+            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i>
+                <span class="md:inline">Dashboard</span>
+            </a>
+            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-user mr-2"></i>
+                <span class="md:inline">Clients</span>
+            </a>
+            <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-paw mr-2"></i>
+                <span class="md:inline">Pets</span>
+            </a>
+            <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-file-medical mr-2"></i>
+                <span class="md:inline">Medical Records</span>
+            </a>
+            <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-id-badge mr-2"></i>
+                <span class="md:inline">Profile</span>
+            </a>
+            <a href="payment_methods.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-credit-card mr-2"></i>
+                <span class="md:inline">Payments</span>
+            </a>
+            <a href="logout.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                <span class="md:inline">Logout</span>
             </a>
         </nav>
     </div>
 
+    <!-- Overlay for mobile menu -->
+    <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+
     <!-- Main Content -->
-    <div class="flex-1 p-8">
+    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4 w-full">
         <div class="bg-white p-6 rounded-lg shadow">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-green-700">Vet Clinic Payments</h1>
@@ -165,10 +189,13 @@ $payments = $stmt->fetchAll();
     </div>
 
     <!-- Payment Modal -->
-    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-        <div class="bg-white p-6 rounded shadow-lg w-96">
-            <h3 class="text-xl font-bold mb-4 text-blue-700">Record Payment</h3>
-            <form method="POST">
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center sm:p-5">
+        <div class="bg-white rounded-lg shadow-lg w-96">
+            <div class="w-full bg-green-500 rounded-t-lg text-white">
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Record Payment</h3>
+            </div>
+            
+            <form method="POST" class="p-5">
                 <div class="mb-4">
                     <label class="block text-sm text-gray-700">Client Name</label>
                     <input type="text" name="client_name" required class="w-full border px-3 py-2 rounded">
@@ -190,7 +217,7 @@ $payments = $stmt->fetchAll();
                     <textarea name="description" class="w-full border px-3 py-2 rounded" rows="2"></textarea>
                 </div>
                 <div class="flex justify-end gap-2">
-                    <button type="submit" name="record_payment" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+                    <button type="submit" name="record_payment" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
                     <button type="button" onclick="hidePaymentModal()" class="text-gray-600 hover:underline">Cancel</button>
                 </div>
             </form>
@@ -238,22 +265,112 @@ $payments = $stmt->fetchAll();
 
         function printReceipt(client, method, amount, description, date) {
             const content = `
-            <html><head><title>Receipt</title></head><body onload="window.print()">
-            <div style="padding:20px;font-family:sans-serif">
-                <h2>Vet Clinic Payment Receipt</h2>
-                <p><strong>Client:</strong> ${client}</p>
-                <p><strong>Payment Method:</strong> ${method}</p>
-                <p><strong>Amount:</strong> ₱${parseFloat(amount).toFixed(2)}</p>
-                <p><strong>Description:</strong> ${description}</p>
-                <p><strong>Date:</strong> ${date}</p>
-                <hr><p>Thank you for your payment!</p>
-            </div>
-            </body></html>`;
+                <html>
+                <head>
+                    <title>Receipt</title>
+                    <style>
+                        body {
+                            font-family: sans-serif;
+                            padding: 20px;
+                            background-color: #f9f9f9;
+                        }
+                        .receipt-box {
+                            background: #fff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            border: 1px solid #ccc;
+                            max-width: 500px;
+                            margin: auto;
+                        }
+                        .receipt-header {
+                            background-color: #16a34a; /* green-600 */
+                            color: #ffffff;
+                            padding: 15px;
+                            border-top-left-radius: 8px;
+                            border-top-right-radius: 8px;
+                            display: flex;
+                            align-items: center;
+                            text-align: center;
+                            justify-content: center;
+                            gap: 15px;
+                        }
+                        .logo {
+                            width: 50px;
+                            height: 50px;
+                            object-fit: contain;
+                        }
+                        .clinic-info {
+                            display: flex;
+                            flex-direction: column;
+                            line-height: 1.4;
+                        }
+                        .clinic-name {
+                            font-size: 20px;
+                            font-weight: bold;
+                            margin: 0;
+                            color:rgb(0, 0, 0);
+                        }
+                        .clinic-address {
+                            font-size: 14px;
+                            margin: 0;
+                            color:rgb(63, 61, 61);
+                        }
+                        .receipt-body {
+                            padding-top: 15px;
+                            margin-left: 20px;
+                        }
+                        h2 {
+                            margin-top: 20px;
+                            margin-bottom: 10px;
+                        }
+                        .info-line {
+                            margin: 4px 0;
+                        }
+                        .footer {
+                            margin-top: 20px;
+                            border-top: 1px dashed #ccc;
+                            padding-top: 10px;
+                            text-align: center;
+                        }
+                        .pr {
+                            padding-top: 10px;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body onload="window.print()">
+                    <div class="receipt-box">
+                        <div class="receipt-header">
+                            <img src="image/MainIcon.png" alt="Vet Clinic Logo" class="logo">
+                            <div class="clinic-info">
+                                <p class="clinic-name">Balingasag Dog and Cat Clinic</p>
+                                <p class="clinic-address">Cogon, Balingasag, Misamis Oriental</p>
+                            </div>
+                        </div>
+                        <div class="pr">
+                            <h3 class="pr">Payment Receipt</h3>
+                        </div>
+                        <div class="receipt-body">
+                            <p class="info-line"><strong>Client:</strong> ${client}</p>
+                            <p class="info-line"><strong>Payment Method:</strong> ${method}</p>
+                            <p class="info-line"><strong>Amount:</strong> ₱${parseFloat(amount).toFixed(2)}</p>
+                            <p class="info-line"><strong>Description:</strong> ${description}</p>
+                            <p class="info-line"><strong>Date:</strong> ${date}</p>
+                        </div>
+                        <div class="footer">
+                            <p>Thank you for your payment!</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
             const frame = document.getElementById('receiptFrame').contentWindow;
             frame.document.open();
             frame.document.write(content);
             frame.document.close();
         }
+
 
         <?php if ($methodToEdit): ?>
             document.addEventListener('DOMContentLoaded', () => {
@@ -267,6 +384,7 @@ $payments = $stmt->fetchAll();
             });
         <?php endif; ?>
     </script>
+    <script src="./js/sidebarHandler.js"></script>
 </body>
 
 </html>

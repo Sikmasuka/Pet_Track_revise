@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Content -->
-    <div class="flex-1 p-8">
+    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4 w-full">
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-8">
             <h1 class="text-2xl font-bold">My Profile</h1>
         </header>

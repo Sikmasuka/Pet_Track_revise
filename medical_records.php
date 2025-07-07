@@ -199,7 +199,7 @@ $records = $stmt->fetchAll();
     </div>
 
     <!-- Add/Edit Medical Record Modal -->
-    <div id="recordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+    <div id="recordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center sm:p-5">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-[600px]">
             <div class="w-full bg-green-500 rounded-t-lg text-white py-3">
                 <h3 id="recordModalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Add New Medical Record</h3>

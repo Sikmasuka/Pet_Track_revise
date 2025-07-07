@@ -14,7 +14,7 @@ $stmt->execute([$_SESSION['vet_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
 
-// Fetch the counts for Clients, Pets, and Medical Records
+// Fetch the counts
 $stmtClients = $pdo->prepare("SELECT COUNT(*) FROM Client");
 $stmtClients->execute();
 $clientCount = $stmtClients->fetchColumn();
@@ -37,10 +37,41 @@ $stmtConditions = $pdo->prepare("
 ");
 $stmtConditions->execute();
 $conditions = $stmtConditions->fetchAll();
+
 $conditionLabels = [];
 $conditionCounts = [];
 
 foreach ($conditions as $condition) {
     $conditionLabels[] = htmlspecialchars($condition['medical_condition']);
     $conditionCounts[] = $condition['condition_count'];
+}
+
+// Fetch total payment amount
+$stmtPayment = $pdo->prepare("SELECT SUM(amount) FROM Payments");
+$stmtPayment->execute();
+$totalPayment = $stmtPayment->fetchColumn();
+$totalPayment = $totalPayment ? number_format((float) $totalPayment, 2, '.', '') : "0.00";
+
+
+// Fetch monthly income (grouped by month)
+$stmtMonthly = $pdo->prepare("
+    SELECT DATE_FORMAT(date, '%b') AS month,
+           MONTH(date) AS month_num,
+           SUM(amount) AS total
+    FROM Payments
+    GROUP BY month_num
+    ORDER BY month_num
+");
+$stmtMonthly->execute();
+$monthlyData = $stmtMonthly->fetchAll();
+
+// Initialize all 12 months to 0
+$allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+$monthlyTotals = array_fill(0, 12, 0);
+
+// Fill in actual totals from DB
+$monthlyLabels = $allMonths;
+foreach ($monthlyData as $data) {
+    $index = (int)$data['month_num'] - 1;
+    $monthlyTotals[$index] = round($data['total'], 2);
 }
