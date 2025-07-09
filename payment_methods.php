@@ -59,14 +59,14 @@ if (isset($_GET['edit_method_id'])) {
 /**
  * Fetch all payment methods ordered by name
  */
-$stmt = $pdo->prepare("SELECT * FROM Payment_Method ORDER BY method_name ASC");
+$stmt = $pdo->prepare("SELECT * FROM payment_methods ORDER BY method_name ASC");
 $stmt->execute();
 $methods = $stmt->fetchAll();
 
 /**
  * Fetch all payments joined with method names, ordered by date descending
  */
-$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN Payment_Method m ON p.method_id = m.method_id ORDER BY p.date DESC");
+$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN payment_methods m ON p.method_id = m.method_id ORDER BY p.date DESC");
 $payments = $stmt->fetchAll();
 ?>
 
@@ -126,7 +126,7 @@ $payments = $stmt->fetchAll();
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
-            <a href="logout.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -154,15 +154,15 @@ $payments = $stmt->fetchAll();
 
             <h2 class="text-lg font-semibold text-gray-700 mt-8 mb-2">Payment History</h2>
             <?php if (count($payments) > 0): ?>
-                <table class="w-full table-auto border border-gray-200">
-                    <thead>
-                        <tr class="bg-blue-100 text-left">
-                            <th class="px-4 py-2">Client</th>
-                            <th class="px-4 py-2">Method</th>
-                            <th class="px-4 py-2">Amount</th>
-                            <th class="px-4 py-2">Description</th>
-                            <th class="px-4 py-2">Date</th>
-                            <th class="px-4 py-2">Receipt</th>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50 sticky top-0 z-5">
+                        <tr class="border-b bg-gray-200">
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Client</th>
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Method</th>
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Amount</th>
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Description</th>
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Date</th>
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Receipt</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,7 +194,7 @@ $payments = $stmt->fetchAll();
             <div class="w-full bg-green-500 rounded-t-lg text-white">
                 <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Record Payment</h3>
             </div>
-            
+
             <form method="POST" class="p-5">
                 <div class="mb-4">
                     <label class="block text-sm text-gray-700">Client Name</label>
@@ -245,134 +245,8 @@ $payments = $stmt->fetchAll();
 
     <!-- Print Logic -->
     <iframe id="receiptFrame" class="hidden"></iframe>
-    <script>
-        function showMethodModal() {
-            document.getElementById('methodForm').reset();
-            document.getElementById('methodModal').classList.remove('hidden');
-        }
-
-        function hideMethodModal() {
-            document.getElementById('methodModal').classList.add('hidden');
-        }
-
-        function showPaymentModal() {
-            document.getElementById('paymentModal').classList.remove('hidden');
-        }
-
-        function hidePaymentModal() {
-            document.getElementById('paymentModal').classList.add('hidden');
-        }
-
-        function printReceipt(client, method, amount, description, date) {
-            const content = `
-                <html>
-                <head>
-                    <title>Receipt</title>
-                    <style>
-                        body {
-                            font-family: sans-serif;
-                            padding: 20px;
-                            background-color: #f9f9f9;
-                        }
-                        .receipt-box {
-                            background: #fff;
-                            padding: 20px;
-                            border-radius: 8px;
-                            border: 1px solid #ccc;
-                            max-width: 500px;
-                            margin: auto;
-                        }
-                        .receipt-header {
-                            background-color: #16a34a; /* green-600 */
-                            color: #ffffff;
-                            padding: 15px;
-                            border-top-left-radius: 8px;
-                            border-top-right-radius: 8px;
-                            display: flex;
-                            align-items: center;
-                            text-align: center;
-                            justify-content: center;
-                            gap: 15px;
-                        }
-                        .logo {
-                            width: 50px;
-                            height: 50px;
-                            object-fit: contain;
-                        }
-                        .clinic-info {
-                            display: flex;
-                            flex-direction: column;
-                            line-height: 1.4;
-                        }
-                        .clinic-name {
-                            font-size: 20px;
-                            font-weight: bold;
-                            margin: 0;
-                            color:rgb(0, 0, 0);
-                        }
-                        .clinic-address {
-                            font-size: 14px;
-                            margin: 0;
-                            color:rgb(63, 61, 61);
-                        }
-                        .receipt-body {
-                            padding-top: 15px;
-                            margin-left: 20px;
-                        }
-                        h2 {
-                            margin-top: 20px;
-                            margin-bottom: 10px;
-                        }
-                        .info-line {
-                            margin: 4px 0;
-                        }
-                        .footer {
-                            margin-top: 20px;
-                            border-top: 1px dashed #ccc;
-                            padding-top: 10px;
-                            text-align: center;
-                        }
-                        .pr {
-                            padding-top: 10px;
-                            text-align: center;
-                        }
-                    </style>
-                </head>
-                <body onload="window.print()">
-                    <div class="receipt-box">
-                        <div class="receipt-header">
-                            <img src="image/MainIcon.png" alt="Vet Clinic Logo" class="logo">
-                            <div class="clinic-info">
-                                <p class="clinic-name">Balingasag Dog and Cat Clinic</p>
-                                <p class="clinic-address">Cogon, Balingasag, Misamis Oriental</p>
-                            </div>
-                        </div>
-                        <div class="pr">
-                            <h3 class="pr">Payment Receipt</h3>
-                        </div>
-                        <div class="receipt-body">
-                            <p class="info-line"><strong>Client:</strong> ${client}</p>
-                            <p class="info-line"><strong>Payment Method:</strong> ${method}</p>
-                            <p class="info-line"><strong>Amount:</strong> ₱${parseFloat(amount).toFixed(2)}</p>
-                            <p class="info-line"><strong>Description:</strong> ${description}</p>
-                            <p class="info-line"><strong>Date:</strong> ${date}</p>
-                        </div>
-                        <div class="footer">
-                            <p>Thank you for your payment!</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            `;
-
-            const frame = document.getElementById('receiptFrame').contentWindow;
-            frame.document.open();
-            frame.document.write(content);
-            frame.document.close();
-        }
-
-
-        <?php if ($methodToEdit): ?>
+    <?php if ($methodToEdit): ?>
+        <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const modal = document.getElementById('methodModal');
                 const form = document.getElementById('methodForm');
@@ -382,9 +256,12 @@ $payments = $stmt->fetchAll();
                 form.innerHTML += '<input type="hidden" name="update_payment_method" value="1">';
                 modal.classList.remove('hidden');
             });
-        <?php endif; ?>
-    </script>
+        </script>
+    <?php endif; ?>
+    <script src="./js/printScript.js"></script>
     <script src="./js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/confirmLogout.js"></script>
 </body>
 
 </html>

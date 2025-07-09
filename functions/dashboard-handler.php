@@ -53,7 +53,7 @@ $totalPayment = $stmtPayment->fetchColumn();
 $totalPayment = $totalPayment ? number_format((float) $totalPayment, 2, '.', '') : "0.00";
 
 
-// Fetch monthly income (grouped by month)
+// Fetch monthly income (grouped by month)s
 $stmtMonthly = $pdo->prepare("
     SELECT DATE_FORMAT(date, '%b') AS month,
            MONTH(date) AS month_num,
@@ -66,7 +66,7 @@ $stmtMonthly->execute();
 $monthlyData = $stmtMonthly->fetchAll();
 
 // Initialize all 12 months to 0
-$allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+$allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 $monthlyTotals = array_fill(0, 12, 0);
 
 // Fill in actual totals from DB

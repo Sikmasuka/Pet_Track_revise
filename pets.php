@@ -115,7 +115,7 @@ $pets = $stmt->fetchAll();
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
-            <a href="logout.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -129,7 +129,7 @@ $pets = $stmt->fetchAll();
     <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4 min-h-screen w-full">
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-8">
             <div class="flex justify-between items-center">
-                <h1 class="lg:text-3xl md:text-2xl text-xl font-bold">
+                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
                     Hello,
                     <?php
                     $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id=?");
@@ -253,6 +253,7 @@ $pets = $stmt->fetchAll();
         </div>
     </div>
 
+    <!-- show modal for edit and add pet -->
     <script>
         // Show modal for add or edit pet
         function showPetModal(action) {
@@ -292,7 +293,24 @@ $pets = $stmt->fetchAll();
             });
         <?php endif; ?>
     </script>
+    <?php if (isset($_GET['edit_pet_id'])): ?>
+        <script>
+            // Wait until page is loaded
+            window.onload = function() {
+                // Show the modal (if not already shown via PHP)
+                // (Optional if you’re already showing it with PHP)
+
+                // Now remove the GET parameter from URL without reloading
+                const url = new URL(window.location.href);
+                url.searchParams.delete('edit_pet_id');
+                window.history.replaceState({}, document.title, url.pathname);
+            };
+        </script>
+    <?php endif; ?>
+
     <script src="./js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/confirmLogout.js"></script>
 </body>
 
 </html>

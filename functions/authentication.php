@@ -7,6 +7,12 @@ session_start();
 
 $message = ''; // Variable to store login error or success message
 
+// If already logged in, redirect to dashboard
+if (isset($_SESSION['vet_id'])) {
+    header('Location: dashboard.php'); // or wherever your dashboard is
+    exit;
+}
+
 // Check if the login form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $username = $_POST['username'];

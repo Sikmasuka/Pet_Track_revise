@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
@@ -14,6 +15,7 @@
             height: 300px;
             width: 100%;
         }
+
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -43,11 +45,11 @@
         </div>
 
         <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="dashboard.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-user mr-2"></i>
                 <span class="md:inline">Clients</span>
             </a>
@@ -67,7 +69,7 @@
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
-            <a href="logout.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -106,7 +108,7 @@
             </div>
         </header>
 
-       <!-- Graph Section -->
+        <!-- Graph Section -->
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
             <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Analytics Overview</h2>
 
@@ -199,6 +201,10 @@
             }
         });
     </script>
+    <script src="./js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/confirmLogout.js"></script>
 
 </body>
+
 </html>
