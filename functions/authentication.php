@@ -6,6 +6,7 @@ require_once 'db.php';
 session_start();
 
 $message = ''; // Variable to store login error or success message
+$showSuccess = false; // Variable to control the display of success message
 
 // If already logged in, redirect to dashboard
 if (isset($_SESSION['vet_id'])) {
@@ -36,21 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
                 // Password matches, set session and redirect to admin page
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = 'admin';
-                header('Location: admin.php');
+                $_SESSION['login_success'] = true;
+                header("Location: admin.php"); // redirect back to login page
                 exit;
             }
         } else {
             // Veterinarian login handling (with hashed password)
             if (password_verify($password, $user['password'])) {
-                // Password matches, set session and redirect to dashboard
+                // Set session
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = 'veterinarian';
-                // Query to get the vet_id from the database
+
+                // Get vet_id
                 $stmt2 = $pdo->prepare("SELECT vet_id FROM Veterinarian WHERE vet_username = :username");
                 $stmt2->execute(['username' => $username]);
                 $vet = $stmt2->fetch(PDO::FETCH_ASSOC);
                 $_SESSION['vet_id'] = $vet['vet_id'];
-                header('Location: dashboard.php');
+                $_SESSION['login_success'] = true;
+                header("Location: dashboard.php"); // redirect back to login page
                 exit;
             }
         }

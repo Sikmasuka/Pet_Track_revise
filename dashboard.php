@@ -1,4 +1,4 @@
-<?php require_once './functions/dashboard-handler.php'; ?>
+<?php require_once './functions/dashboard-handler.php';     ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -204,7 +204,6 @@
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
-
 </body>
 
 </html>

@@ -1,5 +1,70 @@
 <?php
-require_once './functions/authentication.php';
+// Include the database connection
+require_once 'db.php';
+
+// Start the session to manage user login state
+session_start();
+
+// If already logged in, redirect to dashboard
+if (isset($_SESSION['vet_id'])) {
+    header('Location: dashboard.php');
+    exit;
+}
+
+$message = ''; // Variable to store login error or success message
+$login_success = false; // Flag to trigger SweetAlert2
+$redirect_url = ''; // Store the redirect URL
+
+// Check if the login form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Prepare and execute the SQL query to check if the user exists (for both admin and veterinarian)
+    $stmt = $pdo->prepare(
+        "SELECT 'admin' AS role, admin_username AS username, admin_password AS password FROM Admin WHERE admin_username = :username
+         UNION
+         SELECT 'veterinarian' AS role, vet_username AS username, vet_password AS password FROM Veterinarian WHERE vet_username = :username"
+    );
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Check if the user exists
+    if ($user) {
+        // If it's an admin, handle password differently (admin password is not hashed)
+        if ($user['role'] === 'admin') {
+            // Check if the password matches directly
+            if ($password === $user['password']) {
+                // Password matches, set session
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = 'admin';
+                $login_success = true;
+                $redirect_url = 'admin.php';
+            }
+        } else {
+            // Veterinarian login handling (with hashed password)
+            if (password_verify($password, $user['password'])) {
+                // Set session
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = 'veterinarian';
+                // Get vet_id
+                $stmt2 = $pdo->prepare("SELECT vet_id FROM Veterinarian WHERE vet_username = :username");
+                $stmt2->execute(['username' => $username]);
+                $vet = $stmt2->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['vet_id'] = $vet['vet_id'];
+                $login_success = true;
+                $redirect_url = 'dashboard.php';
+            }
+        }
+        // If password doesn't match
+        if (!$login_success) {
+            $message = 'Invalid username or password.';
+        }
+    } else {
+        // If no user found
+        $message = 'Invalid username or password.';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +80,8 @@ require_once './functions/authentication.php';
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Load SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="Assets/Extension.js"></script>
 </head>
 
@@ -45,9 +112,9 @@ require_once './functions/authentication.php';
                     </div>
                 </div>
 
-                <!-- Message (only a word) -->
-                <?php if ($message): ?>
-                    <p class="text-red-700 text-xs md:text-sm text-center mb-4"><?php echo $message; ?></p>
+                <!-- Message (if any) -->
+                <?php if (isset($message) && $message): ?>
+                    <p class="text-red-700 text-xs md:text-sm text-center mb-4"><?php echo htmlspecialchars($message); ?></p>
                 <?php endif; ?>
 
                 <!-- Login Button -->
@@ -80,6 +147,27 @@ require_once './functions/authentication.php';
                     passwordIcon.classList.add('fa-eye');
                 }
             });
+
+            // Check if SweetAlert2 is loaded
+            if (typeof Swal === 'undefined') {
+                console.error('SweetAlert2 is not loaded');
+                return;
+            }
+
+            // Show SweetAlert2 for successful login
+            <?php if ($login_success): ?>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: 'Redirecting to your dashboard...',
+                    confirmButtonColor: '#3085d6',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                }).then(() => {
+                    window.location.href = '<?php echo $redirect_url; ?>';
+                });
+            <?php endif; ?>
         });
     </script>
 </body>

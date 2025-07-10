@@ -104,7 +104,7 @@ if (isset($_GET['delete'])) {
             <a href="admin.php" class="block text-lg text-white bg-green-600 px-4 py-2 rounded-md">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
-            <a href="logout.php" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-lg text-white hover:bg-green-600 px-4 py-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </nav>
@@ -163,6 +163,10 @@ if (isset($_GET['delete'])) {
             </table>
         </div>
     </div>
+
+    <script src="./js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/confirmLogout.js"></script>
 </body>
 
 </html>
