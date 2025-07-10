@@ -79,34 +79,64 @@
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
-
     <!-- Main Dashboard Container -->
     <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
         <!-- Header with Welcome and Metrics -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
+            <!-- Top Greeting -->
             <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
                 <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= $vetName ?>.</h1>
                 <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
             </div>
+
+            <!-- Metrics Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-                <div class="bg-green-100 p-4 rounded-md text-center">
-                    <h3 class="font-semibold">Clients</h3>
-                    <p class="text-xl"><?= $clientCount ?></p>
+                <!-- Clients Card -->
+                <div class="bg-green-100 p-8 rounded-md relative">
+                    <a href="clients.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-2xl"></i> Clients</h3>
+                        <p class="text-xl"><?= $clientCount ?></p>
+                    </div>
                 </div>
-                <div class="bg-green-100 p-4 rounded-md text-center">
-                    <h3 class="font-semibold">Pets</h3>
-                    <p class="text-xl"><?= $petCount ?></p>
+
+                <!-- Pets Card -->
+                <div class="bg-green-100 p-8 rounded-md relative">
+                    <a href="pets.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-2xl"></i> Pets</h3>
+                        <p class="text-xl"><?= $petCount ?></p>
+                    </div>
                 </div>
-                <div class="bg-green-100 p-4 rounded-md text-center">
-                    <h3 class="font-semibold">Medical Records</h3>
-                    <p class="text-xl"><?= $recordCount ?></p>
+
+                <!-- Medical Records Card -->
+                <div class="bg-green-100 p-8 rounded-md relative">
+                    <a href="medical_records.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-2xl"></i> Medical Records</h3>
+                        <p class="text-xl"><?= $recordCount ?></p>
+                    </div>
                 </div>
-                <div class="bg-green-100 p-4 rounded-md text-center">
-                    <h3 class="font-semibold">Total Payments</h3>
-                    <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
+
+                <!-- Total Payments Card -->
+                <div class="bg-green-100 p-8 rounded-md relative">
+                    <a href="payments.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-2xl"></i> Total Payments</h3>
+                        <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
+                    </div>
                 </div>
             </div>
         </header>
+
 
         <!-- Graph Section -->
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
