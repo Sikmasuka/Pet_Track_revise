@@ -214,31 +214,71 @@ try {
         </main>
     </div>
 
-    <!-- Add/Edit Client Modal -->
+    <!-- Add/Edit Client & Pet Modal -->
     <div id="clientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-11/12 sm:w-[500px]">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-6xl">
             <div class="w-full bg-green-500 rounded-t-lg text-white">
-                <h3 id="modalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Add New Client</h3>
+                <h3 id="modalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center py-3">Add New Client & Pet</h3>
             </div>
 
             <form id="clientForm" method="POST" class="p-4 sm:p-6">
                 <input type="hidden" name="client_id" id="client_id">
-                <div class="mb-4">
-                    <label class="block text-xs sm:text-sm text-gray-700">Client Name</label>
-                    <input type="text" name="client_name" id="clientName" class="w-full p-2 text-sm border rounded-md" required>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Client Information -->
+                    <div>
+                        <h4 class="text-md font-bold text-gray-700 mb-2">Client Information</h4>
+                        <div class="mb-4">
+                            <label class="block text-sm text-gray-700">Client Name</label>
+                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border rounded-md text-sm" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm text-gray-700">Address</label>
+                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border rounded-md text-sm" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm text-gray-700">Contact Number</label>
+                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border rounded-md text-sm" required pattern="[0-9]{10,}">
+                        </div>
+                    </div>
+
+                    <!-- Pet Information -->
+                    <div>
+                        <h4 class="text-md font-bold text-gray-700 mb-2">Pet Information</h4>
+                        <input type="hidden" name="pet_id" id="pet_id">
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700">Pet Name</label>
+                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md text-sm">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700">Pet Sex</label>
+                            <select name="pet_sex" id="petSex" class="w-full p-2 border rounded-md text-sm">
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700">Pet Breed</label>
+                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border rounded-md text-sm">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700">Pet Weight (kg)</label>
+                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border rounded-md text-sm">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700">Birth Date</label>
+                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border rounded-md text-sm">
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-xs sm:text-sm text-gray-700">Address</label>
-                    <input type="text" name="client_address" id="clientAddress" class="w-full p-2 text-sm border rounded-md" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs sm:text-sm text-gray-700">Contact Number</label>
-                    <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 text-sm border rounded-md" required pattern="[0-9]{10,}">
-                </div>
-                <div class="flex justify-between">
+
+                <!-- Action Buttons -->
+                <div class="flex justify-between mt-6">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base">Save</button>
                     <button type="button" onclick="hideModal()" class="text-gray-500 text-sm sm:text-base">Cancel</button>
                 </div>
+
                 <input type="hidden" name="add_client" id="formAction" value="1">
             </form>
         </div>

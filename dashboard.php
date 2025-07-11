@@ -214,7 +214,7 @@
                 datasets: [{
                     data: conditionCounts,
                     backgroundColor: [
-                        '#2E7D32', '#43A047', '#66BB6A', '#81C784', '#A5D6A7'
+                        '#43A047 ', '#66BB6A ', '#26A69A ', '#FFCA28 ', '#EF5350 '
                     ],
                     borderColor: '#fff',
                     borderWidth: 1
