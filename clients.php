@@ -25,20 +25,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client_address = validateInput($_POST['client_address'] ?? '');
     $client_contact = validateInput($_POST['client_contact_number'] ?? '');
 
+    $pet_name = $_POST['pet_name'] ?? '';
+    $pet_sex = $_POST['pet_sex'] ?? '';
+    $pet_weight = $_POST['pet_weight'] ?? '';
+    $pet_breed = $_POST['pet_breed'] ?? '';
+    $pet_birth_date = $_POST['pet_birth_date'] ?? '';
+
     // Basic validation
     if (empty($client_name) || empty($client_address) || empty($client_contact)) {
         $error = "All fields are required";
+    } elseif (empty($pet_name) || empty($pet_sex) || empty($pet_weight) || empty($pet_breed) || empty($pet_birth_date)) {
+        $error = "All pet fields are required";
     } else {
         try {
             if (isset($_POST['add_client'])) {
+                // insert new client
                 $stmt = $pdo->prepare("INSERT INTO Client (client_name, client_address, client_contact_number) VALUES (?, ?, ?)");
                 $stmt->execute([$client_name, $client_address, $client_contact]);
-            } elseif (isset($_POST['update_client']) && !empty($_POST['client_id'])) {
-                $stmt = $pdo->prepare("UPDATE Client SET client_name=?, client_address=?, client_contact_number=? WHERE client_id=?");
-                $stmt->execute([$client_name, $client_address, $client_contact, (int)$_POST['client_id']]);
+
+                // get the last inserted client ID
+                $client_id = $pdo->lastInsertId();
+
+                // insert new pet
+                $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, client_id) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $client_id]);
+
+                // Redirect to client or pets list
+                header('Location: clients.php');
+                exit;
             }
-            header('Location: clients.php');
-            exit;
         } catch (PDOException $e) {
             $error = "Database error: " . $e->getMessage();
         }
