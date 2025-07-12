@@ -3,14 +3,14 @@
 session_start();
 require_once 'db.php';
 
-// Check if user is logged in by verifying vet_id session
+// Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
     exit;
 }
 
 /**
- * Handle adding, updating payment methods and recording payments via POST requests
+ * Handle adding, updating payment methods, and recording payments via POST requests
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['add_payment_method'])) {
@@ -47,7 +47,7 @@ if (isset($_GET['delete_method_id'])) {
 }
 
 /**
- * Fetch payment method data for editing if edit_method_id is set
+ * Fetch payment method data for editing
  */
 $methodToEdit = null;
 if (isset($_GET['edit_method_id'])) {
@@ -57,16 +57,16 @@ if (isset($_GET['edit_method_id'])) {
 }
 
 /**
- * Fetch all payment methods ordered by name
+ * Fetch all payment methods
  */
-$stmt = $pdo->prepare("SELECT * FROM payment_methods ORDER BY method_name ASC");
+$stmt = $pdo->prepare("SELECT * FROM Payment_Method ORDER BY method_name ASC");
 $stmt->execute();
 $methods = $stmt->fetchAll();
 
 /**
- * Fetch all payments joined with method names, ordered by date descending
+ * Fetch all payments
  */
-$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN payment_methods m ON p.method_id = m.method_id ORDER BY p.date DESC");
+$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN Payment_Method m ON p.method_id = m.method_id ORDER BY p.date DESC");
 $payments = $stmt->fetchAll();
 ?>
 
@@ -75,14 +75,28 @@ $payments = $stmt->fetchAll();
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vet Clinic Payments</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .mobile-menu-hidden {
+            transform: translateX(-100%);
+        }
+
+        .mobile-menu-visible {
+            transform: translateX(0);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 flex">
-
+<body class="bg-gray-100 min-h-screen">
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
         <i class="fas fa-bars"></i>
@@ -90,7 +104,6 @@ $payments = $stmt->fetchAll();
 
     <!-- Sidebar -->
     <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
-        <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
@@ -100,35 +113,27 @@ $payments = $stmt->fetchAll();
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-
         <nav class="mt-8 lg:mt-36">
             <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i>
-                <span class="md:inline">Dashboard</span>
+                <i class="fas fa-tachometer-alt mr-2"></i><span class="md:inline">Dashboard</span>
             </a>
             <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-user mr-2"></i>
-                <span class="md:inline">Clients</span>
+                <i class="fas fa-user mr-2"></i><span class="md:inline">Clients</span>
             </a>
             <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-paw mr-2"></i>
-                <span class="md:inline">Pets</span>
+                <i class="fas fa-paw mr-2"></i><span class="md:inline">Pets</span>
             </a>
             <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-file-medical mr-2"></i>
-                <span class="md:inline">Medical Records</span>
+                <i class="fas fa-file-medical mr-2"></i><span class="md:inline">Medical Records</span>
             </a>
             <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-id-badge mr-2"></i>
-                <span class="md:inline">Profile</span>
+                <i class="fas fa-id-badge mr-2"></i><span class="md:inline">Profile</span>
             </a>
             <a href="payment_methods.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-credit-card mr-2"></i>
-                <span class="md:inline">Payments</span>
+                <i class="fas fa-credit-card mr-2"></i><span class="md:inline">Payments</span>
             </a>
             <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span class="md:inline">Logout</span>
+                <i class="fas fa-sign-out-alt mr-2"></i><span class="md:inline">Logout</span>
             </a>
         </nav>
     </div>
@@ -138,126 +143,198 @@ $payments = $stmt->fetchAll();
 
     <!-- Main Content -->
     <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4 w-full">
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold text-green-700">Vet Clinic Payments</h1>
-                <div class="space-x-2">
-                    <button onclick="showMethodModal('add')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
+                    Hello,
+                    <?php
+                    $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id=?");
+                    $stmt->execute([$_SESSION['vet_id']]);
+                    $user = $stmt->fetch();
+                    echo $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found.";
+                    ?>.
+                </h1>
+                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">Manage Payments</h1>
+            </div>
+        </header>
+
+        <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800">Payment Methods</h2>
+                <div class="flex gap-2">
+                    <button onclick="showMethodModal('add')" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base">
                         Add Payment Method
                     </button>
-                    <button onclick="showPaymentModal()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    <button onclick="showPaymentModal()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm sm:text-base">
                         Record Payment
                     </button>
                 </div>
             </div>
 
-
-            <h2 class="text-lg font-semibold text-gray-700 mt-8 mb-2">Payment History</h2>
-            <?php if (count($payments) > 0): ?>
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50 sticky top-0 z-5">
-                        <tr class="border-b bg-gray-200">
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Client</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Method</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Amount</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Description</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Date</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Receipt</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($payments as $pay): ?>
-                            <tr class="border-b hover:bg-gray-50">
-                                <td class="px-4 py-2"><?= htmlspecialchars($pay['client_name']) ?></td>
-                                <td class="px-4 py-2"><?= htmlspecialchars($pay['method_name']) ?></td>
-                                <td class="px-4 py-2">₱<?= number_format($pay['amount'], 2) ?></td>
-                                <td class="px-4 py-2"><?= htmlspecialchars($pay['description']) ?></td>
-                                <td class="px-4 py-2"><?= date('F j, Y', strtotime($pay['date'])) ?></td>
-                                <td class="px-4 py-2">
-                                    <button onclick="printReceipt(`<?= htmlspecialchars($pay['client_name']) ?>`, `<?= htmlspecialchars($pay['method_name']) ?>`, `<?= $pay['amount'] ?>`, `<?= htmlspecialchars($pay['description']) ?>`, `<?= $pay['date'] ?>`)" class="text-green-600 hover:underline">
-                                        Print
-                                    </button>
-                                </td>
+            <!-- Payment Methods Table -->
+            <?php if (count($methods) > 0): ?>
+                <div class="table-container mb-8">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50 sticky top-0 z-5">
+                            <tr class="border-b bg-gray-200">
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Method Name</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Actions</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <?php foreach ($methods as $method): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($method['method_name']) ?></td>
+                                    <td class="px-4 py-2 text-sm">
+                                        <a href="?edit_method_id=<?= (int)$method['method_id'] ?>" class="text-blue-500 hover:underline">Edit</a> |
+                                        <a href="?delete_method_id=<?= (int)$method['method_id'] ?>" class="text-red-500 hover:underline">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             <?php else: ?>
-                <p class="text-gray-600">No payments recorded yet.</p>
+                <p class="text-gray-700 text-sm sm:text-base mb-8">No payment methods added yet.</p>
             <?php endif; ?>
-        </div>
+
+            <!-- Payment History Table -->
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-4">Payment History</h2>
+            <?php if (count($payments) > 0): ?>
+                <div class="table-container">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50 sticky top-0 z-5">
+                            <tr class="border-b bg-gray-200">
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Client</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Method</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Amount</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Description</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Date</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <?php foreach ($payments as $pay): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pay['client_name']) ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pay['method_name']) ?></td>
+                                    <td class="px-4 py-2 text-sm">₱<?= number_format($pay['amount'], 2) ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pay['description']) ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= date('M j, Y', strtotime($pay['date'])) ?></td>
+                                    <td class="px-4 py-2 text-sm">
+                                        <button onclick="printReceipt(`<?= htmlspecialchars($pay['client_name']) ?>`, `<?= htmlspecialchars($pay['method_name']) ?>`, `<?= $pay['amount'] ?>`, `<?= htmlspecialchars($pay['description']) ?>`, `<?= $pay['date'] ?>`)" class="text-green-600 hover:underline">Print</button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <p class="text-gray-700 text-sm sm:text-base">No payments recorded yet.</p>
+            <?php endif; ?>
+        </main>
     </div>
 
     <!-- Payment Modal -->
-    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center sm:p-5">
-        <div class="bg-white rounded-lg shadow-lg w-96">
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
             <div class="w-full bg-green-500 rounded-t-lg text-white">
-                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Record Payment</h3>
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-center py-3">Record Payment</h3>
             </div>
-
-            <form method="POST" class="p-5">
+            <form method="POST" class="p-4 sm:p-6">
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-700">Client Name</label>
-                    <input type="text" name="client_name" required class="w-full border px-3 py-2 rounded">
+                    <label class="block text-sm font-semibold text-gray-700">Client Name</label>
+                    <input type="text" name="client_name" required class="w-full p-2 border rounded-md text-sm">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-700">Payment Method</label>
-                    <select name="method_id" required class="w-full border px-3 py-2 rounded">
+                    <label class="block text-sm font-semibold text-gray-700">Payment Method</label>
+                    <select name="method_id" required class="w-full p-2 border rounded-md text-sm">
+                        <option value="">Select</option>
                         <?php foreach ($methods as $method): ?>
-                            <option value="<?= $method['method_id'] ?>"><?= htmlspecialchars($method['method_name']) ?></option>
+                            <option value="<?= (int)$method['method_id'] ?>"><?= htmlspecialchars($method['method_name']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-700">Amount</label>
-                    <input type="number" name="amount" min="0" step="0.01" required class="w-full border px-3 py-2 rounded">
+                    <label class="block text-sm font-semibold text-gray-700">Amount</label>
+                    <input type="number" name="amount" min="0" step="0.01" required class="w-full p-2 border rounded-md text-sm">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-700">Description</label>
-                    <textarea name="description" class="w-full border px-3 py-2 rounded" rows="2"></textarea>
+                    <label class="block text-sm font-semibold text-gray-700">Description</label>
+                    <textarea name="description" class="w-full p-2 border rounded-md text-sm" rows="3"></textarea>
                 </div>
-                <div class="flex justify-end gap-2">
-                    <button type="submit" name="record_payment" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
-                    <button type="button" onclick="hidePaymentModal()" class="text-gray-600 hover:underline">Cancel</button>
+                <div class="flex justify-between mt-6">
+                    <button type="submit" name="record_payment" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base">Save</button>
+                    <button type="button" onclick="hidePaymentModal()" class="text-gray-500 text-sm sm:text-base">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Method Modal (reused) -->
-    <div id="methodModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 id="modalTitle" class="text-xl font-semibold text-green-700 mb-4">Add New Method</h3>
-            <form id="methodForm" method="POST">
+    <!-- Method Modal -->
+    <div id="methodModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
+            <div class="w-full bg-green-500 rounded-t-lg text-white">
+                <h3 id="modalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center py-3">Add Payment Method</h3>
+            </div>
+            <form id="methodForm" method="POST" class="p-4 sm:p-6">
                 <input type="hidden" name="method_id" id="method_id">
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-700">Method Name</label>
-                    <input type="text" name="method_name" id="methodName" class="w-full px-3 py-2 border border-gray-300 rounded" required>
+                    <label class="block text-sm font-semibold text-gray-700">Method Name</label>
+                    <input type="text" name="method_name" id="methodName" class="w-full p-2 border rounded-md text-sm" required>
                 </div>
-                <div class="flex justify-end gap-2">
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Save</button>
-                    <button type="button" onclick="hideMethodModal()" class="text-gray-600 hover:underline">Cancel</button>
+                <div class="flex justify-between mt-6">
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base">Save</button>
+                    <button type="button" onclick="hideMethodModal()" class="text-gray-500 text-sm sm:text-base">Cancel</button>
                 </div>
-                <input type="hidden" name="add_payment_method" value="1">
+                <input type="hidden" name="add_payment_method" id="formAction" value="1">
             </form>
         </div>
     </div>
 
     <!-- Print Logic -->
     <iframe id="receiptFrame" class="hidden"></iframe>
-    <?php if ($methodToEdit): ?>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const modal = document.getElementById('methodModal');
-                const form = document.getElementById('methodForm');
-                document.getElementById('modalTitle').textContent = 'Edit Payment Method';
-                form.querySelector('input[name="method_id"]').value = '<?= $methodToEdit['method_id'] ?>';
-                document.getElementById('methodName').value = '<?= htmlspecialchars($methodToEdit['method_name']) ?>';
-                form.innerHTML += '<input type="hidden" name="update_payment_method" value="1">';
-                modal.classList.remove('hidden');
+
+    <script>
+        function showMethodModal(action) {
+            const modal = document.getElementById('methodModal');
+            const form = document.getElementById('methodForm');
+            const modalTitle = document.getElementById('modalTitle');
+            const formAction = document.getElementById('formAction');
+
+            form.reset();
+            form.querySelector('input[name="update_payment_method"]')?.remove();
+            formAction.name = 'add_payment_method';
+            modalTitle.textContent = 'Add Payment Method';
+
+            if (action === 'edit') {
+                modalTitle.textContent = 'Edit Payment Method';
+                formAction.name = 'update_payment_method';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function hideMethodModal() {
+            document.getElementById('methodModal').classList.add('hidden');
+        }
+
+        function showPaymentModal() {
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function hidePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        <?php if ($methodToEdit): ?>
+            document.addEventListener('DOMContentLoaded', function() {
+                showMethodModal('edit');
+                document.getElementById('method_id').value = <?= json_encode($methodToEdit['method_id'] ?? '') ?>;
+                document.getElementById('methodName').value = <?= json_encode($methodToEdit['method_name'] ?? '') ?>;
             });
-        </script>
-    <?php endif; ?>
+        <?php endif; ?>
+    </script>
     <script src="./js/printScript.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

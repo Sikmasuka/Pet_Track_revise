@@ -25,33 +25,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client_address = validateInput($_POST['client_address'] ?? '');
     $client_contact = validateInput($_POST['client_contact_number'] ?? '');
 
-    $pet_name = $_POST['pet_name'] ?? '';
+    $pet_name = validateInput($_POST['pet_name'] ?? '');
     $pet_sex = $_POST['pet_sex'] ?? '';
     $pet_weight = $_POST['pet_weight'] ?? '';
-    $pet_breed = $_POST['pet_breed'] ?? '';
+    $pet_breed = validateInput($_POST['pet_breed'] ?? '');
     $pet_birth_date = $_POST['pet_birth_date'] ?? '';
 
     // Basic validation
     if (empty($client_name) || empty($client_address) || empty($client_contact)) {
-        $error = "All fields are required";
+        $error = "All client fields are required";
     } elseif (empty($pet_name) || empty($pet_sex) || empty($pet_weight) || empty($pet_breed) || empty($pet_birth_date)) {
         $error = "All pet fields are required";
     } else {
         try {
             if (isset($_POST['add_client'])) {
-                // insert new client
+                // Insert new client
                 $stmt = $pdo->prepare("INSERT INTO Client (client_name, client_address, client_contact_number) VALUES (?, ?, ?)");
                 $stmt->execute([$client_name, $client_address, $client_contact]);
 
-                // get the last inserted client ID
+                // Get the last inserted client ID
                 $client_id = $pdo->lastInsertId();
 
-                // insert new pet
+                // Insert new pet
                 $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, client_id) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $client_id]);
 
-                // Redirect to client or pets list
-                header('Location: clients.php');
+                header('Location: clients.php?message=Client and pet added successfully');
+                exit;
+            } elseif (isset($_POST['update_client'])) {
+                $client_id = (int)$_POST['client_id'];
+                $pet_id = (int)$_POST['pet_id'];
+
+                // Update client
+                $stmt = $pdo->prepare("UPDATE Client SET client_name=?, client_address=?, client_contact_number=? WHERE client_id=?");
+                $stmt->execute([$client_name, $client_address, $client_contact, $client_id]);
+
+                // Update pet
+                $stmt = $pdo->prepare("UPDATE Pet SET pet_name=?, pet_sex=?, pet_weight=?, pet_breed=?, pet_birth_date=? WHERE pet_id=? AND client_id=?");
+                $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_id, $client_id]);
+
+                header('Location: clients.php?message=Client and pet updated successfully');
                 exit;
             }
         } catch (PDOException $e) {
@@ -65,28 +78,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  */
 if (isset($_GET['delete_client_id']) && is_numeric($_GET['delete_client_id'])) {
     try {
-        $stmt = $pdo->prepare("DELETE FROM Client WHERE client_id=?");
-        $stmt->execute([(int)$_GET['delete_client_id']]);
-        header('Location: clients.php');
+        $client_id = (int)$_GET['delete_client_id'];
+
+        // Begin transaction to ensure atomicity
+        $pdo->beginTransaction();
+
+        // Delete all pets associated with the client
+        $stmt = $pdo->prepare("DELETE FROM Pet WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+
+        // Delete the client
+        $stmt = $pdo->prepare("DELETE FROM Client WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+
+        // Commit transaction
+        $pdo->commit();
+
+        header('Location: clients.php?message=Client and associated pets deleted successfully');
         exit;
     } catch (PDOException $e) {
-        $error = "Database error: " . $e->getMessage();
+        // Roll back transaction on error
+        $pdo->rollBack();
+        $error = "Database error: Cannot delete client and pets, possibly due to associated records.";
     }
 }
 
 /**
  * Fetch client data for editing
  */
-$clientToEdit = null;
-if (isset($_GET['edit_client_id']) && is_numeric($_GET['edit_client_id'])) {
-    try {
-        $stmt = $pdo->prepare("SELECT * FROM Client WHERE client_id=?");
-        $stmt->execute([(int)$_GET['edit_client_id']]);
-        $clientToEdit = $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        $error = "Database error: " . $e->getMessage();
+function getDataToEdit($pdo)
+{
+    $clientToEdit = null;
+    $petToEdit = null;
+    $error = null;
+
+    if (isset($_GET['edit_client_id']) && is_numeric($_GET['edit_client_id'])) {
+        try {
+            // Get client info
+            $stmt = $pdo->prepare("SELECT * FROM Client WHERE client_id = ?");
+            $stmt->execute([(int)$_GET['edit_client_id']]);
+            $clientToEdit = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Get the first pet for this client
+            if ($clientToEdit) {
+                $stmt = $pdo->prepare("SELECT * FROM Pet WHERE client_id = ? LIMIT 1");
+                $stmt->execute([(int)$_GET['edit_client_id']]);
+                $petToEdit = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+        } catch (PDOException $e) {
+            $error = "Database error: " . $e->getMessage();
+        }
     }
+
+    return [
+        'client' => $clientToEdit,
+        'pet' => $petToEdit,
+        'error' => $error
+    ];
 }
+
+// Get data for editing
+$editData = getDataToEdit($pdo);
+$clientToEdit = $editData['client'];
+$petToEdit = $editData['pet'];
+$error = $error ?? $editData['error'];
 
 /**
  * Fetch all clients
@@ -144,7 +199,6 @@ try {
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-
         <nav class="mt-8 lg:mt-36">
             <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i><span class="md:inline">Dashboard</span>
@@ -178,7 +232,13 @@ try {
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
-                    Hello, <?= htmlspecialchars($user['vet_name'] ?? 'Veterinarian not found') ?>.
+                    Hello,
+                    <?php
+                    $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id=?");
+                    $stmt->execute([$_SESSION['vet_id']]);
+                    $user = $stmt->fetch();
+                    echo $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found.";
+                    ?>.
                 </h1>
                 <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">Manage Clients</h1>
             </div>
@@ -212,7 +272,7 @@ try {
                                     <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number']) ?></td>
                                     <td class="px-4 py-2 text-sm">
                                         <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-blue-500 hover:underline">Edit</a> |
-                                        <a href="#" onclick="return confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:underline">Delete</a>
+                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:underline">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -235,10 +295,9 @@ try {
             <div class="w-full bg-green-500 rounded-t-lg text-white">
                 <h3 id="modalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center py-3">Add New Client & Pet</h3>
             </div>
-
             <form id="clientForm" method="POST" class="p-4 sm:p-6">
                 <input type="hidden" name="client_id" id="client_id">
-
+                <input type="hidden" name="pet_id" id="pet_id">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Client Information -->
                     <div>
@@ -256,18 +315,16 @@ try {
                             <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border rounded-md text-sm" required pattern="[0-9]{10,}">
                         </div>
                     </div>
-
                     <!-- Pet Information -->
                     <div>
                         <h4 class="text-md font-bold text-gray-700 mb-2">Pet Information</h4>
-                        <input type="hidden" name="pet_id" id="pet_id">
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-gray-700">Pet Name</label>
-                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md text-sm">
+                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-gray-700">Pet Sex</label>
-                            <select name="pet_sex" id="petSex" class="w-full p-2 border rounded-md text-sm">
+                            <select name="pet_sex" id="petSex" class="w-full p-2 border rounded-md text-sm" required>
                                 <option value="">Select</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -275,25 +332,23 @@ try {
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-gray-700">Pet Breed</label>
-                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border rounded-md text-sm">
+                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-gray-700">Pet Weight (kg)</label>
-                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border rounded-md text-sm">
+                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-gray-700">Birth Date</label>
-                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border rounded-md text-sm">
+                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
                     </div>
                 </div>
-
                 <!-- Action Buttons -->
                 <div class="flex justify-between mt-6">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base">Save</button>
                     <button type="button" onclick="hideModal()" class="text-gray-500 text-sm sm:text-base">Cancel</button>
                 </div>
-
                 <input type="hidden" name="add_client" id="formAction" value="1">
             </form>
         </div>
@@ -309,10 +364,10 @@ try {
             form.reset();
             form.querySelector('input[name="update_client"]')?.remove();
             formAction.name = 'add_client';
-            modalTitle.textContent = 'Add New Client';
+            modalTitle.textContent = 'Add New Client & Pet';
 
             if (action === 'edit') {
-                modalTitle.textContent = 'Edit Client';
+                modalTitle.textContent = 'Edit Client & Pet';
                 formAction.name = 'update_client';
             }
 
@@ -332,23 +387,23 @@ try {
             window.history.replaceState({}, document.title, url);
         }
 
-        document.getElementById('clientForm').addEventListener('submit', function(e) {
-            const contact = document.getElementById('clientContactNumber').value;
-            if (!/^\d{10,}$/.test(contact)) {
-                e.preventDefault();
-                Swal.fire('Error', 'Please enter a valid phone number', 'error');
-            }
-        });
-
         function confirmDelete(clientId) {
+            if (typeof Swal === 'undefined') {
+                // Fallback if SweetAlert2 fails to load
+                if (confirm('Are you sure you want to delete this client and their associated pets?')) {
+                    window.location.href = `?delete_client_id=${clientId}`;
+                }
+                return false;
+            }
+
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
+                text: 'This will also delete all associated pets. You won\'t be able to revert this!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
                 cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes, delete client and pets!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = `?delete_client_id=${clientId}`;
@@ -357,20 +412,50 @@ try {
             return false;
         }
 
+        // Show SweetAlert2 for success messages on page load
+        <?php if (isset($_GET['message'])): ?>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Success',
+                        text: <?= json_encode($_GET['message']) ?>,
+                        icon: 'success',
+                        confirmButtonColor: '#22c55e',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Clean URL after showing the success message
+                        const url = new URL(window.location.href);
+                        url.searchParams.delete('message');
+                        window.history.replaceState({}, document.title, url);
+                    });
+                } else {
+                    // Fallback to alert if SweetAlert2 is not loaded
+                    alert(<?= json_encode($_GET['message']) ?>);
+                    // Clean URL
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('message');
+                    window.history.replaceState({}, document.title, url);
+                }
+            });
+        <?php endif; ?>
+
         <?php if ($clientToEdit): ?>
             document.addEventListener('DOMContentLoaded', function() {
                 showClientModal('edit');
-                const clientId = document.getElementById('client_id');
-                const clientName = document.getElementById('clientName');
-                const clientAddress = document.getElementById('clientAddress');
-                const clientContact = document.getElementById('clientContactNumber');
-
-                if (clientId && clientName && clientAddress && clientContact) {
-                    clientId.value = <?= json_encode($clientToEdit['client_id'] ?? '') ?>;
-                    clientName.value = <?= json_encode($clientToEdit['client_name'] ?? '') ?>;
-                    clientAddress.value = <?= json_encode($clientToEdit['client_address'] ?? '') ?>;
-                    clientContact.value = <?= json_encode($clientToEdit['client_contact_number'] ?? '') ?>;
-                }
+                // Set client values
+                document.getElementById('client_id').value = <?= json_encode($clientToEdit['client_id'] ?? '') ?>;
+                document.getElementById('clientName').value = <?= json_encode($clientToEdit['client_name'] ?? '') ?>;
+                document.getElementById('clientAddress').value = <?= json_encode($clientToEdit['client_address'] ?? '') ?>;
+                document.getElementById('clientContactNumber').value = <?= json_encode($clientToEdit['client_contact_number'] ?? '') ?>;
+                // Set pet values if exists
+                <?php if ($petToEdit): ?>
+                    document.getElementById('pet_id').value = <?= json_encode($petToEdit['pet_id'] ?? '') ?>;
+                    document.getElementById('petName').value = <?= json_encode($petToEdit['pet_name'] ?? '') ?>;
+                    document.getElementById('petSex').value = <?= json_encode($petToEdit['pet_sex'] ?? '') ?>;
+                    document.getElementById('petBreed').value = <?= json_encode($petToEdit['pet_breed'] ?? '') ?>;
+                    document.getElementById('petWeight').value = <?= json_encode($petToEdit['pet_weight'] ?? '') ?>;
+                    document.getElementById('petBirthDate').value = <?= json_encode($petToEdit['pet_birth_date'] ?? '') ?>;
+                <?php endif; ?>
             });
         <?php endif; ?>
     </script>

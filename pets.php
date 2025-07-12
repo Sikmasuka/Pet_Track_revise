@@ -13,13 +13,7 @@ if (!isset($_SESSION['vet_id'])) {
  * Handle adding and updating pets via POST requests
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['add_pet'])) {
-        // Add new pet
-        $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, client_id) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$_POST['pet_name'], $_POST['pet_sex'], $_POST['pet_weight'], $_POST['pet_breed'], $_POST['pet_birth_date'], $_POST['client_id']]);
-        header('Location: pets.php');
-        exit;
-    } elseif (isset($_POST['update_pet'])) {
+    if (isset($_POST['update_pet'])) {
         // Update existing pet
         $stmt = $pdo->prepare("UPDATE Pet SET pet_name=?, pet_sex=?, pet_weight=?, pet_breed=?, pet_birth_date=?, client_id=? WHERE pet_id=?");
         $stmt->execute([$_POST['pet_name'], $_POST['pet_sex'], $_POST['pet_weight'], $_POST['pet_breed'], $_POST['pet_birth_date'], $_POST['client_id'], $_POST['pet_id']]);
@@ -42,16 +36,28 @@ if (isset($_GET['delete_pet_id'])) {
  * Fetch pet data for editing if edit_pet_id is set
  */
 $petToEdit = null;
+$clientName = null;
 if (isset($_GET['edit_pet_id'])) {
-    $stmt = $pdo->prepare("SELECT * FROM Pet WHERE pet_id=?");
+    $stmt = $pdo->prepare("
+        SELECT Pet.*, Client.client_name 
+        FROM Pet 
+        JOIN Client ON Pet.client_id = Client.client_id 
+        WHERE Pet.pet_id = ?
+    ");
     $stmt->execute([$_GET['edit_pet_id']]);
     $petToEdit = $stmt->fetch();
+    $clientName = $petToEdit ? $petToEdit['client_name'] : null;
 }
 
 /**
  * Fetch all pets joined with client names, ordered by pet name
  */
-$stmt = $pdo->prepare("SELECT Pet.pet_id, Pet.pet_name, Pet.pet_sex, Pet.pet_weight, Pet.pet_breed, Pet.pet_birth_date, Client.client_name FROM Pet JOIN Client ON Pet.client_id = Client.client_id ORDER BY Pet.pet_name ASC");
+$stmt = $pdo->prepare("
+    SELECT Pet.pet_id, Pet.pet_name, Pet.pet_sex, Pet.pet_weight, Pet.pet_breed, Pet.pet_birth_date, Client.client_name 
+    FROM Pet 
+    JOIN Client ON Pet.client_id = Client.client_id 
+    ORDER BY Pet.pet_name ASC
+");
 $stmt->execute();
 $pets = $stmt->fetchAll();
 ?>
@@ -63,12 +69,10 @@ $pets = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pets</title>
-
     <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
 <body class="bg-gray-100 flex">
@@ -79,7 +83,6 @@ $pets = $stmt->fetchAll();
 
     <!-- Sidebar -->
     <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
-        <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
@@ -89,35 +92,27 @@ $pets = $stmt->fetchAll();
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-
         <nav class="mt-8 lg:mt-36">
             <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i>
-                <span class="md:inline">Dashboard</span>
+                <i class="fas fa-tachometer-alt mr-2"></i><span class="md:inline">Dashboard</span>
             </a>
             <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-user mr-2"></i>
-                <span class="md:inline">Clients</span>
+                <i class="fas fa-user mr-2"></i><span class="md:inline">Clients</span>
             </a>
             <a href="pets.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-paw mr-2"></i>
-                <span class="md:inline">Pets</span>
+                <i class="fas fa-paw mr-2"></i><span class="md:inline">Pets</span>
             </a>
             <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-file-medical mr-2"></i>
-                <span class="md:inline">Medical Records</span>
+                <i class="fas fa-file-medical mr-2"></i><span class="md:inline">Medical Records</span>
             </a>
             <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-id-badge mr-2"></i>
-                <span class="md:inline">Profile</span>
+                <i class="fas fa-id-badge mr-2"></i><span class="md:inline">Profile</span>
             </a>
             <a href="payment_methods.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-credit-card mr-2"></i>
-                <span class="md:inline">Payments</span>
+                <i class="fas fa-credit-card mr-2"></i><span class="md:inline">Payments</span>
             </a>
             <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span class="md:inline">Logout</span>
+                <i class="fas fa-sign-out-alt mr-2"></i><span class="md:inline">Logout</span>
             </a>
         </nav>
     </div>
@@ -135,17 +130,10 @@ $pets = $stmt->fetchAll();
                     $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id=?");
                     $stmt->execute([$_SESSION['vet_id']]);
                     $user = $stmt->fetch();
-
-                    if ($user) {
-                        echo htmlspecialchars($user['vet_name']);
-                    } else {
-                        echo "Veterinarian not found.";
-                    }
+                    echo $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found.";
                     ?>.
                 </h1>
-                <h1 class="lg:text-3xl md:text-2xl text-xl font-bold">
-                    Manage Pets
-                </h1>
+                <h1 class="lg:text-3xl md:text-2xl text-xl font-bold">Manage Pets</h1>
             </div>
         </header>
 
@@ -188,28 +176,25 @@ $pets = $stmt->fetchAll();
             <?php else: ?>
                 <p class="text-center text-gray-700 text-sm sm:text-base">No pets added yet.</p>
             <?php endif; ?>
-
-            <button onclick="showPetModal('add')" class="mt-6 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base font-semibold duration-200">
-                Add New Pet
-            </button>
         </main>
     </div>
 
     <!-- Add/Edit Pet Modal -->
     <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-            <!-- Full-width header with no padding -->
             <div class="w-full bg-green-500 rounded-t-lg text-white">
                 <h3 id="petModalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">
-                    Add New Pet
+                    Edit Pet
                 </h3>
             </div>
-
             <form id="petForm" method="POST" class="p-4 sm:p-6">
-                <input type="hidden" name="pet_id" id="pet_id">
+                <input type="hidden" name="pet_id" id="pet_id" value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_id']) : '' ?>">
+                <input type="hidden" name="update_pet" value="1">
+                <input type="hidden" name="client_id" id="clientId" value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['client_id']) : '' ?>">
                 <div class="mb-4">
                     <label class="block text-md font-semibold text-gray-700">Pet Name</label>
-                    <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md" required>
+                    <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md"
+                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_name']) : '' ?>" required>
                 </div>
                 <div class="mb-4">
                     <label class="block text-md font-semibold text-gray-700">Pet Sex</label>
@@ -218,32 +203,25 @@ $pets = $stmt->fetchAll();
                         <option value="Female" <?= isset($petToEdit) && $petToEdit['pet_sex'] == 'Female' ? 'selected' : '' ?>>Female</option>
                     </select>
                 </div>
-
                 <div class="mb-4">
                     <label class="block text-md font-semibold text-gray-700">Pet Breed</label>
-                    <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border rounded-md" required>
+                    <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border rounded-md"
+                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_breed']) : '' ?>" required>
                 </div>
                 <div class="mb-4">
                     <label class="block text-md font-semibold text-gray-700">Pet Weight (kg)</label>
-                    <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border rounded-md" required>
+                    <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border rounded-md"
+                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_weight']) : '' ?>" required>
                 </div>
                 <div class="mb-4">
                     <label class="block text-md font-semibold text-gray-700">Birth Date</label>
-                    <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border rounded-md" required>
+                    <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border rounded-md"
+                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_birth_date']) : '' ?>" required>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Client</label>
-                    <select name="client_id" id="clientId" class="w-full p-2 border rounded-md" required>
-                        <?php
-                        // Get all clients
-                        $stmt = $pdo->prepare("SELECT * FROM Client ORDER BY client_name ASC");
-                        $stmt->execute();
-                        $clients = $stmt->fetchAll();
-                        foreach ($clients as $client):
-                        ?>
-                            <option value="<?= $client['client_id'] ?>"><?= htmlspecialchars($client['client_name']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    <label class="block text-md font-semibold text-gray-700">Owner</label>
+                    <input type="text" id="clientName" class="w-full p-2 border rounded-md bg-gray-100"
+                        value="<?= isset($clientName) ? htmlspecialchars($clientName) : '' ?>" readonly>
                 </div>
                 <div class="flex justify-between">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save</button>
@@ -253,60 +231,29 @@ $pets = $stmt->fetchAll();
         </div>
     </div>
 
-    <!-- show modal for edit and add pet -->
+    <!-- Modal Control Script -->
     <script>
-        // Show modal for add or edit pet
-        function showPetModal(action) {
-            const modal = document.getElementById('petModal');
-            const form = document.getElementById('petForm');
-
-            if (action === 'add') {
-                document.getElementById('petModalTitle').textContent = 'Add New Pet';
-                form.reset();
-                form.action = '';
-                form.innerHTML += '<input type="hidden" name="add_pet" value="1">';
-            }
-            modal.classList.remove('hidden');
+        // Show pet modal
+        function showPetModal() {
+            document.getElementById('petModal').classList.remove('hidden');
         }
 
         // Hide pet modal
         function hidePetModal() {
             document.getElementById('petModal').classList.add('hidden');
+            // Clear URL parameter
+            const url = new URL(window.location.href);
+            url.searchParams.delete('edit_pet_id');
+            window.history.replaceState({}, document.title, url.pathname);
         }
 
-        // If there's a pet to edit, populate the form
+        // Show modal if editing
         <?php if ($petToEdit): ?>
             document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById('petModalTitle').textContent = 'Edit Pet';
-                document.getElementById('pet_id').value = '<?= $petToEdit['pet_id'] ?>';
-                document.getElementById('petName').value = '<?= htmlspecialchars($petToEdit['pet_name']) ?>';
-                document.getElementById('petSex').value = '<?= htmlspecialchars($petToEdit['pet_sex']) ?>';
-                document.getElementById('petBreed').value = '<?= htmlspecialchars($petToEdit['pet_breed']) ?>';
-                document.getElementById('petWeight').value = '<?= htmlspecialchars($petToEdit['pet_weight']) ?>';
-                document.getElementById('petBirthDate').value = '<?= htmlspecialchars($petToEdit['pet_birth_date']) ?>';
-                document.getElementById('clientId').value = '<?= $petToEdit['client_id'] ?>';
-
-                const form = document.getElementById('petForm');
-                form.innerHTML += '<input type="hidden" name="update_pet" value="1">';
-
-                document.getElementById('petModal').classList.remove('hidden');
+                showPetModal();
             });
         <?php endif; ?>
     </script>
-    <?php if (isset($_GET['edit_pet_id'])): ?>
-        <script>
-            // Wait until page is loaded
-            window.onload = function() {
-                // Show the modal (if not already shown via PHP)
-                // (Optional if you’re already showing it with PHP)
-
-                // Now remove the GET parameter from URL without reloading
-                const url = new URL(window.location.href);
-                url.searchParams.delete('edit_pet_id');
-                window.history.replaceState({}, document.title, url.pathname);
-            };
-        </script>
-    <?php endif; ?>
 
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
