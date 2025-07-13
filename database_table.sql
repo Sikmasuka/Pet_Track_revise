@@ -118,3 +118,41 @@ INSERT INTO Medical_Records (pet_id, date, medical_condition, medical_diagnosis,
 (10, '2023-02-18', 'Diarrhea', 'Gastroenteritis', 'Frequent diarrhea, vomiting', 'Fluids, anti-diarrheal medications'),
 (10, '2023-05-15', 'Allergy', 'Food allergy', 'Vomiting, itching', 'Hypoallergenic diet'),
 (10, '2023-08-12', 'Ear Infection', 'Otitis externa', 'Scratching ears, shaking head', 'Ear drops, oral antibiotics');
+
+
+-- Create Table: payment_methods
+CREATE TABLE payment_methods (
+    method_id INT AUTO_INCREMENT PRIMARY KEY,
+    method_name VARCHAR(50) NOT NULL
+);
+
+-- ✅ INSERT INTO payment_methods:
+INSERT INTO payment_methods (method_name) VALUES
+('Cash'),
+('GCash'),
+('Credit Card'),
+('Bank Transfer');
+
+
+-- Create payments Table with method_id as FOREIGN KEY
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_name VARCHAR(100) NOT NULL,
+    method_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (method_id) REFERENCES payment_methods(method_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+-- Example Insert into payments:
+INSERT INTO payments (client_name, method_id, amount, description, date)
+VALUES (
+    'Danreb B. Salvacion',
+    1,
+    1500.00,
+    'I want to pay it with cash.',
+    '2025-07-09 22:23:07'
+);

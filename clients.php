@@ -199,6 +199,7 @@ try {
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+
         <nav class="mt-8 lg:mt-36">
             <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i><span class="md:inline">Dashboard</span>
