@@ -5,14 +5,15 @@ require_once 'db.php';
 // Start the session to manage user login state
 session_start();
 
-$message = ''; // Variable to store login error or success message
-$showSuccess = false; // Variable to control the display of success message
-
 // If already logged in, redirect to dashboard
 if (isset($_SESSION['vet_id'])) {
-    header('Location: dashboard.php'); // or wherever your dashboard is
+    header('Location: dashboard.php');
     exit;
 }
+
+$message = ''; // Variable to store login error or success message
+$login_success = false; // Flag to trigger SweetAlert2
+$redirect_url = ''; // Store the redirect URL
 
 // Check if the login form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
@@ -32,14 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     if ($user) {
         // If it's an admin, handle password differently (admin password is not hashed)
         if ($user['role'] === 'admin') {
-            // Check if the password matches directly (since admin password isn't hashed)
+            // Check if the password matches directly
             if ($password === $user['password']) {
-                // Password matches, set session and redirect to admin page
+                // Password matches, set session
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = 'admin';
-                $_SESSION['login_success'] = true;
-                header("Location: admin.php"); // redirect back to login page
-                exit;
+                $login_success = true;
+                $redirect_url = './admin/admin.php';
             }
         } else {
             // Veterinarian login handling (with hashed password)
@@ -47,19 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
                 // Set session
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = 'veterinarian';
-
                 // Get vet_id
                 $stmt2 = $pdo->prepare("SELECT vet_id FROM Veterinarian WHERE vet_username = :username");
                 $stmt2->execute(['username' => $username]);
                 $vet = $stmt2->fetch(PDO::FETCH_ASSOC);
                 $_SESSION['vet_id'] = $vet['vet_id'];
-                $_SESSION['login_success'] = true;
-                header("Location: dashboard.php"); // redirect back to login page
-                exit;
+                $login_success = true;
+                $redirect_url = 'dashboard.php';
             }
         }
         // If password doesn't match
-        $message = 'Invalid username or password.';
+        if (!$login_success) {
+            $message = 'Invalid username or password.';
+        }
     } else {
         // If no user found
         $message = 'Invalid username or password.';

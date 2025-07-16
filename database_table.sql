@@ -156,3 +156,12 @@ VALUES (
     'I want to pay it with cash.',
     '2025-07-09 22:23:07'
 );
+
+CREATE TABLE Logs (
+    Log_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT,
+    Action_Type VARCHAR(50),
+    Table_Affected VARCHAR(50),
+    Description TEXT,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
