@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once './db.php';
 
 // Check login
 if (!isset($_SESSION['vet_id'])) {

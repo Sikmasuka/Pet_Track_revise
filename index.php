@@ -1,5 +1,20 @@
 <?php
-require_once 'functions/authentication.php'
+// Start the session
+session_start();
+
+// Check if the user is already logged in
+if (isset($_SESSION['admin_id'])) {
+    // Admin is logged in, redirect to admin dashboard
+    header('Location: admin/admin-dashboard.php');
+    exit;
+} elseif (isset($_SESSION['vet_id'])) {
+    // Veterinarian is logged in, redirect to veterinarian dashboard
+    header('Location: dashboard.php');
+    exit;
+}
+
+// Include authentication script for handling login form submission
+require_once 'functions/authentication.php';
 ?>
 
 <!DOCTYPE html>

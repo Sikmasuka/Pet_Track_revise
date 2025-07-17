@@ -1,5 +1,6 @@
 <?php
-require_once '../functions/dashboard-handler.php';
+session_start();
+require_once '../functions/admin-handler.php';
 ?>
 
 <!DOCTYPE html>

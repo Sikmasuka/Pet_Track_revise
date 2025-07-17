@@ -130,7 +130,7 @@
 
                 <!-- Total Payments Card -->
                 <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="payments.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                    <a href="payment_methods.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center">
@@ -164,40 +164,6 @@
                 </div>
             </div>
         </main>
-    </div>
-
-    <!-- Recent Activities Seciton -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
-        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Recent Activities</h2>
-
-            <div class="table-container">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50 sticky top-0 z-5">
-                        <tr class="border-b bg-gray-200">
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Name</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Address</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Contact Number</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <?php foreach ($clients as $client): ?>
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_name']) ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_address']) ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number']) ?></td>
-                                <td class="px-4 py-2 text-sm">
-                                    <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-blue-500 hover:underline">Edit</a> |
-                                    <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:underline">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 
     <!-- Chart.js Scripts -->

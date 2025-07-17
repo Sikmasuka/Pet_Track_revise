@@ -89,54 +89,75 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
         <!-- Header with Welcome and Metrics -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
-            <!-- Top Greeting -->
-            <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
-                <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= $_SESSION['username'] ?>.</h1>
-                <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
+            <!-- Top Header Row -->
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-green-800">Hello, admin.</h2>
+                <h2 class="text-2xl font-bold text-green-800">Dashboard</h2>
             </div>
 
             <!-- Metrics Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <!-- Clients Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
+                <div class="bg-green-100 p-6 rounded-md h-full relative">
                     <a href="clients.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-2xl"></i> Clients</h3>
+                        <h3 class="font-bold text-xl mb-1">
+                            <i class="fas fa-user mr-2 text-2xl"></i> Clients
+                        </h3>
                         <p class="text-xl"><?= $clientCount ?></p>
                     </div>
                 </div>
 
+                <!-- Vets Card -->
+                <div class="bg-green-100 p-6 rounded-md h-full relative">
+                    <a href="vets.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-1">
+                            <i class="fas fa-user-md mr-2 text-2xl"></i> Veterinarian
+                        </h3>
+                        <p class="text-xl"><?= $vetCount ?></p>
+                    </div>
+                </div>
+
                 <!-- Pets Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
+                <div class="bg-green-100 p-6 rounded-md h-full relative">
                     <a href="pets.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-2xl"></i> Pets</h3>
+                        <h3 class="font-bold text-xl mb-1">
+                            <i class="fas fa-paw mr-2 text-2xl"></i> Pets
+                        </h3>
                         <p class="text-xl"><?= $petCount ?></p>
                     </div>
                 </div>
 
                 <!-- Medical Records Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
+                <div class="bg-green-100 p-6 rounded-md h-full relative">
                     <a href="medical_records.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-2xl"></i> Medical Records</h3>
+                        <h3 class="font-bold text-xl mb-1">
+                            <i class="fas fa-file-medical mr-2 text-2xl"></i> Medical Records
+                        </h3>
                         <p class="text-xl"><?= $recordCount ?></p>
                     </div>
                 </div>
 
                 <!-- Total Payments Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
+                <div class="bg-green-100 p-6 rounded-md h-full relative">
                     <a href="payments.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-2xl"></i> Total Payments</h3>
+                        <h3 class="font-bold text-xl mb-1">
+                            <i class="fa-solid fa-money-bill-wave mr-2 text-2xl"></i> Total Payments
+                        </h3>
                         <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
                     </div>
                 </div>
@@ -268,6 +289,7 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </script>
     <script src="../js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/Pet_Track_revise-2/js/confirmLogout.js"></script>
     <script src="../js/confirmLogout.js"></script>
 </body>
 

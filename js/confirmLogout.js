@@ -1,5 +1,5 @@
 function confirmLogout(event) {
-  event.preventDefault(); // ✅ Prevent the link from navigating right away
+  event.preventDefault(); // Prevent the link from navigating right away
 
   Swal.fire({
     title: "Are you sure?",
@@ -12,8 +12,12 @@ function confirmLogout(event) {
     cancelButtonText: "Cancel",
   }).then((result) => {
     if (result.isConfirmed) {
-      // User clicked "Yes", now log out
-      window.location.href = "./logout.php"; // ✅ Redirect to logout page
+      console.log(
+        "Attempting redirect to: http://localhost/Pet_Track_revise-2/logout.php"
+      );
+      window.location.href = "http://localhost/Pet_Track_revise-2/logout.php";
+      // Fallback relative path (if full URL fails)
+      // window.location.href = "../logout.php";
     }
   });
 }

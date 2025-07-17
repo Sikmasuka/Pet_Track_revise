@@ -3,11 +3,11 @@
 require_once 'db.php';
 require_once 'logs.php';
 
-// Start the session to manage user login state
-session_start();
-
-// If already logged in, redirect to dashboard
-if (isset($_SESSION['vet_id'])) {
+// If already logged in, redirect to appropriate dashboard
+if (isset($_SESSION['admin_id'])) {
+    header('Location: admin/admin-dashboard.php');
+    exit;
+} elseif (isset($_SESSION['vet_id'])) {
     header('Location: dashboard.php');
     exit;
 }

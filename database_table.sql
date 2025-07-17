@@ -158,10 +158,10 @@ VALUES (
 );
 
 CREATE TABLE Logs (
-    Log_ID INT AUTO_INCREMENT PRIMARY KEY,
-    User_ID INT,
-    Action_Type VARCHAR(50),
-    Table_Affected VARCHAR(50),
-    Description TEXT,
-    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    Log_ID INT AUTO_INCREMENT PRIMARY KEY,  -- Unique log entry identifier
+    User_ID INT NOT NULL,                   -- References admin_id or vet_id (depending on role)
+    Action_Type VARCHAR(100) NOT NULL,      -- The type of action (e.g., 'Login', 'Add Pet', 'Update Record')
+    Table_Affected ENUM('Admin', 'Veterinarian') NOT NULL,  -- Indicates whether the user is an Admin or Veterinarian
+    Description TEXT NOT NULL,              -- Human-readable description of the action
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP  -- Time when the action occurred (auto set)
 );

@@ -3,8 +3,8 @@ session_start();
 require_once '../db.php';
 
 // Check login
-if (!isset($_SESSION['role']) && ($_SESSION['role'] != "admin")) {
-    header('Location: /../dashboard.php');
+if (!isset($_SESSION['admin_id'])) {
+    header('Location: index.php');
     exit;
 }
 
@@ -26,6 +26,10 @@ $petCount = $stmtPets->fetchColumn();
 $stmtRecords = $pdo->prepare("SELECT COUNT(*) FROM Medical_Records");
 $stmtRecords->execute();
 $recordCount = $stmtRecords->fetchColumn();
+
+$stmtVet = $pdo->prepare("SELECT COUNT(*) FROM Veterinarian");
+$stmtVet->execute();
+$vetCount = $stmtVet->fetchColumn();
 
 // Fetch most common medical conditions
 $stmtConditions = $pdo->prepare("
