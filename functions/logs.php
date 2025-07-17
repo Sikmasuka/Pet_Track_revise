@@ -1,10 +1,8 @@
 <?php
 require_once './db.php';
 
-function logAction($conn, $userId, $actionType, $table, $description)
+function logAction($pdo, $userId, $actionType, $description, $userRole)
 {
-    $stmt = $conn->prepare("INSERT INTO Logs (User_ID, Action_Type, Table_Affected, Description) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("isss", $userId, $actionType, $table, $description);
-    $stmt->execute();
-    $stmt->close();
+    $stmt = $pdo->prepare("INSERT INTO Logs (User_ID, Action_Type, Description, Table_Affected) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$userId, $actionType, $description, $userRole]); // Use Table_Affected to store the role: 'Admin' or 'Veterinarian'
 }

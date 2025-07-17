@@ -1,5 +1,5 @@
 <?php
-require_once '../functions/admin-handler.php';
+require_once '../functions/dashboard-handler.php';
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +39,9 @@ require_once '../functions/admin-handler.php';
         </div>
 
         <nav class="mt-8 lg:mt-36">
+            <a href="admin-dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                Dashboard
+            </a>
             <a href="admin.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
@@ -62,24 +65,45 @@ require_once '../functions/admin-handler.php';
         </button>
 
         <!-- Add Veterinarian Modal -->
-        <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
-
-            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h2 class="text-xl font-semibold mb-4">Add New Veterinarian</h2>
-                <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" name="vet_name" placeholder="Name" required class="p-2 border rounded-md">
-                    <input type="text" name="vet_contact_number" placeholder="Contact Number" required class="p-2 border rounded-md">
-                    <input type="text" name="vet_username" placeholder="Username" required class="p-2 border rounded-md">
-                    <input type="password" name="vet_password" placeholder="Password" required class="p-2 border rounded-md">
-                    <button type="submit" name="add_vet" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 col-span-full w-fit">
+        <div id="addModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+            <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full max-w-xl overflow-hidden">
+                <!-- Modal Header -->
+                <div class="bg-green-500 px-6 py-4">
+                    <h3 id="petModalTitle" class="text-xl font-bold text-center text-white">
                         Add Veterinarian
-                    </button>
-                </form>
-                <button id="closeAddModal" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
-                    Close
-                </button>
+                    </h3>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6">
+                    <form method="POST" class="grid grid-cols-1 gap-4">
+                        <label for="vet_name" class="font-medium">Name</label>
+                        <input type="text" name="vet_name" id="vet_name" placeholder="Name" required class="p-2 border rounded-md">
+
+                        <label for="vet_contact_number" class="font-medium">Contact Number</label>
+                        <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required class="p-2 border rounded-md">
+
+                        <label for="vet_username" class="font-medium">Username</label>
+                        <input type="text" name="vet_username" id="vet_username" placeholder="Username" required class="p-2 border rounded-md">
+
+                        <label for="vet_password" class="font-medium">Password</label>
+                        <input type="password" name="vet_password" id="vet_password" placeholder="Password" required class="p-2 border rounded-md">
+
+                        <div class="flex justify-between items-center mt-4">
+                            <button type="submit" name="add_vet" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+                                Add Veterinarian
+                            </button>
+                            <button type="button" id="closeAddModal" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
+
+
 
         <!-- Table -->
         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -102,7 +126,14 @@ require_once '../functions/admin-handler.php';
                             <td class="p-2"><?= htmlspecialchars($vet['vet_username']) ?></td>
                             <td class="p-2 italic text-gray-400">Hidden (encrypted)</td>
                             <td class="p-2 text-center">
-                                <a href="#" class="text-blue-600 hover:underline mr-2 edit-btn" data-vet-id="<?= $vet['vet_id'] ?>">Edit</a>
+                                <a href="#"
+                                    class="text-blue-600 hover:underline mr-2 edit-btn"
+                                    data-vet-id="<?= $vet['vet_id'] ?>"
+                                    data-vet-name="<?= htmlspecialchars($vet['vet_name'], ENT_QUOTES) ?>"
+                                    data-vet-contact="<?= htmlspecialchars($vet['vet_contact_number'], ENT_QUOTES) ?>"
+                                    data-vet-username="<?= htmlspecialchars($vet['vet_username'], ENT_QUOTES) ?>">
+                                    Edit
+                                </a>
                                 <a href="?delete=<?= $vet['vet_id'] ?>" onclick="return confirm('Are you sure?')" class="text-red-600 hover:underline">Delete</a>
                             </td>
                         </tr>
@@ -114,29 +145,45 @@ require_once '../functions/admin-handler.php';
 
     <!-- Edit Veterinarian Modal -->
     <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 class="text-xl font-semibold mb-4">Edit Veterinarian</h2>
-            <form method="POST" class="grid grid-cols-1 gap-4">
-                <input type="hidden" name="vet_id" id="edit_vet_id">
-                <input type="text" name="vet_name" id="edit_vet_name" placeholder="Name" required class="p-2 border rounded-md w-full">
-                <input type="text" name="vet_contact_number" id="edit_vet_contact_number" placeholder="Contact Number" required class="p-2 border rounded-md w-full">
-                <input type="text" name="vet_username" id="edit_vet_username" placeholder="Username" required class="p-2 border rounded-md w-full">
-                <input type="password" name="vet_password" id="edit_vet_password" placeholder="Add password to change it" class="p-2 border rounded-md w-full">
-                <button type="submit" name="update_vet" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
-                    Update Veterinarian
-                </button>
-            </form>
-            <button id="closeEditModal" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full">
-                Close
-            </button>
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-xl max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="w-full bg-green-500 px-6 py-4">
+                <h3 class="text-xl font-bold text-center text-white">
+                    Edit Veterinarian
+                </h3>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <form method="POST" class="grid grid-cols-1 gap-4">
+                    <input type="hidden" name="vet_id" id="edit_vet_id">
+
+                    <input type="text" name="vet_name" id="edit_vet_name" placeholder="Name" required class="p-2 border rounded-md w-full">
+                    <input type="text" name="vet_contact_number" id="edit_vet_contact_number" placeholder="Contact Number" required class="p-2 border rounded-md w-full">
+                    <input type="text" name="vet_username" id="edit_vet_username" placeholder="Username" required class="p-2 border rounded-md w-full">
+                    <input type="password" name="vet_password" id="edit_vet_password" placeholder="Add password to change it" class="p-2 border rounded-md w-full">
+
+                    <div class="flex justify-between gap-4">
+                        <button type="submit" name="update_vet" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
+                            Update Veterinarian
+                        </button>
+                        <button type="button" id="closeEditModal" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+
 
     <script>
         // Add Modal Toggle
         document.getElementById('openAddModal').addEventListener('click', function() {
             document.getElementById('addModal').classList.remove('hidden');
         });
+
         document.getElementById('closeAddModal').addEventListener('click', function() {
             document.getElementById('addModal').classList.add('hidden');
         });
@@ -145,32 +192,45 @@ require_once '../functions/admin-handler.php';
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
-                const vetId = this.getAttribute('data-vet-id');
-                <?php
-                if ($edit_mode && $edit_vet && $edit_vet['vet_id'] == $_GET['edit']) {
-                    echo "document.getElementById('edit_vet_id').value = '{$edit_vet['vet_id']}';";
-                    echo "document.getElementById('edit_vet_name').value = '" . htmlspecialchars($edit_vet['vet_name']) . "';";
-                    echo "document.getElementById('edit_vet_contact_number').value = '" . htmlspecialchars($edit_vet['vet_contact_number']) . "';";
-                    echo "document.getElementById('edit_vet_username').value = '" . htmlspecialchars($edit_vet['vet_username']) . "';";
-                    echo "document.getElementById('edit_vet_password').value = '';";
-                    echo "document.getElementById('editModal').classList.remove('hidden');";
-                }
-                ?>
+
+                // Get vet data from attributes
+                const vetId = this.dataset.vetId;
+                const vetName = this.dataset.vetName;
+                const vetContact = this.dataset.vetContact;
+                const vetUsername = this.dataset.vetUsername;
+
+                // Fill the edit form
+                document.getElementById('edit_vet_id').value = vetId;
+                document.getElementById('edit_vet_name').value = vetName;
+                document.getElementById('edit_vet_contact_number').value = vetContact;
+                document.getElementById('edit_vet_username').value = vetUsername;
+                document.getElementById('edit_vet_password').value = ''; // leave blank for optional update
+
+                // Show the modal
+                document.getElementById('editModal').classList.remove('hidden');
             });
         });
+
+
         document.getElementById('closeEditModal').addEventListener('click', function() {
             document.getElementById('editModal').classList.add('hidden');
         });
 
-        // Close modals on overlay click
-        document.querySelectorAll('#addModal, #editModal').forEach(modal => {
+        // ✅ Removed automatic modal close when clicking overlay
+        // To prevent overlay click from closing the modal:
+        ['addModal', 'editModal'].forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('div'); // assumes first child is modal content
+
             modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hidden');
+                if (!content.contains(e.target)) {
+                    // Do nothing: clicking outside does NOT close modal
+                    e.stopPropagation();
                 }
             });
         });
     </script>
+
     <script src="../js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/confirmLogout.js"></script>

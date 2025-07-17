@@ -1,6 +1,7 @@
 <?php
 // Include the database connection
 require_once 'db.php';
+require_once 'logs.php';
 
 // Start the session to manage user login state
 session_start();
@@ -35,24 +36,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
         if ($user['role'] === 'admin') {
             // Check if the password matches directly
             if ($password === $user['password']) {
-                // Password matches, set session
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = 'admin';
-                $login_success = true;
-                $redirect_url = './admin/admin.php';
+                // Get the admin_id using the username
+                $stmt2 = $pdo->prepare("SELECT admin_id FROM Admin WHERE admin_username = :username");
+                $stmt2->execute(['username' => $username]);
+                $admin = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+                if ($admin) {
+                    // Password matches, set session
+                    $_SESSION['admin_id'] = $admin['admin_id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['role'] = 'admin';
+                    $login_success = true;
+
+                    $actionType = 'Login'; // Define the action
+                    $description = $_SESSION['username'] . ' Successfully Logged in';
+                    logAction($pdo, $admin['admin_id'], $actionType, $description, 'Admin');
+                    $redirect_url = './admin/admin-dashboard.php';
+                }
             }
         } else {
             // Veterinarian login handling (with hashed password)
             if (password_verify($password, $user['password'])) {
+
+                // Get vet_id
+                $stmt2 = $pdo->prepare("SELECT vet_id , vet_name FROM Veterinarian WHERE vet_username = :username");
+                $stmt2->execute(['username' => $username]);
+                $vet = $stmt2->fetch(PDO::FETCH_ASSOC);
+
                 // Set session
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = 'veterinarian';
-                // Get vet_id
-                $stmt2 = $pdo->prepare("SELECT vet_id FROM Veterinarian WHERE vet_username = :username");
-                $stmt2->execute(['username' => $username]);
-                $vet = $stmt2->fetch(PDO::FETCH_ASSOC);
                 $_SESSION['vet_id'] = $vet['vet_id'];
+                $_SESSION['vet_name'] = $vet['vet_name'];
+
                 $login_success = true;
+                $actionType = 'Login';
+                $description = $vet['vet_name'] . ' Successfully Logged in';
+                logAction($pdo, $vet['vet_id'], $actionType, $description, 'Veterinarian');
                 $redirect_url = 'dashboard.php';
             }
         }

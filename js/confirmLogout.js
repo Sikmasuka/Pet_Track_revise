@@ -13,7 +13,7 @@ function confirmLogout(event) {
   }).then((result) => {
     if (result.isConfirmed) {
       // User clicked "Yes", now log out
-      window.location.href = "logout.php";
+      window.location.href = "./logout.php"; // ✅ Redirect to logout page
     }
   });
 }

@@ -2,7 +2,7 @@
 
 // Start session and include database connection
 session_start();
-require_once '../db.php';
+require_once './db.php';
 
 
 // Check if user is logged in by verifying session role
