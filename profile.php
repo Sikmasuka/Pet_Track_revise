@@ -11,7 +11,6 @@ require_once 'functions/profile-handler.php';
     <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
-
 </head>
 
 <body class="bg-gray-100 flex">
@@ -58,6 +57,10 @@ require_once 'functions/profile-handler.php';
             <a href="payment_methods.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
+            </a>
+            <a href="archive.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fa-solid fa-box-archive"></i>
+                <span class="md:inline">Archive</span>
             </a>
             <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>

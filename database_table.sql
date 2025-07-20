@@ -165,3 +165,12 @@ CREATE TABLE Logs (
     Description TEXT NOT NULL,              -- Human-readable description of the action
     Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP  -- Time when the action occurred (auto set)
 );
+
+-- Create Archive Table
+CREATE TABLE archive (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    original_table VARCHAR(50) NOT NULL,
+    original_id INT NOT NULL,
+    data TEXT NOT NULL,  -- stores serialized data
+    deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

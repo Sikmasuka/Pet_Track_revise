@@ -41,10 +41,15 @@ require_once '../functions/admin-handler.php';
 
         <nav class="mt-8 lg:mt-36">
             <a href="admin-dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i>
                 Dashboard
             </a>
             <a href="admin.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
+            </a>
+            </a>
+            <a href="records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fa-solid fa-file-lines mr-2"> </i> Records
             </a>
             <a href="../index.php" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>

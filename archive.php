@@ -1,27 +1,67 @@
-<?php require_once './functions/dashboard-handler.php';     ?>
+<?php
+require_once 'C:/xampp/htdocs/Pet_Track_revise-2/functions/archive-handler.php';
+require_once 'C:/xampp/htdocs/Pet_Track_revise-2/functions/dashboard-handler.php';
+
+// Initialize archived data
+$archived = ['Pet' => [], 'Client' => [], 'medical_records' => []];
+$showRestoreAlert = false;
+$showDeleteAlert = false;
+$alertTable = '';
+try {
+    $tables = [
+        'Pet' => ['id' => 'pet_id', 'fields' => ['pet_name', 'pet_breed', 'pet_species', 'client_id']],
+        'Client' => ['id' => 'client_id', 'fields' => ['client_name', 'client_address', 'client_contact_number']],
+        'medical_records' => ['id' => 'medical_record_id', 'fields' => ['diagnosis', 'treatment', 'record_date']]
+    ];
+
+    if (isset($_GET['action'], $_GET['id'], $_GET['table'])) {
+        $id = (int)$_GET['id'];
+        $table = $_GET['table'];
+        if (!isset($tables[$table])) throw new Exception("Invalid table");
+        if ($_GET['action'] == 'restore') {
+            if (restoreRecord($pdo, $table, $id, $tables[$table]['id'])) {
+                $showRestoreAlert = true;
+                $alertTable = $table;
+            }
+        } elseif ($_GET['action'] == 'delete') {
+            if (deleteFromArchive($pdo, $id)) {
+                $showDeleteAlert = true;
+                $alertTable = $table;
+            }
+        }
+    }
+
+    foreach ($tables as $table => $config) {
+        $stmt = $pdo->prepare("SELECT * FROM archive WHERE original_table = ? ORDER BY deleted_at DESC");
+        $stmt->execute([$table]);
+        $archived[$table] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+} catch (Exception $e) {
+    $error = $e->getMessage();
+}
+
+// Create a client lookup array for quick matching
+$clients = [];
+foreach ($archived['Client'] as $clientRecord) {
+    $clientData = json_decode($clientRecord['data'], true);
+    $clients[$clientData['client_id']] = [
+        'id' => $clientRecord['id'],
+        'name' => $clientData['client_name'] ?? 'N/A',
+        'address' => $clientData['client_address'] ?? 'N/A',
+        'contact' => $clientData['client_contact_number'] ?? 'N/A',
+        'deleted_at' => $clientRecord['deleted_at']
+    ];
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <script src="Assets/chart.js"></script>
+    <title>Archive</title>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
-            }
-        }
-    </style>
 </head>
 
 <body class="bg-gray-100 min-h-screen">
@@ -45,7 +85,7 @@
         </div>
 
         <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 <span class="md:inline">Dashboard</span>
             </a>
@@ -69,6 +109,10 @@
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
+            <a href="archive.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fa-solid fa-box-archive"></i>
+                <span class="md:inline">Archive</span>
+            </a>
             <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
@@ -79,194 +123,156 @@
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
-    <!-- Main Dashboard Container -->
+    <!-- Main Container -->
     <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
-        <!-- Header with Welcome and Metrics -->
+        <!-- Header -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
             <!-- Top Greeting -->
             <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
                 <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= $vetName ?>.</h1>
-                <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
-            </div>
-
-            <!-- Metrics Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-                <!-- Clients Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="clients.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-2xl"></i> Clients</h3>
-                        <p class="text-xl"><?= $clientCount ?></p>
-                    </div>
-                </div>
-
-                <!-- Pets Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="pets.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-2xl"></i> Pets</h3>
-                        <p class="text-xl"><?= $petCount ?></p>
-                    </div>
-                </div>
-
-                <!-- Medical Records Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="medical_records.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-2xl"></i> Medical Records</h3>
-                        <p class="text-xl"><?= $recordCount ?></p>
-                    </div>
-                </div>
-
-                <!-- Total Payments Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="payments.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-2xl"></i> Total Payments</h3>
-                        <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
-                    </div>
-                </div>
+                <h1 class="text-xl lg:text-2xl font-bold">Archive</h1>
             </div>
         </header>
 
-
-        <!-- Graph Section -->
+        <!-- Main Content -->
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Analytics Overview</h2>
+            <?php if (isset($message)): ?>
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"><?= htmlspecialchars($message) ?></div>
+            <?php endif; ?>
+            <?php if (isset($error)): ?>
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
 
-            <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Monthly Income Box -->
-                <div class="flex-1 bg-gray-50 border border-green-200 rounded-lg p-4 shadow-sm">
-                    <h3 class="text-base lg:text-lg font-semibold text-green-700 mb-4">Monthly Income</h3>
-                    <div class="chart-container">
-                        <canvas id="incomeChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Most Common Medical Conditions Box -->
-                <div class="flex-0.5 bg-gray-50 border border-green-200 rounded-lg p-4 shadow-sm">
-                    <h3 class="text-base lg:text-lg font-semibold text-green-700 mb-4">Most Common Medical Conditions</h3>
-                    <div class="chart-container">
-                        <canvas id="conditionChart"></canvas>
-                    </div>
-                </div>
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Pets and Clients</h2>
+                <?php if (count($archived['Pet']) > 0): ?>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr class="border-b bg-gray-200">
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">PET NAME</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Species</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Weight</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Breed</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <?php foreach ($archived['Pet'] as $petRecord):
+                                $petData = json_decode($petRecord['data'], true);
+                                $clientId = $petData['client_id'] ?? null;
+                                $client = $clientId ? $clients[$clientId] ?? null : null;
+                            ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['name'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_name'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_species'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_weight'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($petData['pet_breed']) : 'N/A' ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['address']) : 'N/A' ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['contact']) : 'N/A' ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petRecord['deleted_at']) ?></td>
+                                    <td class="px-4 py-2 text-sm">
+                                        <a href="?action=restore&id=<?= $petRecord['id'] ?>&table=Pet" class="text-blue-500 hover:underline">Restore</a> |
+                                        <a href="?action=delete&id=<?= $petRecord['id'] ?>&table=Pet" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $petRecord['id'] ?>, 'Pet')">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="text-center text-gray-700 text-sm mb-4">No archived pets or clients</p>
+                <?php endif; ?>
             </div>
+            <div>
+                <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Medical Records</h2>
+                <?php if (count($archived['medical_records'])): ?>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr class="border-b bg-gray-200">
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnosis</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Treatment</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <?php foreach ($archived['medical_records'] as $record): $data = json_decode($record['data'], true); ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['diagnosis'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['treatment'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['record_date'] ?? 'N/A') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at']) ?></td>
+                                    <td class="px-4 py-2 text-sm">
+                                        <a href="?action=restore&id=<?= $record['id'] ?>&table=medical_records" class="text-blue-500 hover:underline">Restore</a> |
+                                        <a href="?action=delete&id=<?= $record['id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['id'] ?>, 'medical_records')">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="text-center text-gray-700 text-sm">No archived medical records</p>
+                <?php endif; ?>
+            </div>
+
         </main>
     </div>
 
-    <!-- Recent Activities Seciton -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
-        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Recent Activities</h2>
-
-            <div class="table-container">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50 sticky top-0 z-5">
-                        <tr class="border-b bg-gray-200">
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Name</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Address</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Contact Number</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <?php foreach ($clients as $client): ?>
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_name']) ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_address']) ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number']) ?></td>
-                                <td class="px-4 py-2 text-sm">
-                                    <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-blue-500 hover:underline">Edit</a> |
-                                    <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:underline">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Chart.js Scripts -->
-    <script>
-        // Monthly Income Bar Chart
-        const monthlyLabels = <?= json_encode($monthlyLabels) ?>;
-        const monthlyTotals = <?= json_encode($monthlyTotals) ?>;
-
-        const incomeCtx = document.getElementById('incomeChart').getContext('2d');
-        const incomeChart = new Chart(incomeCtx, {
-            type: 'bar',
-            data: {
-                labels: monthlyLabels,
-                datasets: [{
-                    label: 'Total Income (₱)',
-                    data: monthlyTotals,
-                    backgroundColor: '#4CAF50',
-                    borderColor: '#388E3C',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Amount (₱)'
-                        }
-                    }
-                }
-            }
-        });
-
-        // Most Common Medical Conditions Pie Chart
-        const conditionLabels = <?= json_encode($conditionLabels) ?>;
-        const conditionCounts = <?= json_encode($conditionCounts) ?>;
-
-        const conditionCtx = document.getElementById('conditionChart').getContext('2d');
-        const conditionChart = new Chart(conditionCtx, {
-            type: 'pie',
-            data: {
-                labels: conditionLabels,
-                datasets: [{
-                    data: conditionCounts,
-                    backgroundColor: [
-                        '#43A047 ', '#66BB6A ', '#26A69A ', '#FFCA28 ', '#EF5350 '
-                    ],
-                    borderColor: '#fff',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    </script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
+    <script>
+        // Check for restore or delete success
+        <?php if ($showRestoreAlert): ?>
+            Swal.fire({
+                title: 'Success!',
+                text: '<?php echo $alertTable; ?> restored successfully.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'archive.php';
+                }
+            });
+        <?php endif; ?>
+
+        <?php if ($showDeleteAlert): ?>
+            Swal.fire({
+                title: 'Success!',
+                text: '<?php echo $alertTable; ?> deleted permanently.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'archive.php';
+                }
+            });
+        <?php endif; ?>
+
+        function confirmDelete(id, table) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Delete archived ${table} permanently?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `?action=delete&id=${id}&table=${table}`;
+                }
+            });
+            return false;
+        }
+    </script>
 </body>
 
 </html>

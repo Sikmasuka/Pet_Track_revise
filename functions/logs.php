@@ -1,5 +1,5 @@
 <?php
-require_once './db.php';
+require_once '/xampp/htdocs/Pet_Track_revise-2/functions/logs.php';
 
 function logAction($pdo, $userId, $actionType, $description, $userRole)
 {

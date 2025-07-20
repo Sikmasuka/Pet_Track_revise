@@ -1,27 +1,38 @@
 <?php
 require_once '../admin/admin-dashboard-handler.php';
 
-// Prepare and execute the SQL query to check if the user exists (for both admin and veterinarian)
-$log = "
-SELECT 
-    l.Description,
-    l.Timestamp,
-    CASE
-        WHEN l.Table_Affected = 'Admin' THEN a.admin_name
-        WHEN l.Table_Affected = 'Veterinarian' THEN v.vet_name
-        ELSE 'Unknown'
-    END AS name
-FROM Logs l
-LEFT JOIN Admin a ON l.Table_Affected = 'Admin' AND l.User_ID = a.admin_id
-LEFT JOIN Veterinarian v ON l.Table_Affected = 'Veterinarian' AND l.User_ID = v.vet_id
-ORDER BY l.Timestamp DESC
+// Pagination settings
+$itemsPerPage = 10; // Change this number as needed
+$currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($currentPage - 1) * $itemsPerPage;
+
+// Count total logs
+$totalStmt = $pdo->query("SELECT COUNT(*) FROM Logs");
+$totalLogs = $totalStmt->fetchColumn();
+$totalPages = ceil($totalLogs / $itemsPerPage);
+
+// Fetch paginated logs
+$logQuery = "
+    SELECT 
+        l.Description,
+        l.Timestamp,
+        CASE
+            WHEN l.Table_Affected = 'Admin' THEN a.admin_name
+            WHEN l.Table_Affected = 'Veterinarian' THEN v.vet_name
+            ELSE 'Unknown'
+        END AS name
+    FROM Logs l
+    LEFT JOIN Admin a ON l.Table_Affected = 'Admin' AND l.User_ID = a.admin_id
+    LEFT JOIN Veterinarian v ON l.Table_Affected = 'Veterinarian' AND l.User_ID = v.vet_id
+    ORDER BY l.Timestamp DESC
+    LIMIT :limit OFFSET :offset
 ";
 
-$stmt = $pdo->prepare($log);
+$stmt = $pdo->prepare($logQuery);
+$stmt->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +43,6 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Dashboard</title>
     <script src="../Assets/chart.js"></script>
     <link rel="stylesheet" href="../Assets/FontAwsome/css/all.min.css">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .chart-container {
@@ -50,7 +60,6 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body class="bg-gray-100 min-h-screen">
-    s
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
         <i class="fas fa-bars"></i>
@@ -74,6 +83,9 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </a>
             <a href="admin.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
+            </a>
+            <a href="records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+                <i class="fa-solid fa-file-lines mr-2"> </i> Records
             </a>
             <a href="../index.php" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
@@ -164,7 +176,6 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </header>
 
-
         <!-- Graph Section -->
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
             <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Analytics Overview</h2>
@@ -187,36 +198,53 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </main>
-    </div>
 
-    <!-- Recent Activities Seciton -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
-        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+        <!-- Recent Activities Section -->
+        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-sm mt-8">
             <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-6">Recent Activities</h2>
 
             <div class="table-container">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50 sticky top-0 z-5">
                         <tr class="border-b bg-gray-200">
+                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">#</th>
                             <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Name</th>
                             <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Description</th>
                             <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Date</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <?php foreach ($logs as $log): ?>
+                        <?php foreach ($logs as $index => $log): ?>
+                            <?php $serial = ($offset + $index + 1); ?>
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['name']) ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['Description']) ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['Timestamp']) ?></td>
+                                <td class="px-4 py-2 text-sm"><?= $serial ?></td>
+                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['name'] ?? 'Unknown') ?></td>
+                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['Description'] ?? '') ?></td>
+                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['Timestamp'] ?? '') ?></td>
                             </tr>
                         <?php endforeach; ?>
+                        <?php if (empty($logs)): ?>
+                            <tr>
+                                <td colspan="4" class="px-4 py-2 text-sm text-center text-gray-500">No recent activities logged.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
-
                 </table>
+                <div class="mt-4 flex justify-center space-x-2">
+                    <?php if ($currentPage > 1): ?>
+                        <a href="?page=<?= $currentPage - 1 ?>" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">« Prev</a>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <a href="?page=<?= $i ?>" class="px-3 py-1 <?= $i === $currentPage ? 'bg-green-700 text-white' : 'bg-green-100 text-green-800' ?> rounded hover:bg-green-600 hover:text-white"><?= $i ?></a>
+                    <?php endfor; ?>
+
+                    <?php if ($currentPage < $totalPages): ?>
+                        <a href="?page=<?= $currentPage + 1 ?>" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Next »</a>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
-
     </div>
 
     <!-- Chart.js Scripts -->
@@ -270,7 +298,7 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 datasets: [{
                     data: conditionCounts,
                     backgroundColor: [
-                        '#43A047 ', '#66BB6A ', '#26A69A ', '#FFCA28 ', '#EF5350 '
+                        '#43A047', '#66BB6A', '#26A69A', '#FFCA28', '#EF5350'
                     ],
                     borderColor: '#fff',
                     borderWidth: 1

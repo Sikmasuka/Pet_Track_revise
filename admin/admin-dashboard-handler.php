@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../db.php';
+require_once '../functions/logs.php';
 
 // Check login
 if (!isset($_SESSION['admin_id'])) {
