@@ -5,6 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <script src="Assets/chart.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
@@ -84,7 +85,7 @@
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Dashboard Container -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
+    <div class="ml-0 lg:ml-64 p-4 pt-16 lg:pt-4">
         <!-- Header with Welcome and Metrics -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
             <!-- Top Greeting -->

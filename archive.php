@@ -59,6 +59,7 @@ foreach ($archived['Client'] as $clientRecord) {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archive</title>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -146,43 +147,46 @@ foreach ($archived['Client'] as $clientRecord) {
             <div class="mb-8">
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Pets and Clients</h2>
                 <?php if (count($archived['Pet']) > 0): ?>
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr class="border-b bg-gray-200">
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">PET NAME</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Species</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Weight</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Breed</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <?php foreach ($archived['Pet'] as $petRecord):
-                                $petData = json_decode($petRecord['data'], true);
-                                $clientId = $petData['client_id'] ?? null;
-                                $client = $clientId ? $clients[$clientId] ?? null : null;
-                            ?>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['name'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_name'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_species'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_weight'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($petData['pet_breed']) : 'N/A' ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['address']) : 'N/A' ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['contact']) : 'N/A' ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petRecord['deleted_at']) ?></td>
-                                    <td class="px-4 py-2 text-sm">
-                                        <a href="?action=restore&id=<?= $petRecord['id'] ?>&table=Pet" class="text-blue-500 hover:underline">Restore</a> |
-                                        <a href="?action=delete&id=<?= $petRecord['id'] ?>&table=Pet" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $petRecord['id'] ?>, 'Pet')">Delete</a>
-                                    </td>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr class="border-b bg-gray-200">
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">PET NAME</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Species</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Weight</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Breed</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($archived['Pet'] as $petRecord):
+                                    $petData = json_decode($petRecord['data'], true);
+                                    $clientId = $petData['client_id'] ?? null;
+                                    $client = $clientId ? $clients[$clientId] ?? null : null;
+                                ?>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['name'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_name'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_species'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_weight'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($petData['pet_breed']) : 'N/A' ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['address']) : 'N/A' ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['contact']) : 'N/A' ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petRecord['deleted_at']) ?></td>
+                                        <td class="px-4 py-2 text-sm">
+                                            <a href="?action=restore&id=<?= $petRecord['id'] ?>&table=Pet" class="text-blue-500 hover:underline">Restore</a> |
+                                            <a href="?action=delete&id=<?= $petRecord['id'] ?>&table=Pet" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $petRecord['id'] ?>, 'Pet')">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
                 <?php else: ?>
                     <p class="text-center text-gray-700 text-sm mb-4">No archived pets or clients</p>
                 <?php endif; ?>
@@ -190,31 +194,34 @@ foreach ($archived['Client'] as $clientRecord) {
             <div>
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Medical Records</h2>
                 <?php if (count($archived['medical_records'])): ?>
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr class="border-b bg-gray-200">
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnosis</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Treatment</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <?php foreach ($archived['medical_records'] as $record): $data = json_decode($record['data'], true); ?>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['diagnosis'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['treatment'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['record_date'] ?? 'N/A') ?></td>
-                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at']) ?></td>
-                                    <td class="px-4 py-2 text-sm">
-                                        <a href="?action=restore&id=<?= $record['id'] ?>&table=medical_records" class="text-blue-500 hover:underline">Restore</a> |
-                                        <a href="?action=delete&id=<?= $record['id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['id'] ?>, 'medical_records')">Delete</a>
-                                    </td>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr class="border-b bg-gray-200">
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnosis</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Treatment</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($archived['medical_records'] as $record): $data = json_decode($record['data'], true); ?>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['diagnosis'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['treatment'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['record_date'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at']) ?></td>
+                                        <td class="px-4 py-2 text-sm">
+                                            <a href="?action=restore&id=<?= $record['id'] ?>&table=medical_records" class="text-blue-500 hover:underline">Restore</a> |
+                                            <a href="?action=delete&id=<?= $record['id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['id'] ?>, 'medical_records')">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
                 <?php else: ?>
                     <p class="text-center text-gray-700 text-sm">No archived medical records</p>
                 <?php endif; ?>
