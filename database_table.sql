@@ -174,3 +174,6 @@ CREATE TABLE archive (
     data TEXT NOT NULL,  -- stores serialized data
     deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE Admin
+ADD COLUMN admin_id INT AUTO_INCREMENT PRIMARY KEY FIRST;
