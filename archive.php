@@ -1,39 +1,79 @@
 <?php
 require_once __DIR__ . "/functions/archive-handler.php";
-require_once 'C:/xampp/htdocs/Pet_Track_revise-2/functions/dashboard-handler.php';
+require_once __DIR__ . "/functions/dashboard-handler.php";
 
 $showRestoreAlert = false;
 $showDeleteAlert = false;
 $alertTable = '';
+$clients = []; // Initialize $clients to avoid undefined variable error
+$medical_records = []; // Initialize $medical_records for consistency
 
 try {
-    $stmt = $pdo->prepare("SELECT * FROM client c JOIN pet a ON a.pet_id = c.client_id WHERE c.status = 0");
-    $stmt->execute();
-    $clients = [];
-    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $clients[$row['client_id']] = $row;
-    }
-
+    // Handle actions FIRST - before fetching data
     if (isset($_GET['action'], $_GET['id'], $_GET['table'])) {
         $id = (int)$_GET['id'];
+        $table = $_GET['table'];
+
         if ($_GET['action'] == 'restore') {
-            if (restoreRecord($pdo, $id)) {
-                $showRestoreAlert = true;
-                $alertTable = $table;
+            if (restoreRecord($pdo, $id, $table)) {
+                // Redirect with success parameter
+                header("Location: archive.php?success=restore&table=" . urlencode($table));
+                exit;
             }
         } elseif ($_GET['action'] == 'delete') {
-            if (deleteFromArchive($pdo, $id)) {
-                $showDeleteAlert = true;
-                $alertTable = $table;
+            if (deleteFromArchive($pdo, $id, $table)) {
+                // Redirect with success parameter
+                header("Location: archive.php?success=delete&table=" . urlencode($table));
+                exit;
             }
         }
     }
+
+    // Check for success parameters from redirect
+    if (isset($_GET['success']) && isset($_GET['table'])) {
+        if ($_GET['success'] === 'restore') {
+            $showRestoreAlert = true;
+            $alertTable = $_GET['table'];
+        } elseif ($_GET['success'] === 'delete') {
+            $showDeleteAlert = true;
+            $alertTable = $_GET['table'];
+        }
+    }
+
+    // NOW fetch the data after handling any actions
+    // Fetch archived clients and pets (status = 0)
+    $stmt = $pdo->query("
+        SELECT c.client_id, c.client_name, c.client_address, c.client_contact_number, c.updated_at, 
+               p.pet_id, p.pet_name, p.pet_species, p.pet_weight, p.pet_breed
+        FROM client c
+        LEFT JOIN pet p ON p.client_id = c.client_id
+        WHERE c.status = 0
+    ");
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $clients[$row['client_id']]['client_name'] = $row['client_name'];
+        $clients[$row['client_id']]['client_address'] = $row['client_address'];
+        $clients[$row['client_id']]['client_contact_number'] = $row['client_contact_number'];
+        $clients[$row['client_id']]['updated_at'] = $row['updated_at'];
+        if ($row['pet_id']) {
+            $clients[$row['client_id']]['pets'][] = [
+                'pet_name' => $row['pet_name'],
+                'pet_species' => $row['pet_species'],
+                'pet_weight' => $row['pet_weight'],
+                'pet_breed' => $row['pet_breed']
+            ];
+        }
+    }
+
+    // Fetch archived medical records
+    $stmt = $pdo->query("
+        SELECT record_id, pet_id, medical_diagnosis, medical_treatment, date, updated_at as deleted_at
+        FROM medical_records
+        WHERE status = 0
+    ");
+    $medical_records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
-
-
-// Create a client lookup array for quick matching
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +152,7 @@ try {
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
             <!-- Top Greeting -->
             <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
-                <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= $vetName ?>.</h1>
+                <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= htmlspecialchars($vetName ?? 'User') ?>.</h1>
                 <h1 class="text-xl lg:text-2xl font-bold">Archive</h1>
             </div>
         </header>
@@ -134,7 +174,7 @@ try {
                             <thead class="bg-gray-50">
                                 <tr class="border-b bg-gray-200">
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">PET NAME</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pet Name</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Species</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Weight</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Breed</th>
@@ -145,23 +185,49 @@ try {
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <?php foreach ($clients as $client):
-                                    $petData = json_decode($client['data'] ?? '{}', true);
-                                ?>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_name'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_name'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_species'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_weight'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_breed'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_address'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['deleted_at'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm">
-                                            <a href="?action=restore&id=<?= $client['client_id'] ?>&table=client" class="text-blue-500 hover:underline">Restore</a> |
-                                            <a href="?action=delete&id=<?= $client['client_id'] ?>&table=client" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $client['client_id'] ?>, 'client')">Delete</a>
-                                        </td>
-                                    </tr>
+                                <?php foreach ($clients as $client_id => $client): ?>
+                                    <?php
+                                    $rowspan = !empty($client['pets']) ? count($client['pets']) : 1;
+                                    $first = true;
+                                    ?>
+                                    <?php if (!empty($client['pets'])): ?>
+                                        <?php foreach ($client['pets'] as $pet): ?>
+                                            <tr class="hover:bg-gray-50">
+                                                <?php if ($first): ?>
+                                                    <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>"><?= htmlspecialchars($client['client_name'] ?? 'N/A') ?></td>
+                                                <?php endif; ?>
+                                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pet['pet_name'] ?? 'N/A') ?></td>
+                                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pet['pet_species'] ?? 'N/A') ?></td>
+                                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pet['pet_weight'] ?? 'N/A') ?></td>
+                                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($pet['pet_breed'] ?? 'N/A') ?></td>
+                                                <?php if ($first): ?>
+                                                    <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>"><?= htmlspecialchars($client['client_address'] ?? 'N/A') ?></td>
+                                                    <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>"><?= htmlspecialchars($client['client_contact_number'] ?? 'N/A') ?></td>
+                                                    <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>"><?= htmlspecialchars($client['updated_at'] ?? 'N/A') ?></td>
+                                                    <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>">
+                                                        <a href="?action=restore&id=<?= $client_id ?>&table=client" class="text-blue-500 hover:underline" onclick="return confirmRestore(<?= $client_id ?>, 'client')">Restore</a> |
+                                                        <a href="?action=delete&id=<?= $client_id ?>&table=client" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $client_id ?>, 'client')">Delete</a>
+                                                    </td>
+                                                <?php endif; ?>
+                                            </tr>
+                                            <?php $first = false; ?>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_name'] ?? 'N/A') ?></td>
+                                            <td class="px-4 py-2 text-sm">N/A</td>
+                                            <td class="px-4 py-2 text-sm">N/A</td>
+                                            <td class="px-4 py-2 text-sm">N/A</td>
+                                            <td class="px-4 py-2 text-sm">N/A</td>
+                                            <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_address'] ?? 'N/A') ?></td>
+                                            <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number'] ?? 'N/A') ?></td>
+                                            <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['updated_at'] ?? 'N/A') ?></td>
+                                            <td class="px-4 py-2 text-sm">
+                                                <a href="?action=restore&id=<?= $client_id ?>&table=client" class="text-blue-500 hover:underline" onclick="return confirmRestore(<?= $client_id ?>, 'client')">Restore</a> |
+                                                <a href="?action=delete&id=<?= $client_id ?>&table=client" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $client_id ?>, 'client')">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -169,12 +235,11 @@ try {
                 <?php else: ?>
                     <p class="text-center text-gray-700 text-sm mb-4">No archived clients found.</p>
                 <?php endif; ?>
-
-
             </div>
+
             <div>
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Medical Records</h2>
-                <?php if (count($archived['medical_records'])): ?>
+                <?php if (count($medical_records) > 0): ?>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -187,39 +252,38 @@ try {
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <?php foreach ($archived['medical_records'] as $record): $data = json_decode($record['data'], true); ?>
+                                <?php foreach ($medical_records as $record): ?>
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['diagnosis'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['treatment'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($data['record_date'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at']) ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['medical_diagnosis'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['medical_treatment'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['date'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm">
-                                            <a href="?action=restore&id=<?= $record['id'] ?>&table=medical_records" class="text-blue-500 hover:underline">Restore</a> |
-                                            <a href="?action=delete&id=<?= $record['id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['id'] ?>, 'medical_records')">Delete</a>
+                                            <a href="?action=restore&id=<?= $record['record_id'] ?>&table=medical_records" class="text-blue-500 hover:underline" onclick="return confirmRestore(<?= $record['record_id'] ?>, 'medical_records')">Restore</a> |
+                                            <a href="?action=delete&id=<?= $record['record_id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['record_id'] ?>, 'medical_records')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-
                 <?php else: ?>
                     <p class="text-center text-gray-700 text-sm">No archived medical records</p>
                 <?php endif; ?>
             </div>
-
         </main>
     </div>
 
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
+    <!-- Sweetalert Confirmation -->
     <script>
         // Check for restore or delete success
         <?php if ($showRestoreAlert): ?>
             Swal.fire({
                 title: 'Success!',
-                text: '<?php echo $alertTable; ?> restored successfully.',
+                text: '<?php echo htmlspecialchars($alertTable); ?> restored successfully.',
                 icon: 'success',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK'
@@ -233,7 +297,7 @@ try {
         <?php if ($showDeleteAlert): ?>
             Swal.fire({
                 title: 'Success!',
-                text: '<?php echo $alertTable; ?> deleted permanently.',
+                text: '<?php echo htmlspecialchars($alertTable); ?> deleted permanently.',
                 icon: 'success',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK'
@@ -243,6 +307,23 @@ try {
                 }
             });
         <?php endif; ?>
+
+        function confirmRestore(id, table) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Restore archived ${table}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `?action=restore&id=${id}&table=${table}`;
+                }
+            });
+            return false;
+        }
 
         function confirmDelete(id, table) {
             Swal.fire({

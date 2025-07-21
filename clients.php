@@ -174,6 +174,14 @@ require_once './functions/clients-handler.php';
                             <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
                         <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700">Species</label>
+                            <select name="pet_species" id="petSpecies" class="w-full p-2 border rounded-md text-sm" required>
+                                <option value="">Select</option>
+                                <option value="Dog">Dog</option>
+                                <option value="Cat">Cat</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
                             <label class="block text-sm font-semibold text-gray-700">Pet Sex</label>
                             <select name="pet_sex" id="petSex" class="w-full p-2 border rounded-md text-sm" required>
                                 <option value="">Select</option>

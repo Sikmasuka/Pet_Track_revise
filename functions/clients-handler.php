@@ -32,11 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pet_weight = $_POST['pet_weight'] ?? '';
     $pet_breed = validateInput($_POST['pet_breed'] ?? '');
     $pet_birth_date = $_POST['pet_birth_date'] ?? '';
+    $pet_species = $_POST['pet_species'] ?? '';
 
     // Basic validation
     if (empty($client_name) || empty($client_address) || empty($client_contact)) {
         $error = "All client fields are required";
-    } elseif (empty($pet_name) || empty($pet_sex) || empty($pet_weight) || empty($pet_breed) || empty($pet_birth_date)) {
+    } elseif (empty($pet_name) || empty($pet_sex) || empty($pet_weight) || empty($pet_breed) || empty($pet_birth_date) || empty($pet_species)) {
         $error = "All pet fields are required";
     } else {
         try {
@@ -52,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $client_id = $pdo->lastInsertId();
 
                 // Insert new pet
-                $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, client_id) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $client_id]);
+                $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, pet_species, client_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_species, $client_id]);
 
                 // Log the add action
                 $actionType = 'add';
@@ -74,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute([$client_name, $client_address, $client_contact, $client_id]);
 
                 // Update pet
-                $stmt = $pdo->prepare("UPDATE Pet SET pet_name=?, pet_sex=?, pet_weight=?, pet_breed=?, pet_birth_date=? WHERE pet_id=? AND client_id=?");
+                $stmt = $pdo->prepare("UPDATE Pet SET pet_name=?, pet_sex=?, pet_weight=?, pet_breed=?, pet_birth_date=?, pet_species=? WHERE pet_id=? AND client_id=?");
                 $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_id, $client_id]);
 
                 // Log the update action
