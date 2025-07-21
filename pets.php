@@ -55,7 +55,7 @@ if (isset($_GET['edit_pet_id'])) {
 $stmt = $pdo->prepare("
     SELECT Pet.pet_id, Pet.pet_name, Pet.pet_sex, Pet.pet_weight, Pet.pet_breed, Pet.pet_birth_date, Client.client_name 
     FROM Pet 
-    JOIN Client ON Pet.client_id = Client.client_id 
+    JOIN Client ON Pet.client_id = Client.client_id WHERE Pet.pet_id = 1
     ORDER BY Pet.pet_name ASC
 ");
 $stmt->execute();

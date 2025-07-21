@@ -1,6 +1,6 @@
 <?php
 // archive-handler.php (or wherever archive functions are defined)
-require_once './db.php';
+require_once __DIR__ . "/../db.php";
 
 function archiveRecord($pdo, $table, $id, $idColumn)
 {
@@ -32,34 +32,43 @@ function archiveRecord($pdo, $table, $id, $idColumn)
 }
 
 // Include other functions (restoreRecord, deleteFromArchive) with similar transaction handling if needed
-function restoreRecord($pdo, $table, $archiveId, $idColumn)
+function restoreRecord($pdo, $id)
 {
     try {
-        $isNewTransaction = !$pdo->inTransaction();
-        if ($isNewTransaction) {
-            $pdo->beginTransaction();
-        }
+        $client_id = $id;
 
-        $stmt = $pdo->prepare("SELECT * FROM archive WHERE id = ? AND original_table = ?");
-        $stmt->execute([$archiveId, $table]);
-        $record = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$record) throw new Exception("Archived record not found");
-        $data = json_decode($record['data'], true);
-        if (!$data) throw new Exception("Data decode failed");
-        $columns = implode(',', array_keys($data));
-        $placeholders = implode(',', array_fill(0, count($data), '?'));
-        $pdo->prepare("INSERT INTO $table ($columns) VALUES ($placeholders)")->execute(array_values($data));
-        $pdo->prepare("DELETE FROM archive WHERE id = ?")->execute([$archiveId]);
+        // Fetch client name before update
+        $stmt = $pdo->prepare("SELECT client_name FROM client WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+        $client = $stmt->fetch(PDO::FETCH_ASSOC);
+        $client_name = $client['client_name'] ?? 'Unknown';
 
-        if ($isNewTransaction) {
-            $pdo->commit();
-        }
-        return true;
-    } catch (Exception $e) {
-        if ($isNewTransaction && $pdo->inTransaction()) {
+        // Begin transaction
+        $pdo->beginTransaction();
+
+        // ✅ Fix: Use client_id to archive all their pets
+        $stmt = $pdo->prepare("UPDATE pet SET status = 1 WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+
+        // Archive the client
+        $stmt = $pdo->prepare("UPDATE client SET status = 1 WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+
+        // Log the action
+        $actionType = 'restore';
+        $description = $_SESSION['username'] . " restored client '$client_name'";
+        logAction($pdo, $_SESSION['vet_id'], $actionType, $description, 'Admin');
+
+        // Commit transaction
+        $pdo->commit();
+
+        header('Location: clients.php?message=Client and associated pets restored successfully');
+        exit;
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        throw new Exception("Restore failed: " . $e->getMessage());
+        $error = "Database error: Cannot restore client and pets. " . $e->getMessage();
     }
 }
 

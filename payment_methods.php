@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 /**
  * Fetch all payments
  */
-$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN Payment_Methods m ON p.method_id = m.method_id ORDER BY p.date DESC");
+$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN Payment_Method m ON p.method_id = m.method_id ORDER BY p.date DESC");
 $payments = $stmt->fetchAll();
 ?>
 

@@ -101,26 +101,24 @@ if (isset($_GET['delete_client_id']) && is_numeric($_GET['delete_client_id'])) {
     try {
         $client_id = (int)$_GET['delete_client_id'];
 
-        // Begin transaction to ensure atomicity
-        $pdo->beginTransaction();
-
-        // Archive all pets associated with the client
-        $stmt = $pdo->prepare("SELECT pet_id FROM Pet WHERE client_id = ?");
-        $stmt->execute([$client_id]);
-        $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($pets as $pet) {
-            archiveRecord($pdo, 'Pet', $pet['pet_id'], 'pet_id');
-        }
-
-        // Archive the client
-        $stmt = $pdo->prepare("SELECT client_name FROM Client WHERE client_id = ?");
+        // Fetch client name before update
+        $stmt = $pdo->prepare("SELECT client_name FROM client WHERE client_id = ?");
         $stmt->execute([$client_id]);
         $client = $stmt->fetch(PDO::FETCH_ASSOC);
         $client_name = $client['client_name'] ?? 'Unknown';
 
-        archiveRecord($pdo, 'Client', $client_id, 'client_id');
+        // Begin transaction
+        $pdo->beginTransaction();
 
-        // Log the archive action
+        // ✅ Fix: Use client_id to archive all their pets
+        $stmt = $pdo->prepare("UPDATE pet SET status = 0 WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+
+        // Archive the client
+        $stmt = $pdo->prepare("UPDATE client SET status = 0 WHERE client_id = ?");
+        $stmt->execute([$client_id]);
+
+        // Log the action
         $actionType = 'delete';
         $description = $_SESSION['username'] . " archived client '$client_name'";
         logAction($pdo, $_SESSION['vet_id'], $actionType, $description, 'Admin');
@@ -131,13 +129,14 @@ if (isset($_GET['delete_client_id']) && is_numeric($_GET['delete_client_id'])) {
         header('Location: clients.php?message=Client and associated pets archived successfully');
         exit;
     } catch (PDOException $e) {
-        // Roll back transaction on error
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        $error = "Database error: Cannot archive client and pets, possibly due to associated records. " . $e->getMessage();
+        $error = "Database error: Cannot archive client and pets. " . $e->getMessage();
     }
 }
+
+
 
 /**
  * Fetch client data for editing
@@ -183,7 +182,7 @@ $error = $error ?? $editData['error'];
  * Fetch all clients
  */
 try {
-    $stmt = $pdo->prepare("SELECT * FROM Client ORDER BY client_name ASC");
+    $stmt = $pdo->prepare("SELECT * FROM Client WHERE status = 1 ORDER BY client_name ASC");
     $stmt->execute();
     $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {

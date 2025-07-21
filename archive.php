@@ -1,25 +1,23 @@
 <?php
-require_once 'C:/xampp/htdocs/Pet_Track_revise-2/functions/archive-handler.php';
+require_once __DIR__ . "/functions/archive-handler.php";
 require_once 'C:/xampp/htdocs/Pet_Track_revise-2/functions/dashboard-handler.php';
 
-// Initialize archived data
-$archived = ['Pet' => [], 'Client' => [], 'medical_records' => []];
 $showRestoreAlert = false;
 $showDeleteAlert = false;
 $alertTable = '';
+
 try {
-    $tables = [
-        'Pet' => ['id' => 'pet_id', 'fields' => ['pet_name', 'pet_breed', 'pet_species', 'client_id']],
-        'Client' => ['id' => 'client_id', 'fields' => ['client_name', 'client_address', 'client_contact_number']],
-        'medical_records' => ['id' => 'medical_record_id', 'fields' => ['diagnosis', 'treatment', 'record_date']]
-    ];
+    $stmt = $pdo->prepare("SELECT * FROM client c JOIN pet a ON a.pet_id = c.client_id WHERE c.status = 0");
+    $stmt->execute();
+    $clients = [];
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $clients[$row['client_id']] = $row;
+    }
 
     if (isset($_GET['action'], $_GET['id'], $_GET['table'])) {
         $id = (int)$_GET['id'];
-        $table = $_GET['table'];
-        if (!isset($tables[$table])) throw new Exception("Invalid table");
         if ($_GET['action'] == 'restore') {
-            if (restoreRecord($pdo, $table, $id, $tables[$table]['id'])) {
+            if (restoreRecord($pdo, $id)) {
                 $showRestoreAlert = true;
                 $alertTable = $table;
             }
@@ -30,28 +28,12 @@ try {
             }
         }
     }
-
-    foreach ($tables as $table => $config) {
-        $stmt = $pdo->prepare("SELECT * FROM archive WHERE original_table = ? ORDER BY deleted_at DESC");
-        $stmt->execute([$table]);
-        $archived[$table] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
 
+
 // Create a client lookup array for quick matching
-$clients = [];
-foreach ($archived['Client'] as $clientRecord) {
-    $clientData = json_decode($clientRecord['data'], true);
-    $clients[$clientData['client_id']] = [
-        'id' => $clientRecord['id'],
-        'name' => $clientData['client_name'] ?? 'N/A',
-        'address' => $clientData['client_address'] ?? 'N/A',
-        'contact' => $clientData['client_contact_number'] ?? 'N/A',
-        'deleted_at' => $clientRecord['deleted_at']
-    ];
-}
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +128,7 @@ foreach ($archived['Client'] as $clientRecord) {
 
             <div class="mb-8">
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Pets and Clients</h2>
-                <?php if (count($archived['Pet']) > 0): ?>
+                <?php if (count($clients) > 0): ?>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -163,33 +145,32 @@ foreach ($archived['Client'] as $clientRecord) {
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <?php foreach ($archived['Pet'] as $petRecord):
-                                    $petData = json_decode($petRecord['data'], true);
-                                    $clientId = $petData['client_id'] ?? null;
-                                    $client = $clientId ? $clients[$clientId] ?? null : null;
+                                <?php foreach ($clients as $client):
+                                    $petData = json_decode($client['data'] ?? '{}', true);
                                 ?>
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['name'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_name'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_species'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petData['pet_weight'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($petData['pet_breed']) : 'N/A' ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['address']) : 'N/A' ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= $client ? htmlspecialchars($client['contact']) : 'N/A' ?></td>
-                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($petRecord['deleted_at']) ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_name'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_name'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_species'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_weight'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['pet_breed'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_address'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['deleted_at'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm">
-                                            <a href="?action=restore&id=<?= $petRecord['id'] ?>&table=Pet" class="text-blue-500 hover:underline">Restore</a> |
-                                            <a href="?action=delete&id=<?= $petRecord['id'] ?>&table=Pet" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $petRecord['id'] ?>, 'Pet')">Delete</a>
+                                            <a href="?action=restore&id=<?= $client['client_id'] ?>&table=client" class="text-blue-500 hover:underline">Restore</a> |
+                                            <a href="?action=delete&id=<?= $client['client_id'] ?>&table=client" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $client['client_id'] ?>, 'client')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-
                 <?php else: ?>
-                    <p class="text-center text-gray-700 text-sm mb-4">No archived pets or clients</p>
+                    <p class="text-center text-gray-700 text-sm mb-4">No archived clients found.</p>
                 <?php endif; ?>
+
+
             </div>
             <div>
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Medical Records</h2>
