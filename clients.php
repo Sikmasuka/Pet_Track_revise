@@ -29,15 +29,17 @@ require_once './functions/clients-handler.php';
 </head>
 
 <body class="bg-gray-100 min-h-screen">
+
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+        <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
@@ -46,31 +48,42 @@ require_once './functions/clients-handler.php';
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i><span class="md:inline">Dashboard</span>
+        <nav class="mt-8 lg:mt-20">
+            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i>
+                <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-user mr-2"></i><span class="md:inline">Clients</span>
+            <a href="clients.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-user mr-2"></i>
+                <span class="md:inline">Clients</span>
             </a>
-            <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-paw mr-2"></i><span class="md:inline">Pets</span>
+            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-paw mr-2"></i>
+                <span class="md:inline">Pets</span>
             </a>
-            <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-file-medical mr-2"></i><span class="md:inline">Medical Records</span>
+            <a href="medical_records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-file-medical mr-2"></i>
+                <span class="md:inline">Medical Records</span>
             </a>
-            <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-id-badge mr-2"></i><span class="md:inline">Profile</span>
+            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-id-badge mr-2"></i>
+                <span class="md:inline">Profile</span>
             </a>
-            <a href="payment_methods.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-credit-card mr-2"></i><span class="md:inline">Payments</span>
+            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-credit-card mr-2"></i>
+                <span class="md:inline">Payments</span>
             </a>
-            <a href="archive.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fa-solid fa-box-archive"></i>
+            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i>
+                <span class="md:inline">Appointments</span>
+            </a>
+            <a href="archive.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i>
                 <span class="md:inline">Archive</span>
             </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i><span class="md:inline">Logout</span>
+            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                <span class="md:inline">Logout</span>
             </a>
         </nav>
     </div>
@@ -79,7 +92,7 @@ require_once './functions/clients-handler.php';
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Content -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
+    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
@@ -142,71 +155,74 @@ require_once './functions/clients-handler.php';
 
     <!-- Add/Edit Client & Pet Modal -->
     <div id="clientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-6xl">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl max-h-[70vh] overflow-hidden flex flex-col">
             <div class="w-full bg-green-500 rounded-t-lg text-white">
-                <h3 id="modalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center py-3">Add New Client & Pet</h3>
+                <h3 id="modalTitle" class="text-lg font-bold text-center py-2">Add New Client & Pet</h3>
             </div>
-            <form id="clientForm" method="POST" class="p-4 sm:p-6">
+            <form id="clientForm" method="POST" class="p-4 overflow-y-auto">
                 <input type="hidden" name="client_id" id="client_id">
                 <input type="hidden" name="pet_id" id="pet_id">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Client Information -->
                     <div>
-                        <h4 class="text-md font-bold text-gray-700 mb-2">Client Information</h4>
-                        <div class="mb-4">
-                            <label class="block text-sm text-gray-700">Client Name</label>
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Client Information</h4>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Client Name</label>
                             <input type="text" name="client_name" id="clientName" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm text-gray-700">Address</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Address</label>
                             <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm text-gray-700">Contact Number</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Contact Number</label>
                             <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border rounded-md text-sm" required pattern="[0-9]{10,}">
                         </div>
                     </div>
+
                     <!-- Pet Information -->
                     <div>
-                        <h4 class="text-md font-bold text-gray-700 mb-2">Pet Information</h4>
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700">Pet Name</label>
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Pet Information</h4>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Pet Name</label>
                             <input type="text" name="pet_name" id="petName" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700">Species</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Species</label>
                             <select name="pet_species" id="petSpecies" class="w-full p-2 border rounded-md text-sm" required>
                                 <option value="">Select</option>
                                 <option value="Dog">Dog</option>
                                 <option value="Cat">Cat</option>
                             </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700">Pet Sex</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Pet Sex</label>
                             <select name="pet_sex" id="petSex" class="w-full p-2 border rounded-md text-sm" required>
                                 <option value="">Select</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700">Pet Breed</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Pet Breed</label>
                             <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700">Pet Weight (kg)</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Pet Weight (kg)</label>
                             <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700">Birth Date</label>
+                        <div class="mb-3">
+                            <label class="block text-xs text-gray-600 mb-1">Birth Date</label>
                             <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border rounded-md text-sm" required>
                         </div>
                     </div>
                 </div>
+
                 <!-- Action Buttons -->
-                <div class="flex justify-between mt-6">
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base">Save</button>
-                    <button type="button" onclick="hideModal()" class="text-gray-500 text-sm sm:text-base">Cancel</button>
+                <div class="flex justify-between mt-4 pt-2 border-t">
+                    <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 text-sm">Save</button>
+                    <button type="button" onclick="hideModal()" class="text-gray-500 text-sm">Cancel</button>
                 </div>
                 <input type="hidden" name="add_client" id="formAction" value="1">
             </form>

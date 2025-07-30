@@ -23,50 +23,54 @@ require_once 'functions/profile-handler.php';
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 overflow-y-auto">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
         <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold flex items-center gap-2">
-                <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8 flex-shrink-0">
-                <span class="truncate">Dashboard</span>
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+                <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
+                <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden text-white hover:text-gray-300 duration-200 p-1">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-36 space-y-2">
-            <a href="dashboard.php" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fas fa-tachometer-alt mr-3 w-5 text-center"></i>
-                <span class="truncate">Dashboard</span>
+        <nav class="mt-8 lg:mt-20">
+            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i>
+                <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fas fa-user mr-3 w-5 text-center"></i>
-                <span class="truncate">Clients</span>
+            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-user mr-2"></i>
+                <span class="md:inline">Clients</span>
             </a>
-            <a href="pets.php" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fas fa-paw mr-3 w-5 text-center"></i>
-                <span class="truncate">Pets</span>
+            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-paw mr-2"></i>
+                <span class="md:inline">Pets</span>
             </a>
-            <a href="medical_records.php" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fas fa-file-medical mr-3 w-5 text-center"></i>
-                <span class="truncate">Medical Records</span>
+            <a href="medical_records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-file-medical mr-2"></i>
+                <span class="md:inline">Medical Records</span>
             </a>
-            <a href="profile.php" class="flex items-center text-sm lg:text-lg text-white bg-green-600 px-4 py-3 rounded-md">
-                <i class="fas fa-id-badge mr-3 w-5 text-center"></i>
-                <span class="truncate">Profile</span>
+            <a href="profile.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-id-badge mr-2"></i>
+                <span class="md:inline">Profile</span>
             </a>
-            <a href="payment_methods.php" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fas fa-credit-card mr-3 w-5 text-center"></i>
-                <span class="truncate">Payments</span>
+            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-credit-card mr-2"></i>
+                <span class="md:inline">Payments</span>
             </a>
-            <a href="archive.php" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fa-solid fa-box-archive mr-3 w-5 text-center"></i>
-                <span class="truncate">Archive</span>
+            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i>
+                <span class="md:inline">Appointments</span>
             </a>
-            <a href="#" onclick="confirmLogout(event)" class="flex items-center text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-3 rounded-md transition-colors">
-                <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i>
-                <span class="truncate">Logout</span>
+            <a href="archive.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i>
+                <span class="md:inline">Archive</span>
+            </a>
+            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                <span class="md:inline">Logout</span>
             </a>
         </nav>
     </div>
@@ -75,7 +79,7 @@ require_once 'functions/profile-handler.php';
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Content -->
-    <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+    <div class="ml-0 lg:ml-52 p-4 pt-12 lg:pt-4 w-full">
         <!-- Header -->
         <header class="bg-white rounded-none lg:rounded-lg text-green-800 p-4 lg:py-6 p-4 mx-4 shadow-sm mb-4 lg:mb-8 px-4 lg:px-8 mt-16 lg:mt-4">
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-semibold flex items-center gap-2">

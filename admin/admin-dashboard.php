@@ -66,10 +66,11 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
-                <img src="../image/MainIconWhite.png" alt="Dashboard" class="w-8"> Dashboard
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+                <img src="../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
+                <span class="md:inline">Dashboard</span>
             </h2>
             <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
                 <i class="fas fa-times text-xl"></i>
@@ -77,17 +78,17 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <nav class="mt-8 lg:mt-36">
-            <a href="admin-dashboard.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="admin-dashboard.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 Dashboard
             </a>
-            <a href="admin.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="admin.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
-            <a href="records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fa-solid fa-file-lines mr-2"> </i> Records
             </a>
-            <a href="../index.php" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="../index.php" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -98,7 +99,7 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Dashboard Container -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
+    <div class="ml-0 lg:ml-48 p-4 pt-16 lg:pt-4">
         <!-- Header with Welcome and Metrics -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
             <!-- Top Header Row -->
@@ -110,14 +111,12 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Metrics Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <!-- Clients Card -->
-                <div class="bg-green-100 p-6 rounded-md h-full relative">
-                    <a href="clients.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-4 rounded-md h-full relative">
+                    <a href="clients.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1">
-                            <i class="fas fa-user mr-2 text-2xl"></i> Clients
-                        </h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-xl"></i> Clients</h3>
                         <p class="text-xl"><?= $clientCount ?></p>
                     </div>
                 </div>
@@ -136,40 +135,34 @@ $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <!-- Pets Card -->
-                <div class="bg-green-100 p-6 rounded-md h-full relative">
-                    <a href="pets.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-4 rounded-md relative">
+                    <a href="pets.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1">
-                            <i class="fas fa-paw mr-2 text-2xl"></i> Pets
-                        </h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-xl"></i> Pets</h3>
                         <p class="text-xl"><?= $petCount ?></p>
                     </div>
                 </div>
 
                 <!-- Medical Records Card -->
-                <div class="bg-green-100 p-6 rounded-md h-full relative">
-                    <a href="medical_records.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-4 rounded-md relative">
+                    <a href="medical_records.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1">
-                            <i class="fas fa-file-medical mr-2 text-2xl"></i> Medical Records
-                        </h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-xl"></i> Medical Records</h3>
                         <p class="text-xl"><?= $recordCount ?></p>
                     </div>
                 </div>
 
                 <!-- Total Payments Card -->
-                <div class="bg-green-100 p-6 rounded-md h-full relative">
-                    <a href="payments.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-5 rounded-md relative">
+                    <a href="payment_methods.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1">
-                            <i class="fa-solid fa-money-bill-wave mr-2 text-2xl"></i> Total Payments
-                        </h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-xl"></i> Total Payments</h3>
                         <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
                     </div>
                 </div>

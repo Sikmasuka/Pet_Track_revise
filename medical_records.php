@@ -79,10 +79,10 @@ $records = $stmt->fetchAll();
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
         <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
@@ -91,36 +91,40 @@ $records = $stmt->fetchAll();
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+        <nav class="mt-8 lg:mt-20">
+            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-user mr-2"></i>
                 <span class="md:inline">Clients</span>
             </a>
-            <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-paw mr-2"></i>
                 <span class="md:inline">Pets</span>
             </a>
-            <a href="medical_records.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="medical_records.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-file-medical mr-2"></i>
                 <span class="md:inline">Medical Records</span>
             </a>
-            <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-id-badge mr-2"></i>
                 <span class="md:inline">Profile</span>
             </a>
-            <a href="payment_methods.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
-            <a href="archive.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fa-solid fa-box-archive"></i>
+            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i>
+                <span class="md:inline">Appointments</span>
+            </a>
+            <a href="archive.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i>
                 <span class="md:inline">Archive</span>
             </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -131,26 +135,21 @@ $records = $stmt->fetchAll();
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Content -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4 min-h-screen w-full">
-        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-8">
-            <div class="flex justify-between items-center">
-                <h1 class="lg:text-2xl md:text-xl sm:text-lg text-md font-bold">
+    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4 w-full">
+
+        <!-- header -->
+        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
                     Hello,
                     <?php
                     $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id=?");
                     $stmt->execute([$_SESSION['vet_id']]);
                     $user = $stmt->fetch();
-
-                    if ($user) {
-                        echo htmlspecialchars($user['vet_name']);
-                    } else {
-                        echo "Veterinarian not found.";
-                    }
+                    echo $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found.";
                     ?>.
                 </h1>
-                <h1 class="lg:text-2xl md:text-2xl text-xl font-bold">
-                    Manage Medical Records
-                </h1>
+                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">Manage Medical Records</h1>
             </div>
         </header>
 
@@ -203,19 +202,18 @@ $records = $stmt->fetchAll();
     </div>
 
     <!-- Add/Edit Medical Record Modal -->
-    <div id="recordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center sm:p-5">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-[600px]">
+    <div id="recordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center p-2.5 sm:p-5">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-[500px] md:max-w-[600px] lg:max-w-[700px]">
             <div class="w-full bg-green-500 rounded-t-lg text-white py-3">
                 <h3 id="recordModalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Add New Medical Record</h3>
             </div>
 
-            <form id="recordForm" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+            <form id="recordForm" method="POST" class="grid grid-cols-1 gap-4 p-5 max-h-[calc(50vh-2rem)] sm:max-h-[calc(60vh-2rem)] md:max-h-[calc(70vh-2rem)] overflow-y-auto">
                 <input type="hidden" name="record_id" id="record_id">
-                <div class="mb-4">
+                <div class="mb-2.5">
                     <label class="block text-sm text-gray-700">Pet</label>
                     <select name="pet_id" id="petId" class="w-full p-2 border rounded-md" required>
                         <?php
-                        // Get all pets
                         $stmt = $pdo->prepare("SELECT * FROM Pet ORDER BY pet_name ASC");
                         $stmt->execute();
                         $pets = $stmt->fetchAll();
@@ -225,23 +223,23 @@ $records = $stmt->fetchAll();
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="mb-4">
+                <div class="mb-2.5">
                     <label class="block text-sm text-gray-700">Date</label>
                     <input type="date" name="date" id="recordDate" class="w-full p-2 border rounded-md" required>
                 </div>
-                <div class="mb-4">
+                <div class="mb-2.5 col-span-2">
                     <label class="block text-sm text-gray-700">Condition</label>
                     <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border rounded-md" required></textarea>
                 </div>
-                <div class="mb-4">
+                <div class="mb-2.5 col-span-2">
                     <label class="block text-sm text-gray-700">Diagnosis</label>
                     <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border rounded-md" required></textarea>
                 </div>
-                <div class="mb-4">
+                <div class="mb-2.5 col-span-2">
                     <label class="block text-sm text-gray-700">Symptoms</label>
                     <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border rounded-md" required></textarea>
                 </div>
-                <div class="mb-4">
+                <div class="mb-2.5 col-span-2">
                     <label class="block text-sm text-gray-700">Treatment</label>
                     <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border rounded-md" required></textarea>
                 </div>
@@ -252,6 +250,13 @@ $records = $stmt->fetchAll();
             </div>
         </div>
     </div>
+
+    <script>
+        function hideRecordModal() {
+            document.getElementById('recordModal').classList.add('hidden');
+        }
+        // Add showRecordModal() if needed: document.getElementById('recordModal').classList.remove('hidden');
+    </script>
 
     <script>
         // Show modal for add or edit record

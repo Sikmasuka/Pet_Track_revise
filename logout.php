@@ -24,7 +24,7 @@ session_destroy();
 echo "Session destroyed.<br>";
 
 // Redirect to the login page with full URL
-$redirectUrl = "http://localhost/Pet_Track_revise-2/index.php";
+$redirectUrl = "http://localhost/Pet_Track_revise-3/index.php";
 echo "Redirecting to: " . $redirectUrl . "<br>";
 header('Location: ' . $redirectUrl);
 ob_end_flush(); // Flush output buffer

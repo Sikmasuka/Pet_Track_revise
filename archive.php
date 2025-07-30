@@ -95,10 +95,10 @@ try {
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
         <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
@@ -107,36 +107,40 @@ try {
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+        <nav class="mt-8 lg:mt-20">
+            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-user mr-2"></i>
                 <span class="md:inline">Clients</span>
             </a>
-            <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-paw mr-2"></i>
                 <span class="md:inline">Pets</span>
             </a>
-            <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="medical_records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-file-medical mr-2"></i>
                 <span class="md:inline">Medical Records</span>
             </a>
-            <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-id-badge mr-2"></i>
                 <span class="md:inline">Profile</span>
             </a>
-            <a href="payment_methods.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
-            <a href="archive.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fa-solid fa-box-archive"></i>
+            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i>
+                <span class="md:inline">Appointments</span>
+            </a>
+            <a href="archive.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i>
                 <span class="md:inline">Archive</span>
             </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -147,7 +151,8 @@ try {
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Container -->
-    <div class="ml-0 lg:ml-64 p-4 lg:p-8 pt-16 lg:pt-4">
+    <div class="ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
+
         <!-- Header -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
             <!-- Top Greeting -->
@@ -158,7 +163,7 @@ try {
         </header>
 
         <!-- Main Content -->
-        <main class="bg-white p-4 lg:p-6 rounded-lg shadow-sm">
+        <main>
             <?php if (isset($message)): ?>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"><?= htmlspecialchars($message) ?></div>
             <?php endif; ?>
@@ -166,7 +171,7 @@ try {
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
-            <div class="mb-8">
+            <div class="mb-8 bg-white p-4 lg:p-6 rounded-lg shadow-sm">
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Pets and Clients</h2>
                 <?php if (count($clients) > 0): ?>
                     <div class="overflow-x-auto">
@@ -237,7 +242,7 @@ try {
                 <?php endif; ?>
             </div>
 
-            <div>
+            <div class="mb-8 bg-white p-4 lg:p-6 rounded-lg shadow-sm">
                 <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Medical Records</h2>
                 <?php if (count($medical_records) > 0): ?>
                     <div class="overflow-x-auto">

@@ -53,22 +53,6 @@ $payments = $stmt->fetchAll();
             transform: translateX(0);
         }
 
-        /* Fix main content overflow */
-        .main-content {
-            width: calc(100% - 0px);
-            /* Full width on mobile */
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        @media (min-width: 1024px) {
-            .main-content {
-                width: calc(100% - 256px);
-                /* Subtract sidebar width on desktop */
-                margin-left: 256px;
-            }
-        }
-
         /* Table container fixes */
         .table-container {
             overflow-x: auto;
@@ -81,16 +65,6 @@ $payments = $stmt->fetchAll();
             min-width: 600px;
             /* Minimum width for proper table display */
             width: 100%;
-        }
-
-        /* Mobile adjustments */
-        @media (max-width: 1023px) {
-            .main-content {
-                padding-left: 1rem;
-                padding-right: 1rem;
-                padding-top: 5rem;
-                margin-left: 0;
-            }
         }
 
         /* Ensure mobile menu button doesn't interfere */
@@ -112,9 +86,10 @@ $payments = $stmt->fetchAll();
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+        <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl lg:text-3xl font-semibold mb-6 flex items-center gap-2">
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
@@ -122,31 +97,43 @@ $payments = $stmt->fetchAll();
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-        <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i><span class="md:inline">Dashboard</span>
+
+        <nav class="mt-8 lg:mt-20">
+            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i>
+                <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-user mr-2"></i><span class="md:inline">Clients</span>
+            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-user mr-2"></i>
+                <span class="md:inline">Clients</span>
             </a>
-            <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-paw mr-2"></i><span class="md:inline">Pets</span>
+            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-paw mr-2"></i>
+                <span class="md:inline">Pets</span>
             </a>
-            <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-file-medical mr-2"></i><span class="md:inline">Medical Records</span>
+            <a href="medical_records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-file-medical mr-2"></i>
+                <span class="md:inline">Medical Records</span>
             </a>
-            <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-id-badge mr-2"></i><span class="md:inline">Profile</span>
+            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-id-badge mr-2"></i>
+                <span class="md:inline">Profile</span>
             </a>
-            <a href="payment_methods.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-credit-card mr-2"></i><span class="md:inline">Payments</span>
+            <a href="payment_methods.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-credit-card mr-2"></i>
+                <span class="md:inline">Payments</span>
             </a>
-            <a href="archive.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fa-solid fa-box-archive"></i>
+            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i>
+                <span class="md:inline">Appointments</span>
+            </a>
+            <a href="archive.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i>
                 <span class="md:inline">Archive</span>
             </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i><span class="md:inline">Logout</span>
+            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                <span class="md:inline">Logout</span>
             </a>
         </nav>
     </div>
@@ -155,7 +142,7 @@ $payments = $stmt->fetchAll();
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Content -->
-    <div class="main-content min-h-screen p-4 lg:p-8 pt-20 lg:pt-4">
+    <div class="main-content ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
@@ -178,11 +165,11 @@ $payments = $stmt->fetchAll();
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-green-800 mb-4">Payment History</h2>
                     <!-- Record Payment Button -->
-                    <button onclick="showPaymentModal()" class="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 text-sm sm:text-base transition-colors duration-200">
+                    <button onclick="showPaymentModal()" class="bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-600 text-sm sm:text-base transition-colors duration-200">
                         <i class="fas fa-plus mr-2"></i>Record Payment
                     </button>
                 </div>
-                <div class="table-container bg-white rounded-lg shadow-sm overflow-hidden mb-4">
+                <div class="table-container bg-white rounded-lg shadow-sm mb-4">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 sticky top-0 z-5">
                             <tr class="border-b bg-gray-200">
@@ -229,18 +216,20 @@ $payments = $stmt->fetchAll();
 
     <!-- Payment Modal -->
     <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md sm:max-w-lg max-h-screen overflow-y-auto">
-            <div class="bg-green-500 rounded-t-lg text-white px-6 py-4">
-                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold">Record Payment</h3>
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] flex flex-col">
+            <div class="bg-green-500 rounded-t-lg text-white px-4 py-3">
+                <h3 class="text-lg font-bold">Record Payment</h3>
             </div>
-            <form method="POST" class="p-6">
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Client Name</label>
-                    <input type="text" name="client_name" required class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            <form method="POST" class="p-4 overflow-y-auto">
+                <div class="mb-3">
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Client Name</label>
+                    <input type="text" name="client_name" required
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Payment Method</label>
-                    <select name="method_id" required class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <div class="mb-3">
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Payment Method</label>
+                    <select name="method_id" required
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
                         <option value="">Select Payment Method</option>
                         <?php
                         $stmt = $pdo->query("SELECT * FROM Payment_Methods ORDER BY method_name ASC");
@@ -250,24 +239,28 @@ $payments = $stmt->fetchAll();
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Amount (₱)</label>
+                    <input type="number" name="amount" min="0" step="0.01" required
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
+                </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Amount (₱)</label>
-                    <input type="number" name="amount" min="0" step="0.01" required class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Description</label>
+                    <textarea name="description"
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                        rows="2" placeholder="Enter payment description..."></textarea>
                 </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
-                    <textarea name="description" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" rows="3" placeholder="Enter payment description..."></textarea>
-                </div>
-                <div class="flex justify-end gap-4">
-                    <button type="button" onclick="hidePaymentModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
-                    <button type="submit" name="record_payment" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <div class="flex justify-end gap-3 pt-3 border-t">
+                    <button type="button" onclick="hidePaymentModal()"
+                        class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">Cancel</button>
+                    <button type="submit" name="record_payment"
+                        class="bg-green-500 text-white px-4 py-1 text-sm rounded-md hover:bg-green-600 focus:outline-none focus:ring-1 focus:ring-green-500">
                         Save Payment
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
     <!-- Print Logic -->
     <iframe id="receiptFrame" class="hidden"></iframe>
 

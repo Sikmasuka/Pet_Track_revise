@@ -33,10 +33,10 @@
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
         <!-- Close button for mobile -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl lg:text-3xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
@@ -45,36 +45,40 @@
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-36">
-            <a href="dashboard.php" class="block text-sm lg:text-lg text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+        <nav class="mt-8 lg:mt-20">
+            <a href="dashboard.php" class="block text-md lg:text-sm text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-tachometer-alt mr-2"></i>
                 <span class="md:inline">Dashboard</span>
             </a>
-            <a href="clients.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-user mr-2"></i>
                 <span class="md:inline">Clients</span>
             </a>
-            <a href="pets.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-paw mr-2"></i>
                 <span class="md:inline">Pets</span>
             </a>
-            <a href="medical_records.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="medical_records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-file-medical mr-2"></i>
                 <span class="md:inline">Medical Records</span>
             </a>
-            <a href="profile.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-id-badge mr-2"></i>
                 <span class="md:inline">Profile</span>
             </a>
-            <a href="payment_methods.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-credit-card mr-2"></i>
                 <span class="md:inline">Payments</span>
             </a>
-            <a href="archive.php" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fa-solid fa-box-archive"></i>
+            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i>
+                <span class="md:inline">Appointments</span>
+            </a>
+            <a href="archive.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i>
                 <span class="md:inline">Archive</span>
             </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-sm lg:text-lg text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 <span class="md:inline">Logout</span>
             </a>
@@ -85,9 +89,9 @@
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Dashboard Container -->
-    <div class="ml-0 lg:ml-64 p-4 pt-16 lg:pt-4">
+    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
         <!-- Header with Welcome and Metrics -->
-        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
+        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-6">
             <!-- Top Greeting -->
             <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
                 <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= $vetName ?>.</h1>
@@ -97,45 +101,45 @@
             <!-- Metrics Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                 <!-- Clients Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="clients.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-4 rounded-md h-full relative">
+                    <a href="clients.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-2xl"></i> Clients</h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-xl"></i> Clients</h3>
                         <p class="text-xl"><?= $clientCount ?></p>
                     </div>
                 </div>
 
                 <!-- Pets Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="pets.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-4 rounded-md relative">
+                    <a href="pets.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-2xl"></i> Pets</h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-xl"></i> Pets</h3>
                         <p class="text-xl"><?= $petCount ?></p>
                     </div>
                 </div>
 
                 <!-- Medical Records Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="medical_records.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-4 rounded-md relative">
+                    <a href="medical_records.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-2xl"></i> Medical Records</h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-xl"></i> Medical Records</h3>
                         <p class="text-xl"><?= $recordCount ?></p>
                     </div>
                 </div>
 
                 <!-- Total Payments Card -->
-                <div class="bg-green-100 p-8 rounded-md relative">
-                    <a href="payment_methods.php" class="absolute top-2 right-2 text-green-600 hover:text-green-800">
+                <div class="bg-green-100 p-5 rounded-md relative">
+                    <a href="payment_methods.php" class="absolute top-1 right-2 text-green-600 hover:text-green-800">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center">
-                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-2xl"></i> Total Payments</h3>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-xl"></i> Total Payments</h3>
                         <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
                     </div>
                 </div>

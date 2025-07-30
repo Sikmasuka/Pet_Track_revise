@@ -13,9 +13,9 @@ function confirmLogout(event) {
   }).then((result) => {
     if (result.isConfirmed) {
       console.log(
-        "Attempting redirect to: http://localhost/Pet_Track_revise-2/logout.php"
+        "Attempting redirect to: http://localhost/Pet_Track_revise-3/logout.php"
       );
-      window.location.href = "http://localhost/Pet_Track_revise-2/logout.php";
+      window.location.href = "http://localhost/Pet_Track_revise-3/logout.php";
       // Fallback relative path (if full URL fails)
       // window.location.href = "../logout.php";
     }
