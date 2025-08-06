@@ -2,6 +2,14 @@
 require_once __DIR__ . "/functions/archive-handler.php";
 require_once __DIR__ . "/functions/dashboard-handler.php";
 
+if (!isset($_SESSION['vet_id'])) {
+    header('Location: index.php');
+    exit;
+}
+
+// Get vet name using the function from archive-handler.php
+$vetName = getVetName($pdo, $_SESSION['vet_id']);
+
 $showRestoreAlert = false;
 $showDeleteAlert = false;
 $alertTable = '';
@@ -95,57 +103,55 @@ try {
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
-        <!-- Close button for mobile -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col">
+
+        <!-- Sidebar Header -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
+            <!-- Close button (mobile only) -->
             <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-20">
-            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i>
-                <span class="md:inline">Dashboard</span>
+        <!-- Sidebar Navigation -->
+        <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
+            <a href="dashboard.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-user mr-2"></i>
-                <span class="md:inline">Clients</span>
+            <a href="clients.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-paw mr-2"></i>
-                <span class="md:inline">Pets</span>
+            <a href="pets.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-file-medical mr-2"></i>
-                <span class="md:inline">Medical Records</span>
+            <a href="medical_records.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-id-badge mr-2"></i>
-                <span class="md:inline">Profile</span>
+            <a href="profile.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-id-badge mr-2"></i> Profile
             </a>
-            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-credit-card mr-2"></i>
-                <span class="md:inline">Payments</span>
+            <a href="payment_methods.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-calendar-days mr-2"></i>
-                <span class="md:inline">Appointments</span>
+            <a href="appointments.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fa-solid fa-box-archive mr-2"></i>
-                <span class="md:inline">Archive</span>
-            </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span class="md:inline">Logout</span>
+            <a href="archive.php" class="block text-sm text-white bg-green-600 px-4 py-2 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
         </nav>
-    </div>
+
+        <!-- Logout -->
+        <div class="pt-4">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:text-red-700 px-4 py-2 rounded-md">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </div>
+    </aside>
 
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>

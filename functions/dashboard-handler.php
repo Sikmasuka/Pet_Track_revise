@@ -1,7 +1,10 @@
 <?php
 session_start();
 require_once './db.php';
+require_once 'auth.php'; // Include auth.php
 
+// Protect vet pages
+requireVet();
 // Check login
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');

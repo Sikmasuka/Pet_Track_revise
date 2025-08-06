@@ -1,3 +1,4 @@
+<!-- Landing Page -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +37,21 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
+        .appointment-indicator.full-day {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #dc3545;
+        }
+
+        #calendarDays div {
+            position: relative;
+            padding: 4px;
+        }
+
         @media (max-width: 768px) {
             .hero-image {
                 position: static;
@@ -67,21 +83,39 @@
 
             <div class="flex items-center gap-10">
                 <nav class="nav-links flex items-center gap-6">
-                    <a class="text-white font-semibold hover:underline duration-200" href="#">Home</a>
-                    <a class="text-white font-semibold hover:underline duration-200" href="#about">About</a>
-                    <a class="text-white font-semibold hover:underline duration-200" href="#services">Services</a>
-                    <a class="text-white font-semibold hover:underline duration-200" href="#">Contact Us</a>
+                    <a class="text-white font-semibold relative group" href="#">
+                        <span class="group-hover:opacity-80 transition-opacity duration-200">Home</span>
+                        <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a class="text-white font-semibold relative group" href="#about">
+                        <span class="group-hover:opacity-80 transition-opacity duration-200">About</span>
+                        <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a class="text-white font-semibold relative group" href="#services">
+                        <span class="group-hover:opacity-80 transition-opacity duration-200">Services</span>
+                        <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a class="text-white font-semibold relative group" href="#">
+                        <span class="group-hover:opacity-80 transition-opacity duration-200">Contact Us</span>
+                        <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                 </nav>
 
-                <button onclick="openModal()" class="bg-[#1DCD9F] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#18b98e] transition duration-200">
+                <button onclick="openModal()" class="bg-[#1DCD9F] text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-300 transform hover:bg-[#17b38a] hover:scale-105 hover:shadow-lg">
                     Appointment
                 </button>
             </div>
         </div>
     </header>
 
+
     <!-- Hero Section -->
-    <main class="min-h-screen w-full px-6 md:px-20 py-16 hero-section flex items-center justify-between">
+    <main class="relative min-h-screen w-full px-6 md:px-20 py-16 hero-section flex items-center justify-between bg-cover bg-center" style="background-image: url('./image/HeroBanner.png');">
+
+        <!-- Overlay to darken the background -->
+        <div class="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
+
+        <!-- Main Content -->
         <div class="max-w-2xl space-y-6 z-10">
             <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">Welcome to PetTrack</h1>
             <p class="text-xl md:text-2xl text-white leading-relaxed opacity-90">
@@ -91,13 +125,17 @@
                 Appoint Now!
             </button>
         </div>
-        <div class="hero-image md:block">
-            <img src="./image/dog-cat.png" alt="Cat and Dog" class="w-full md:max-w-2xl" />
+
+        <!-- Right-side Image -->
+        <div class="hero-image md:block z-10">
+            <img src="./image/dog-cat.png" alt="Cat and Dog" class="w-full md:max-w-2xl brightness-75" />
         </div>
+
     </main>
 
+
     <!-- About Section -->
-    <section id="about" class="bg-white mx-4 rounded-2xl shadow-lg">
+    <section id="about" class="bg-white mx-4 rounded-2xl shadow-lg mt-[-20px] z-50">
         <div class="container mx-auto px-6 py-24">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6">
@@ -176,7 +214,7 @@
     <!-- Appointment Modal -->
     <div id="appointmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
         <div class="bg-white w-full max-w-md mx-4 h-[90vh] rounded-xl shadow-lg flex flex-col" tabindex="-1">
-            <!-- Modal Headerរន -->
+            <!-- Modal Header -->
             <div class="bg-[#169976] px-6 py-4 rounded-t-xl sticky top-0 z-10 flex justify-between items-center">
                 <h2 id="modalTitle" class="text-xl font-semibold text-white text-center">Book an Appointment</h2>
                 <button type="button" onclick="closeModal()" class="text-white hover:text-gray-200 focus:outline-none" aria-label="Close modal">
@@ -185,7 +223,7 @@
             </div>
 
             <!-- Modal Body -->
-            <form method="POST" action="./functions/appointment-handler.php" class="p-6 space-y-4 overflow-y-auto flex-1">
+            <form id="appointmentForm" method="POST" action="./functions/appointment-handler.php" class="p-6 space-y-4 overflow-y-auto flex-1">
                 <!-- Name -->
                 <div>
                     <label for="owner" class="block text-sm font-medium text-gray-700">Owner Name</label>
@@ -250,176 +288,7 @@
     </footer>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function openModal() {
-            const modal = document.getElementById('appointmentModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Stop background scroll
-            renderCalendar();
-            setUpTimePicker(); // Add this line
-            checkTime(); // Validate time on modal open
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('appointmentModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = ''; // Restore background scroll
-        }
-
-        // Simple Calendar Logic
-        let currentDate = new Date();
-        currentDate.setDate(1); // Start of the current month
-
-        function renderCalendar() {
-            const calendarDays = document.getElementById('calendarDays');
-            const monthYear = document.getElementById('monthYear');
-            const selectedDateInput = document.getElementById('selectedDate');
-
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Reset time for comparison
-
-            // Set month and year display
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            monthYear.textContent = `${months[month]} ${year}`;
-
-            // Clear previous days
-            calendarDays.innerHTML = '';
-
-            // Add day names
-            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            daysOfWeek.forEach(day => {
-                const dayElement = document.createElement('div');
-                dayElement.textContent = day;
-                dayElement.className = 'text-gray-500 text-xs py-1';
-                calendarDays.appendChild(dayElement);
-            });
-
-            // Get first day of the month and total days
-            const firstDay = new Date(year, month, 1).getDay();
-            const lastDay = new Date(year, month + 1, 0).getDate();
-
-            // Fill the calendar
-            let dayCount = 1;
-            for (let i = 0; i < 6; i++) {
-                for (let j = 0; j < 7; j++) {
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'p-1 text-center text-sm';
-
-                    if (i === 0 && j < firstDay) {
-                        dayElement.className += ' text-transparent';
-                    } else if (dayCount <= lastDay) {
-                        dayElement.textContent = dayCount;
-
-                        const currentDay = new Date(year, month, dayCount);
-                        if (currentDay < today) {
-                            dayElement.className += ' text-gray-300 cursor-not-allowed';
-                        } else {
-                            dayElement.className += ' hover:bg-blue-100 rounded-full';
-                            dayElement.addEventListener('click', () => {
-                                selectedDateInput.value = currentDay.toISOString().split('T')[0];
-                                document.querySelectorAll('#calendarDays div').forEach(el => el.classList.remove('bg-blue-500', 'text-white'));
-                                dayElement.className += ' bg-blue-500 text-white';
-                            });
-                        }
-
-                        dayCount++;
-                    }
-
-                    calendarDays.appendChild(dayElement);
-                }
-                if (dayCount > lastDay) break;
-            }
-        }
-
-        // Navigation
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        });
-
-        // Initial render
-        renderCalendar();
-
-        // Time Picker Logic
-        function setUpTimePicker() {
-            const hourBox = document.getElementById('hour');
-            const minuteBox = document.getElementById('minute');
-            const periodBox = document.getElementById('period');
-            const timeInput = document.getElementById('selectedTime');
-
-            // Add hours (1 to 12)
-            for (let i = 1; i <= 12; i++) {
-                const choice = document.createElement('option');
-                choice.value = i < 10 ? `0${i}` : i;
-                choice.textContent = i < 10 ? `0${i}` : i;
-                hourBox.appendChild(choice);
-            }
-
-            // Add minutes (00, 15, 30, 45)
-            const mins = ['00', '15', '30', '45'];
-            mins.forEach(min => {
-                const choice = document.createElement('option');
-                choice.value = min;
-                choice.textContent = min;
-                minuteBox.appendChild(choice);
-            });
-
-            // Set starting time to 9:00 AM
-            hourBox.value = '09';
-            minuteBox.value = '00';
-            periodBox.value = 'AM';
-            updateTime();
-
-            // Change time when boxes are updated
-            [hourBox, minuteBox, periodBox].forEach(box => {
-                box.addEventListener('change', updateTime);
-            });
-
-            function updateTime() {
-                const hour = hourBox.value;
-                const minute = minuteBox.value;
-                const period = periodBox.value;
-                const time = `${hour}:${minute} ${period}`;
-                timeInput.value = time;
-            }
-        }
-
-        function checkTime() {
-            const timeInput = document.getElementById('time');
-            const errorMsg = document.getElementById('timeError');
-            const timeValue = timeInput.value;
-            const minTime = '08:00';
-            const maxTime = '18:00';
-
-            if (timeValue < minTime || timeValue > maxTime) {
-                errorMsg.classList.remove('hidden');
-                timeInput.classList.add('border-red-500');
-                return false;
-            } else {
-                errorMsg.classList.add('hidden');
-                timeInput.classList.remove('border-red-500');
-                return true;
-            }
-        }
-
-        document.getElementById('time').addEventListener('change', checkTime);
-
-        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
-            if (!checkTime()) {
-                e.preventDefault(); // Stop form submission if time is invalid
-            }
-        });
-
         <?php if (isset($_SESSION['success'])): ?>
             Swal.fire({
                 icon: 'success',
@@ -438,6 +307,9 @@
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
     </script>
+
+    <script src="./js/landing-page.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

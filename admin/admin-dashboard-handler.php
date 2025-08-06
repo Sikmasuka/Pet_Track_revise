@@ -2,7 +2,10 @@
 session_start();
 require_once '../db.php';
 require_once '../functions/logs.php';
+require_once '../functions/auth.php'; // Adjust path to auth.php (since this is in the admin folder)
 
+// Protect admin pages
+requireAdmin();
 // Check login
 if (!isset($_SESSION['admin_id'])) {
     header('Location: index.php');

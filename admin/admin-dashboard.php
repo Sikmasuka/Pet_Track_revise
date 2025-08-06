@@ -1,5 +1,7 @@
 <?php
 require_once '../admin/admin-dashboard-handler.php';
+require_once '../functions/auth.php';
+requireAdmin();
 
 // Pagination settings
 $itemsPerPage = 10; // Change this number as needed

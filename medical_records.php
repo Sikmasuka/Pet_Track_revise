@@ -8,22 +8,66 @@ if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
     exit;
 }
+// Fetch vet name for greeting
+$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id=?");
+$stmt->execute([$_SESSION['vet_id']]);
+$user = $stmt->fetch();
+$vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
+
 
 /**
  * Handle adding and updating medical records via POST requests
  */
+// Handle POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['add_record'])) {
-        // Add new medical record
-        $stmt = $pdo->prepare("INSERT INTO Medical_Records (pet_id, date, medical_condition, medical_diagnosis, medical_symptoms, medical_treatment) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$_POST['pet_id'], $_POST['date'], $_POST['medical_condition'], $_POST['medical_diagnosis'], $_POST['medical_symptoms'], $_POST['medical_treatment']]);
-        header('Location: medical_records.php');
+    try {
+        // Validate required fields
+        if (empty($_POST['pet_id']) || empty($_POST['date']) || empty($_POST['medical_condition']) || empty($_POST['medical_diagnosis']) || empty($_POST['medical_symptoms']) || empty($_POST['medical_treatment'])) {
+            throw new Exception("All fields are required.");
+        }
+
+        // Validate pet_id exists
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM Pet WHERE pet_id = ?");
+        $stmt->execute([$_POST['pet_id']]);
+        if ($stmt->fetchColumn() == 0) {
+            throw new Exception("Invalid pet_id: " . $_POST['pet_id']);
+        }
+
+        if (isset($_POST['add_record'])) {
+            $stmt = $pdo->prepare("INSERT INTO Medical_Records (pet_id, date, medical_condition, medical_diagnosis, medical_symptoms, medical_treatment, status, record_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $_POST['pet_id'],
+                $_POST['date'],
+                $_POST['medical_condition'],
+                $_POST['medical_diagnosis'],
+                $_POST['medical_symptoms'],
+                $_POST['medical_treatment'],
+                1, // Default status (matches table default)
+                $_POST['date'] // Use same date as 'date' field
+            ]);
+            header('Location: medical_records.php');
+            exit;
+        } elseif (isset($_POST['update_record'])) {
+            $stmt = $pdo->prepare("UPDATE Medical_Records SET pet_id = ?, date = ?, medical_condition = ?, medical_diagnosis = ?, medical_symptoms = ?, medical_treatment = ?, status = ?, record_date = ? WHERE record_id = ?");
+            $stmt->execute([
+                $_POST['pet_id'],
+                $_POST['date'],
+                $_POST['medical_condition'],
+                $_POST['medical_diagnosis'],
+                $_POST['medical_symptoms'],
+                $_POST['medical_treatment'],
+                1, // Default status (adjust if needed)
+                $_POST['date'],
+                $_POST['record_id']
+            ]);
+            header('Location: medical_records.php');
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Database Error: " . $e->getMessage();
         exit;
-    } elseif (isset($_POST['update_record'])) {
-        // Update existing medical record
-        $stmt = $pdo->prepare("UPDATE Medical_Records SET pet_id=?, date=?, medical_condition=?, medical_diagnosis=?, medical_symptoms=?, medical_treatment=? WHERE record_id=?");
-        $stmt->execute([$_POST['pet_id'], $_POST['date'], $_POST['medical_condition'], $_POST['medical_diagnosis'], $_POST['medical_symptoms'], $_POST['medical_treatment'], $_POST['record_id']]);
-        header('Location: medical_records.php');
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
         exit;
     }
 }
@@ -79,57 +123,55 @@ $records = $stmt->fetchAll();
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
-        <!-- Close button for mobile -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col">
+
+        <!-- Sidebar Header -->
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
+            <!-- Close button (mobile only) -->
             <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
-        <nav class="mt-8 lg:mt-20">
-            <a href="dashboard.php" class="block text-md lg:text-sm text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i>
-                <span class="md:inline">Dashboard</span>
+        <!-- Sidebar Navigation -->
+        <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
+            <a href="dashboard.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-user mr-2"></i>
-                <span class="md:inline">Clients</span>
+            <a href="clients.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-paw mr-2"></i>
-                <span class="md:inline">Pets</span>
+            <a href="pets.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-file-medical mr-2"></i>
-                <span class="md:inline">Medical Records</span>
+            <a href="medical_records.php" class="block text-sm text-white bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-id-badge mr-2"></i>
-                <span class="md:inline">Profile</span>
+            <a href="profile.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-id-badge mr-2"></i> Profile
             </a>
-            <a href="payment_methods.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-credit-card mr-2"></i>
-                <span class="md:inline">Payments</span>
+            <a href="payment_methods.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-calendar-days mr-2"></i>
-                <span class="md:inline">Appointments</span>
+            <a href="appointments.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fa-solid fa-box-archive mr-2"></i>
-                <span class="md:inline">Archive</span>
-            </a>
-            <a href="#" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-1 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span class="md:inline">Logout</span>
+            <a href="archive.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+                <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
         </nav>
-    </div>
+
+        <!-- Logout -->
+        <div class="pt-4">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:text-red-700 px-4 py-2 rounded-md">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </div>
+    </aside>
 
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
@@ -139,17 +181,53 @@ $records = $stmt->fetchAll();
 
         <!-- header -->
         <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">
-                    Hello,
-                    <?php
-                    $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id=?");
-                    $stmt->execute([$_SESSION['vet_id']]);
-                    $user = $stmt->fetch();
-                    echo $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found.";
-                    ?>.
-                </h1>
-                <h1 class="text-lg sm:text-xl lg:text-2xl font-bold">Manage Medical Records</h1>
+            <!-- Top Section with Dropdown -->
+            <div class="flex justify-between items-center mb-6">
+
+                <!-- Dashboard Title -->
+                <h1 class="text-xl lg:text-2xl font-bold">Medical Records</h1>
+
+                <!-- Profile Dropdown -->
+                <div class="relative inline-block text-left">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-full hover:bg-gray-50 text-green-500 text-lg">
+                        <i class="fas fa-user"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu"
+                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50">
+                        <!-- User Info Section -->
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-green-500 bg-green-50 text-green-600 text-xl">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900"><?= $vetName ?></p>
+                                    <p class="text-xs text-gray-500">Veterinarian</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Menu Options -->
+                        <div class="py-1">
+                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors duration-150">
+                                <i class="fas fa-edit text-green-500"></i>
+                                <div>
+                                    <div class="font-medium">Edit Profile</div>
+                                    <div class="text-xs text-gray-500">Update your information</div>
+                                </div>
+                            </a>
+                            <hr class="my-1">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
+                                <div>
+                                    <div class="font-medium">Logout</div>
+                                    <div class="text-xs text-red-400">Sign out of your account</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -207,7 +285,6 @@ $records = $stmt->fetchAll();
             <div class="w-full bg-green-500 rounded-t-lg text-white py-3">
                 <h3 id="recordModalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-white m-0 py-3">Add New Medical Record</h3>
             </div>
-
             <form id="recordForm" method="POST" class="grid grid-cols-1 gap-4 p-5 max-h-[calc(50vh-2rem)] sm:max-h-[calc(60vh-2rem)] md:max-h-[calc(70vh-2rem)] overflow-y-auto">
                 <input type="hidden" name="record_id" id="record_id">
                 <div class="mb-2.5">
@@ -243,11 +320,11 @@ $records = $stmt->fetchAll();
                     <label class="block text-sm text-gray-700">Treatment</label>
                     <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border rounded-md" required></textarea>
                 </div>
+                <div class="flex justify-between px-6 pb-6">
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save</button>
+                    <button type="button" onclick="hideRecordModal()" class="text-gray-500">Cancel</button>
+                </div>
             </form>
-            <div class="flex justify-between px-6 pb-6">
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save</button>
-                <button type="button" onclick="hideRecordModal()" class="text-gray-500">Cancel</button>
-            </div>
         </div>
     </div>
 
@@ -297,6 +374,8 @@ $records = $stmt->fetchAll();
             });
         <?php endif; ?>
     </script>
+
+    <script src="./js/profile-dropdown.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>

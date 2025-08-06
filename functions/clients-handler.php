@@ -11,6 +11,12 @@ if (!isset($_SESSION['vet_id'])) {
     exit;
 }
 
+// Fetch vet name for greeting
+$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id=?");
+$stmt->execute([$_SESSION['vet_id']]);
+$user = $stmt->fetch();
+$vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
+
 /**
  * Input validation function
  */
