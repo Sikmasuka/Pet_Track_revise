@@ -1,6 +1,7 @@
 <?php
 require_once './functions/dashboard-handler.php';
 require_once './functions/auth.php';
+require_once './functions/logs.php';
 
 requireVet();
 
@@ -8,6 +9,11 @@ requireVet();
 $stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]); // Assuming you store vet_id in session
 $currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch recent activities (logs)
+$stmt = $pdo->prepare("SELECT Action_Type, Description, Table_Affected, created_at FROM Logs ORDER BY created_at DESC LIMIT 5");
+$stmt->execute();
+$recentActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -328,6 +334,39 @@ $currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <!-- Recent Activities Section -->
+    <div class="mt-8 bg-slate-700 border border-slate-600 rounded-lg p-4 shadow-sm hover:border-indigo-400 transition-colors">
+        <h3 class="text-base lg:text-lg font-semibold text-white mb-4">Recent Activities</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-300">
+                <thead class="text-xs text-gray-400 uppercase bg-slate-800">
+                    <tr>
+                        <th scope="col" class="px-4 py-3">Action</th>
+                        <th scope="col" class="px-4 py-3">Description</th>
+                        <th scope="col" class="px-4 py-3">Role</th>
+                        <th scope="col" class="px-4 py-3">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($recentActivities)): ?>
+                        <tr>
+                            <td colspan="4" class="px-4 py-3 text-center text-gray-400">No recent activities</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($recentActivities as $activity): ?>
+                            <tr class="border-b border-slate-600 hover:bg-slate-600">
+                                <td class="px-4 py-3"><?= htmlspecialchars($activity['Action_Type']) ?></td>
+                                <td class="px-4 py-3"><?= htmlspecialchars($activity['Description']) ?></td>
+                                <td class="px-4 py-3"><?= htmlspecialchars($activity['Table_Affected']) ?></td>
+                                <td class="px-4 py-3"><?= date('M d, Y H:i', strtotime($activity['created_at'])) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 

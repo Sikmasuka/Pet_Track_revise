@@ -220,15 +220,15 @@ require_once './functions/clients-handler.php';
                         <h4 class="text-sm font-bold text-slate-300 mb-2">Client Information</h4>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Client Name</label>
-                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Address</label>
-                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Contact Number</label>
-                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required pattern="[0-9]{10,}">
+                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" pattern="[0-9]{10,}">
                         </div>
                     </div>
 
@@ -237,19 +237,23 @@ require_once './functions/clients-handler.php';
                         <h4 class="text-sm font-bold text-slate-300 mb-2">Pet Information</h4>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Pet Name</label>
-                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Species</label>
-                            <select name="pet_species" id="petSpecies" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <label class="block text-xs text-slate-400 mb-1">Species
+                                <span id="speciesTooltip" class="text-xs text-slate-500 hidden">(Cannot be changed)</span>
+                            </label>
+                            <select name="pet_species" id="petSpecies" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                                 <option value="">Select</option>
                                 <option value="Dog">Dog</option>
                                 <option value="Cat">Cat</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Pet Sex</label>
-                            <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <label class="block text-xs text-slate-400 mb-1">Pet Sex
+                                <span id="sexTooltip" class="text-xs text-slate-500 hidden">(Cannot be changed)</span>
+                            </label>
+                            <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                                 <option value="">Select</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -257,15 +261,15 @@ require_once './functions/clients-handler.php';
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Pet Breed</label>
-                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Pet Weight (kg)</label>
-                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-slate-400 mb-1">Birth Date</label>
-                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                     </div>
                 </div>
@@ -286,11 +290,29 @@ require_once './functions/clients-handler.php';
             const form = document.getElementById('clientForm');
             const modalTitle = document.getElementById('modalTitle');
             const formAction = document.getElementById('formAction');
+            const speciesTooltip = document.getElementById('speciesTooltip');
+            const sexTooltip = document.getElementById('sexTooltip');
 
             form.reset();
             form.querySelector('input[name="update_client"]')?.remove();
+            // Enable dropdowns and hide tooltips
+            document.getElementById('petSpecies').disabled = false;
+            document.getElementById('petSex').disabled = false;
+            speciesTooltip.classList.add('hidden');
+            sexTooltip.classList.add('hidden');
+
             formAction.name = 'add_client';
             modalTitle.textContent = 'Add New Client & Pet';
+
+            // Set required attributes only for add mode or if pet exists (handled by edit block)
+            if (action === 'add') {
+                document.getElementById('petName').setAttribute('required', '');
+                document.getElementById('petSpecies').setAttribute('required', '');
+                document.getElementById('petSex').setAttribute('required', '');
+                document.getElementById('petBreed').setAttribute('required', '');
+                document.getElementById('petWeight').setAttribute('required', '');
+                document.getElementById('petBirthDate').setAttribute('required', '');
+            }
 
             if (action === 'edit') {
                 modalTitle.textContent = 'Edit Client & Pet';
@@ -385,6 +407,33 @@ require_once './functions/clients-handler.php';
                     document.getElementById('petBreed').value = <?= json_encode($petToEdit['pet_breed'] ?? '') ?>;
                     document.getElementById('petWeight').value = <?= json_encode($petToEdit['pet_weight'] ?? '') ?>;
                     document.getElementById('petBirthDate').value = <?= json_encode($petToEdit['pet_birth_date'] ?? '') ?>;
+                    document.getElementById('petSpecies').value = <?= json_encode($petToEdit['pet_species'] ?? '') ?>;
+                    document.getElementById('petSpecies').disabled = true;
+                    document.getElementById('petSex').disabled = true;
+                    document.getElementById('speciesTooltip').classList.remove('hidden');
+                    document.getElementById('sexTooltip').classList.remove('hidden');
+                <?php else: ?>
+                    // Clear pet fields if no pet exists
+                    document.getElementById('pet_id').value = '';
+                    document.getElementById('petName').value = '';
+                    document.getElementById('petSex').value = '';
+                    document.getElementById('petBreed').value = '';
+                    document.getElementById('petWeight').value = '';
+                    document.getElementById('petBirthDate').value = '';
+                    document.getElementById('petSpecies').value = '';
+                    document.getElementById('petSpecies').disabled = false;
+                    document.getElementById('petSex').disabled = false;
+                    document.getElementById('speciesTooltip').classList.add('hidden');
+                    document.getElementById('sexTooltip').classList.add('hidden');
+
+                    // Remove required attributes
+                    console.log('Removing required attributes for pet fields');
+                    document.getElementById('petName').removeAttribute('required');
+                    document.getElementById('petSpecies').removeAttribute('required');
+                    document.getElementById('petSex').removeAttribute('required');
+                    document.getElementById('petBreed').removeAttribute('required');
+                    document.getElementById('petWeight').removeAttribute('required');
+                    document.getElementById('petBirthDate').removeAttribute('required');
                 <?php endif; ?>
             });
         <?php endif; ?>

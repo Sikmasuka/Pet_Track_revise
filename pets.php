@@ -224,6 +224,7 @@ $pets = $stmt->fetchAll();
         </header>
 
         <main class="bg-slate-800 p-4 lg:p-6 rounded-lg shadow-sm border border-slate-700">
+
             <!-- Pets Section -->
             <h2 class="lg:text-2xl text-xl font-bold text-white mb-4">Pets</h2>
 
@@ -239,7 +240,6 @@ $pets = $stmt->fetchAll();
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Weight</th>
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Birth Date</th>
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Client</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-slate-800 divide-y divide-slate-700">
@@ -252,10 +252,6 @@ $pets = $stmt->fetchAll();
                                     <td class="px-4 py-2 text-slate-300"><?= htmlspecialchars($pet['pet_weight']) ?> kg</td>
                                     <td class="px-4 py-2 text-slate-300"><?= htmlspecialchars($pet['pet_birth_date']) ?></td>
                                     <td class="px-4 py-2 text-slate-300"><?= htmlspecialchars($pet['client_name']) ?></td>
-                                    <td class="px-4 py-2">
-                                        <a href="?edit_pet_id=<?= (int)$pet['pet_id'] ?>" class="text-indigo-400 hover:text-indigo-300 hover:underline">Edit</a> |
-                                        <a href="#" onclick="confirmDelete(<?= (int)$pet['pet_id'] ?>)" class="text-red-400 hover:text-red-300 hover:underline">Delete</a>
-                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -334,40 +330,6 @@ $pets = $stmt->fetchAll();
             url.searchParams.delete('edit_pet_id');
             window.history.replaceState({}, document.title, url.pathname);
         }
-
-        // Confirm delete function
-        function confirmDelete(petId) {
-            if (typeof Swal === 'undefined') {
-                if (confirm('Are you sure you want to delete this pet?')) {
-                    window.location.href = `?delete_pet_id=${petId}`;
-                }
-                return false;
-            }
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                background: '#1e293b',
-                color: '#e2e8f0',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = `?delete_pet_id=${petId}`;
-                }
-            });
-            return false;
-        }
-
-        // Show modal if editing
-        <?php if ($petToEdit): ?>
-            document.addEventListener('DOMContentLoaded', function() {
-                showPetModal();
-            });
-        <?php endif; ?>
     </script>
 
     <script src="./js/profile-dropdown.js"></script>

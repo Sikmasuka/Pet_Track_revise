@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../functions/admin-handler.php';
+require_once '../admin/record-handler.php';
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ require_once '../functions/admin-handler.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
-    <title>Veterinarian Admin</title>
+    <title>Veterinarian Admin - Records</title>
 
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -68,6 +68,110 @@ require_once '../functions/admin-handler.php';
             <h1 class="text-3xl font-bold text-green-700">Records</h1>
         </div>
 
+        <!-- Single Column for Records -->
+        <div class="grid grid-cols-1 gap-6">
+            <!-- Container 1: Medical Records -->
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+                <h3 class="text-xl font-semibold text-green-700 mb-4">All Medical Records</h3>
+                <?php
+                $medicalRecords = getMedicalRecords($pdo); // Call function from record-handler.php
+                if (isset($error) && !empty($error)) {
+                    echo "<p class='text-red-500 text-sm'>Error: $error</p>";
+                } elseif (!empty($medicalRecords) && is_array($medicalRecords)) {
+                ?>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Record ID</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">medical_condition</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($medicalRecords as $record): ?>
+                                    <tr>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($record['record_id'] ?? '') ?></td>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($record['medical_condition'] ?? '') ?></td>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($record['record_date'] ?? '') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } else { ?>
+                    <p class="text-gray-500 text-sm">No medical records found.</p>
+                <?php } ?>
+            </div>
+
+            <!-- Container 2: All Veterinarians -->
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+                <h3 class="text-xl font-semibold text-green-700 mb-4">All Veterinarians</h3>
+                <?php
+                $veterinarians = getVeterinarians($pdo); // Call function from record-handler.php
+                if (isset($error) && !empty($error)) {
+                    echo "<p class='text-red-500 text-sm'>Error: $error</p>";
+                } elseif (!empty($veterinarians) && is_array($veterinarians)) {
+                ?>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vet ID</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($veterinarians as $vet): ?>
+                                    <tr>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($vet['vet_id'] ?? '') ?></td>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($vet['vet_name'] ?? '') ?></td>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($vet['vet_contact_number'] ?? '') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } else { ?>
+                    <p class="text-gray-500 text-sm">No veterinarians found.</p>
+                <?php } ?>
+            </div>
+
+            <!-- Container 3: All Pets -->
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+                <h3 class="text-xl font-semibold text-green-700 mb-4">All Pets</h3>
+                <?php
+                $pets = getPets($pdo); // Call function from record-handler.php
+                if (isset($error) && !empty($error)) {
+                    echo "<p class='text-red-500 text-sm'>Error: $error</p>";
+                } elseif (!empty($pets) && is_array($pets)) {
+                ?>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pet ID</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Species</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($pets as $pet): ?>
+                                    <tr>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($pet['pet_id'] ?? '') ?></td>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($pet['pet_name'] ?? '') ?></td>
+                                        <td class="px-4 py-2 text-sm text-gray-900"><?= htmlspecialchars($pet['pet_species'] ?? '') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } else { ?>
+                    <p class="text-gray-500 text-sm">No pets found.</p>
+                <?php } ?>
+            </div>
+        </div>
 
         <!-- Add Veterinarian Modal -->
         <div id="addModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
@@ -106,10 +210,18 @@ require_once '../functions/admin-handler.php';
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="../js/sidebarHandler.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="../js/confirmLogout.js"></script>
+    <script src="../js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/confirmLogout.js"></script>
+
+    <script>
+        // Close Add Modal
+        document.getElementById('closeAddModal').addEventListener('click', function() {
+            document.getElementById('addModal').classList.add('hidden');
+        });
+    </script>
 </body>
 
 </html>

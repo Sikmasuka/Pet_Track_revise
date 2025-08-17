@@ -40,56 +40,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pet_birth_date = $_POST['pet_birth_date'] ?? '';
     $pet_species = $_POST['pet_species'] ?? '';
 
-    // Basic validation
+    // Basic validation for client fields
     if (empty($client_name) || empty($client_address) || empty($client_contact)) {
         $error = "All client fields are required";
-    } elseif (empty($pet_name) || empty($pet_sex) || empty($pet_weight) || empty($pet_breed) || empty($pet_birth_date) || empty($pet_species)) {
-        $error = "All pet fields are required";
     } else {
         try {
             if (isset($_POST['add_client'])) {
-                // Begin transaction to ensure atomicity
-                $pdo->beginTransaction();
-
-                // Insert new client
-                $stmt = $pdo->prepare("INSERT INTO Client (client_name, client_address, client_contact_number) VALUES (?, ?, ?)");
-                $stmt->execute([$client_name, $client_address, $client_contact]);
-
-                // Get the last inserted client ID
-                $client_id = $pdo->lastInsertId();
-
-                // Insert new pet
-                $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, pet_species, client_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_species, $client_id]);
-
-                // Log the add action
-                $actionType = 'add';
-                $description = $_SESSION['username'] . " added a new client '$client_name' and pet '$pet_name'";
-                logAction($pdo, $_SESSION['vet_id'], $actionType, $description, 'Admin');
-
-                // Commit transaction
-                $pdo->commit();
-
-                header('Location: clients.php?message=Client and pet added successfully');
-                exit;
+                // For add, all pet fields are required
+                if (empty($pet_name) || empty($pet_sex) || empty($pet_weight) || empty($pet_breed) || empty($pet_birth_date) || empty($pet_species)) {
+                    $error = "All pet fields are required when adding a new client";
+                } else {
+                    $pdo->beginTransaction();
+                    $stmt = $pdo->prepare("INSERT INTO Client (client_name, client_address, client_contact_number) VALUES (?, ?, ?)");
+                    $stmt->execute([$client_name, $client_address, $client_contact]);
+                    $client_id = $pdo->lastInsertId();
+                    $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, pet_species, client_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_species, $client_id]);
+                    $description = $_SESSION['username'] . " added a new client '$client_name' and pet '$pet_name'";
+                    logAction($pdo, $_SESSION['vet_id'], 'add', $description, 'Admin');
+                    $pdo->commit();
+                    header('Location: clients.php?message=Client and pet added successfully');
+                    exit;
+                }
             } elseif (isset($_POST['update_client'])) {
                 $client_id = (int)$_POST['client_id'];
                 $pet_id = (int)$_POST['pet_id'];
 
-                // Update client
+                // Update client (always executed)
                 $stmt = $pdo->prepare("UPDATE Client SET client_name=?, client_address=?, client_contact_number=? WHERE client_id=?");
                 $stmt->execute([$client_name, $client_address, $client_contact, $client_id]);
 
-                // Update pet
-                $stmt = $pdo->prepare("UPDATE Pet SET pet_name=?, pet_sex=?, pet_weight=?, pet_breed=?, pet_birth_date=?, pet_species=? WHERE pet_id=? AND client_id=?");
-                $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_id, $client_id]);
+                // Check if pet fields are provided to update or insert a pet
+                $pet_fields_provided = !empty($pet_name) && !empty($pet_sex) && !empty($pet_weight) && !empty($pet_breed) && !empty($pet_birth_date) && !empty($pet_species);
+                if ($pet_fields_provided) {
+                    // Check if pet exists to update, otherwise insert
+                    $stmt = $pdo->prepare("SELECT pet_id FROM Pet WHERE pet_id = ? AND client_id = ?");
+                    $stmt->execute([$pet_id, $client_id]);
+                    if ($stmt->fetch()) {
+                        // Update existing pet
+                        $stmt = $pdo->prepare("UPDATE Pet SET pet_name=?, pet_sex=?, pet_weight=?, pet_breed=?, pet_birth_date=?, pet_species=? WHERE pet_id=? AND client_id=?");
+                        $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_species, $pet_id, $client_id]);
+                    } else {
+                        // Insert new pet
+                        $stmt = $pdo->prepare("INSERT INTO Pet (pet_name, pet_sex, pet_weight, pet_breed, pet_birth_date, pet_species, client_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->execute([$pet_name, $pet_sex, $pet_weight, $pet_breed, $pet_birth_date, $pet_species, $client_id]);
+                    }
+                    $description = $_SESSION['username'] . " updated client '$client_name' with pet '$pet_name'";
+                } else {
+                    $description = $_SESSION['username'] . " updated client '$client_name'";
+                }
 
-                // Log the update action
-                $actionType = 'update';
-                $description = $_SESSION['username'] . " updated client '$client_name' with pet '$pet_name'";
-                logAction($pdo, $_SESSION['vet_id'], $actionType, $description, 'Admin');
-
-                header('Location: clients.php?message=Client and pet updated successfully');
+                logAction($pdo, $_SESSION['vet_id'], 'update', $description, 'Admin');
+                header('Location: clients.php?message=Client' . ($pet_fields_provided ? " and pet" : "") . ' updated successfully');
                 exit;
             }
         } catch (PDOException $e) {

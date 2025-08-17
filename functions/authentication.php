@@ -18,7 +18,7 @@ $redirect_url = ''; // Store the redirect URL
 
 // Check if the login form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
-    $username = $_POST['username'];
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
     // Prepare and execute the SQL query to check if the user exists (for both admin and veterinarian)
@@ -31,10 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Check if the user exists
-    if ($user) {
-        // If it's an admin, handle password differently (admin password is not hashed)
+    if (!$user) {
+        // Username does not exist in either table
+        $message = 'Invalid username';
+    } else {
+        // Username exists, verify password
         if ($user['role'] === 'admin') {
-            // Check if the password matches directly
+            // Admin password is not hashed
             if ($password === $user['password']) {
                 // Get the admin_id using the username
                 $stmt2 = $pdo->prepare("SELECT admin_id FROM Admin WHERE admin_username = :username");
@@ -48,18 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
                     $_SESSION['role'] = 'admin';
                     $login_success = true;
 
-                    $actionType = 'Login'; // Define the action
+                    $actionType = 'Login';
                     $description = $_SESSION['username'] . ' Successfully Logged in';
                     logAction($pdo, $admin['admin_id'], $actionType, $description, 'Admin');
                     $redirect_url = './admin/admin-dashboard.php';
                 }
+            } else {
+                // Incorrect password for admin
+                $message = 'Incorrect password';
             }
         } else {
-            // Veterinarian login handling (with hashed password)
+            // Veterinarian password is hashed
             if (password_verify($password, $user['password'])) {
-
-                // Get vet_id
-                $stmt2 = $pdo->prepare("SELECT vet_id , vet_name FROM Veterinarian WHERE vet_username = :username");
+                // Get vet_id and vet_name
+                $stmt2 = $pdo->prepare("SELECT vet_id, vet_name FROM Veterinarian WHERE vet_username = :username");
                 $stmt2->execute(['username' => $username]);
                 $vet = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -74,14 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
                 $description = $vet['vet_name'] . ' Successfully Logged in';
                 logAction($pdo, $vet['vet_id'], $actionType, $description, 'Veterinarian');
                 $redirect_url = 'dashboard.php';
+            } else {
+                // Incorrect password for veterinarian
+                $message = 'Incorrect password';
             }
         }
-        // If password doesn't match
-        if (!$login_success) {
-            $message = 'Invalid username or password.';
-        }
-    } else {
-        // If no user found
-        $message = 'Invalid username or password.';
     }
 }

@@ -9,6 +9,18 @@ date_default_timezone_set('America/Los_Angeles'); // Set to PST
 // Debug: Log script execution
 file_put_contents('debug.log', "Script executed at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
 
+// New function to log appointment bookings
+function logAppointment($pdo, $owner_name)
+{
+    try {
+        $description = "Guest $owner_name booked an appointment";
+        logAction($pdo, 0, 'Appointment', $description, 'Guest');
+        file_put_contents('debug.log', "Appointment logged: $description\n", FILE_APPEND);
+    } catch (PDOException $e) {
+        file_put_contents('debug.log', "Log error in logAppointment: " . $e->getMessage() . "\n", FILE_APPEND);
+    }
+}
+
 // Test database connection
 try {
     $pdo->query("SELECT 1");

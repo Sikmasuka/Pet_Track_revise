@@ -258,16 +258,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-slate-900 min-h-screen">
 
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col">
-
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-700">
         <!-- Sidebar Header -->
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
@@ -275,42 +274,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                 <span class="md:inline">Dashboard</span>
             </h2>
             <!-- Close button (mobile only) -->
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
         <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="dashboard.php" class="block text-sm text-white hover:bg-slate-700 px-4 py-2 rounded-md hover:bg-slate-600 transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-id-badge mr-2"></i> Profile
             </a>
-            <a href="payment_methods.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-white bg-green-600 px-4 py-2 rounded-md">
+            <a href="appointments.php" class="block text-sm text-gray-300 bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
         </nav>
 
         <!-- Logout -->
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:text-red-700 px-4 py-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -320,8 +319,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main content -->
-    <div class="ml-0 lg:ml-52 p-4 pt-12">
-        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-6 p-4">
+    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+
+        <!-- header -->
+        <header class="bg-slate-800 rounded-lg text-white py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-700">
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center mb-6">
 
@@ -330,40 +331,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
 
                 <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-full hover:bg-gray-50 text-green-500 text-lg">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-slate-700 border border-slate-600 rounded-full hover:bg-slate-600 text-white text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu"
-                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50">
+                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-700">
                         <!-- User Info Section -->
-                        <div class="px-4 py-3 border-b border-gray-100">
+                        <div class="px-4 py-3 border-b border-slate-700">
                             <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-green-500 bg-green-50 text-green-600 text-xl">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-slate-700 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-900"><?= $vetName ?></p>
-                                    <p class="text-xs text-gray-500">Veterinarian</p>
+                                    <p class="text-sm font-semibold text-white"><?= $vetName ?></p>
+                                    <p class="text-xs text-slate-400">Veterinarian</p>
                                 </div>
                             </div>
                         </div>
                         <!-- Menu Options -->
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors duration-150">
-                                <i class="fas fa-edit text-green-500"></i>
+                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-150">
+                                <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-gray-500">Update your information</div>
+                                    <div class="text-xs text-slate-400">Update your information</div>
                                 </div>
                             </a>
-                            <hr class="my-1">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-500"></i>
+                            <hr class="my-1 border-slate-700">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-slate-700 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-400"></i>
                                 <div>
                                     <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-400">Sign out of your account</div>
+                                    <div class="text-xs text-red-500">Sign out of your account</div>
                                 </div>
                             </a>
                         </div>
@@ -374,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
 
         <!-- FullCalendar -->
         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 class="text-lg font-semibold text-green-800 mb-4">Appointment Days</h2>
+            <h2 class="text-lg font-semibold mb-4">Appointment Days</h2>
 
             <!-- Calendar Legend -->
             <div class="calendar-legend">
@@ -396,21 +397,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
         </div>
 
         <!-- Appointment Table -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-            <h2 class="text-lg font-semibold text-green-800 mb-4">Appointment List</h2>
+        <div class="bg-slate-600 rounded-lg shadow-sm p-6">
+            <h2 class="text-lg font-semibold text-white mb-4">Appointment List</h2>
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-300">
+                <table class="min-w-full bg-slate-300 border border-gray-300 rounded-md overflow-hidden">
                     <thead>
-                        <tr class="bg-gray-100">
-                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">#</th>
-                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Owner Name</th>
-                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Phone</th>
-                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Reason</th>
-                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Date</th>
-                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Time</th>
+                        <tr class="bg-slate-500">
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-white">#</th>
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-white">Owner Name</th>
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-white">Phone</th>
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-white">Reason</th>
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-white">Date</th>
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-white">Time</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="">
                         <?php if (empty($paginated_data)): ?>
                             <tr>
                                 <td colspan="6" class="py-2 px-4 border-b text-center text-sm text-gray-500">No appointments this month.</td>
@@ -443,21 +444,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
             <div class="mt-4 flex justify-center space-x-2">
                 <?php if ($page_num > 1): ?>
                     <a href="?month=<?= $cur_month ?>&year=<?= $cur_year ?>&page=<?= $page_num - 1 ?>"
-                        class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">« Prev</a>
+                        class="px-3 py-1 bg-slate-500 text-white rounded hover:bg-slate-600">« Prev</a>
                 <?php else: ?>
-                    <span class="px-3 py-1 bg-green-500 text-white rounded opacity-50 cursor-not-allowed">« Prev</span>
+                    <span class="px-3 py-1 bg-slate-500 text-white rounded opacity-50 cursor-not-allowed">« Prev</span>
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                     <a href="?month=<?= $cur_month ?>&year=<?= $cur_year ?>&page=<?= $i ?>"
-                        class="px-3 py-1 <?= $i === $page_num ? 'bg-green-700 text-white' : 'bg-green-100 text-green-800' ?> rounded hover:bg-green-600 hover:text-white"><?= $i ?></a>
+                        class="px-3 py-1 <?= $i === $page_num ? 'bg-slate-700 text-white' : 'bg-slate-100 text-white' ?> rounded hover:bg-slate-800 hover:text-white"><?= $i ?></a>
                 <?php endfor; ?>
 
                 <?php if ($page_num < $total_pages): ?>
                     <a href="?month=<?= $cur_month ?>&year=<?= $cur_year ?>&page=<?= $page_num + 1 ?>"
-                        class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Next »</a>
+                        class="px-3 py-1 bg-slate-500 text-white rounded hover:bg-slate-600">Next »</a>
                 <?php else: ?>
-                    <span class="px-3 py-1 bg-green-500 text-white rounded opacity-50 cursor-not-allowed">Next »</span>
+                    <span class="px-3 py-1 bg-slate-500 text-white rounded opacity-50 cursor-not-allowed">Next »</span>
                 <?php endif; ?>
             </div>
         </div>
@@ -478,48 +479,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                 <div id="appointmentDetails" class="space-y-4"></div>
                 <button type="button" onclick="openBookingModal()" class="w-full px-4 py-2 bg-[#169976] text-white rounded hover:bg-[#18b98e]" id="bookNewBtn">Book New Appointment</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Booking Modal -->
-    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center" role="dialog" aria-labelledby="bookingTitle" aria-modal="true">
-        <div class="bg-white w-full max-w-md mx-4 h-[90vh] rounded-xl shadow-lg flex flex-col" tabindex="-1">
-            <div class="bg-[#169976] px-6 py-4 rounded-t-xl sticky top-0 z-10 flex justify-between items-center">
-                <h2 id="bookingTitle" class="text-xl font-semibold text-white text-center">Book an Appointment</h2>
-                <button type="button" onclick="closeModal('bookingModal')" class="text-white hover:text-gray-200 focus:outline-none" aria-label="Close modal">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <form method="POST" action="./functions/appointment-handler.php" class="p-6 space-y-4 overflow-y-auto flex-1" id="appointmentForm" onsubmit="return validateForm()">
-                <input type="hidden" id="originalDate" name="original_date">
-                <div>
-                    <label for="owner" class="block text-sm font-medium text-gray-700">Owner Name</label>
-                    <input type="text" id="owner" name="owner_name" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
-                </div>
-                <div>
-                    <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
-                    <input type="text" id="contact" name="contact_number" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Date</label>
-                    <input type="date" id="selectedDate" name="appointment_date" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" onchange="checkDateStatus(this.value)">
-                    <span id="dateStatus" class="text-sm text-red-500 mt-1 hidden">This day is full (6/6 appointments).</span>
-                </div>
-                <div>
-                    <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
-                    <input type="time" id="time" name="appointment_time" required class="mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]" min="08:00" max="18:00">
-                    <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Pick a time between 8 AM and 6 PM.</p>
-                    <p class="text-sm text-gray-500 mt-1">Pick a time between 8 AM and 6 PM.</p>
-                </div>
-                <div>
-                    <label for="reason" class="block text-sm font-medium text-gray-700">Reason</label>
-                    <textarea id="reason" name="reason" rows="3" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]"></textarea>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" onclick="closeModal('bookingModal')" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-[#169976] text-white rounded hover:bg-[#18b98e]">Submit</button>
-                </div>
-            </form>
         </div>
     </div>
 
