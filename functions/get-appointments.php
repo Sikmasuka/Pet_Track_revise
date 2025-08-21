@@ -2,8 +2,8 @@
 // Get Appointments - NO HTML COMMENTS ABOVE THIS LINE!
 require_once __DIR__ . "/../db.php"; // Adjust path to your PDO connection file
 
-// Set timezone to UTC for consistency
-date_default_timezone_set('UTC');
+// Set timezone to Asia/Manila for consistency
+date_default_timezone_set('Asia/Manila');
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');

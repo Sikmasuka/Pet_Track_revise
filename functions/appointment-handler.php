@@ -4,16 +4,22 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . "/../db.php"; // Include your database connection
-date_default_timezone_set('America/Los_Angeles'); // Set to PST
+require_once __DIR__ . "/../functions/logs.php"; // Include logging functions
+date_default_timezone_set('Asia/Manila'); // Set to Philippine Standard Time (UTC+08:00)
 
 // Debug: Log script execution
 file_put_contents('debug.log', "Script executed at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
 
 // New function to log appointment bookings
-function logAppointment($pdo, $owner_name)
+function logAppointment($pdo, $owner_name, $appointment_date, $appointment_time)
 {
     try {
-        $description = "Guest $owner_name booked an appointment";
+        // Format date and time for readable output using Philippine time zone
+        $dateObj = DateTime::createFromFormat('Y-m-d', $appointment_date, new DateTimeZone('Asia/Manila'));
+        $timeObj = DateTime::createFromFormat('H:i:s', $appointment_time, new DateTimeZone('Asia/Manila'));
+        $formattedDate = $dateObj->format('F j, Y');
+        $formattedTime = $timeObj->format('g:i A'); // e.g., 2:00 PM
+        $description = "Guest $owner_name booked an appointment on $formattedDate at $formattedTime";
         logAction($pdo, 0, 'Appointment', $description, 'Guest');
         file_put_contents('debug.log', "Appointment logged: $description\n", FILE_APPEND);
     } catch (PDOException $e) {
@@ -58,7 +64,7 @@ try {
     }
 
     // Ensure date is not in the past
-    $today = new DateTime('now', new DateTimeZone('America/Los_Angeles')); // Current PST time
+    $today = new DateTime('now', new DateTimeZone('Asia/Manila')); // Current Philippine time
     if (new DateTime($appointment_date) < $today) {
         $_SESSION['error'] = "Cannot book appointments for past dates.";
         header("Location: ../landing-page.php");
@@ -82,6 +88,8 @@ try {
     // Verify insertion
     $lastId = $pdo->lastInsertId();
     if ($lastId > 0) {
+        // Call the new logging function
+        logAppointment($pdo, $owner_name, $appointment_date, $appointment_time);
         $_SESSION['success'] = "Appointment booked successfully! (ID: $lastId)";
     } else {
         $_SESSION['error'] = "Appointment was not saved. Please try again.";

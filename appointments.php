@@ -2,6 +2,8 @@
 session_start();
 require_once __DIR__ . "/db.php"; // Adjust path to your PDO connection file
 require_once __DIR__ . "/functions/logs.php"; // Include the logs.php file
+include "includes/sitemap/Help/support.php";
+
 
 // Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
@@ -91,6 +93,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
 
 // Handle form submission (from booking modal)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isset($_POST['appointment_date'])) {
+    file_put_contents('debug.log', "Form submitted: " . print_r($_POST, true) . "\n", FILE_APPEND);
     try {
         $owner_name = trim($_POST['owner_name']);
         $contact_number = trim($_POST['contact_number']);
@@ -98,28 +101,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
         $appointment_time = trim($_POST['appointment_time']);
         $reason = trim($_POST['reason']);
 
-        $dateObj = DateTime::createFromFormat('Y-m-d', $appointment_date);
+        date_default_timezone_set('Asia/Manila'); // Match time zone
+        $dateObj = DateTime::createFromFormat('Y-m-d', $appointment_date, new DateTimeZone('Asia/Manila'));
         if (!$dateObj || $dateObj->format('Y-m-d') !== $appointment_date) {
             $_SESSION['error'] = "Invalid date format. Please use YYYY-MM-DD.";
             header("Location: Appointments.php?month=$cur_month&year=$cur_year");
             exit();
         }
 
-        // Validate date and time against current time (10:59 AM PST, August 3, 2025)
-        $dateTime = new DateTime("$appointment_date $appointment_time", new DateTimeZone('America/Los_Angeles'));
-        $now = new DateTime('2025-08-03 10:59:00', new DateTimeZone('America/Los_Angeles')); // Current time
+        $dateTime = new DateTime("$appointment_date $appointment_time", new DateTimeZone('Asia/Manila'));
+        $now = new DateTime('now', new DateTimeZone('Asia/Manila')); // Current time: 10:09 AM PHT, August 18, 2025
         if ($dateTime < $now) {
-            $_SESSION['error'] = "Cannot book appointments before " . $now->format('Y-m-d H:i:s') . " PST.";
+            $_SESSION['error'] = "Cannot book appointments before " . $now->format('Y-m-d H:i:s') . " PHT.";
             header("Location: Appointments.php?month=$cur_month&year=$cur_year");
             exit();
         }
 
         $stmt = $pdo->prepare("INSERT INTO appointments (owner_name, contact_number, appointment_date, appointment_time, reason, status) VALUES (?, ?, ?, ?, ?, 'Scheduled')");
         $stmt->execute([$owner_name, $contact_number, $appointment_date, $appointment_time, $reason]);
-        $_SESSION['success'] = "Appointment booked successfully!";
-        header("Location: Appointments.php?month=$cur_month&year=$cur_year");
-        exit();
+        if ($stmt->rowCount() > 0) {
+            file_put_contents('debug.log', "Appointment inserted successfully\n", FILE_APPEND);
+            // Log the action
+            $userId = $_SESSION['vet_id'] ?? 1; // Use vet_id, fallback for testing
+            $userRole = getUserRole();
+            $description = "Guest $owner_name booked an appointment on $appointment_date at $appointment_time";
+            logAction($pdo, $userId, 'Appointment', $description, $userRole);
+            $_SESSION['success'] = "Appointment booked successfully!";
+            header("Location: Appointments.php?month=$cur_month&year=$cur_year&reload=1");
+            exit();
+        } else {
+            file_put_contents('debug.log', "No rows inserted\n", FILE_APPEND);
+            $_SESSION['error'] = "Appointment was not saved.";
+            header("Location: Appointments.php?month=$cur_month&year=$cur_year");
+            exit();
+        }
     } catch (PDOException $e) {
+        file_put_contents('debug.log', "Error booking appointment: " . $e->getMessage() . "\n", FILE_APPEND);
         $_SESSION['error'] = "Error booking appointment: " . $e->getMessage();
         header("Location: Appointments.php?month=$cur_month&year=$cur_year");
         exit();
@@ -304,6 +321,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
             </a>
             <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
+            </a>
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+                <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
 
@@ -491,6 +511,119 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                 // Fetch and populate form data here (requires AJAX or additional PHP logic)
             });
         <?php endif; ?>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var calendarEl = document.getElementById("calendar");
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                initialDate: "2025-08-17", // Updated to current date
+                events: function(fetchInfo, successCallback, failureCallback) {
+                    fetch("./functions/get-appointments.php")
+                        .then((response) => {
+                            console.log("Response status:", response.status);
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.text();
+                        })
+                        .then((text) => {
+                            console.log("Raw response (first 200 chars):", text.substring(0, 200));
+                            let events;
+                            try {
+                                events = JSON.parse(text);
+                                console.log("Successfully parsed JSON:", events);
+                            } catch (e) {
+                                console.error("JSON parse error:", e);
+                                console.error("Full response was:", text);
+                                const jsonMatch = text.match(/\[.*\]/s);
+                                if (jsonMatch) {
+                                    try {
+                                        events = JSON.parse(jsonMatch[0]);
+                                        console.log("Extracted JSON from response:", events);
+                                    } catch (e2) {
+                                        console.error("Could not extract JSON either:", e2);
+                                        events = [];
+                                    }
+                                } else {
+                                    events = [];
+                                }
+                            }
+                            processEvents(events, successCallback);
+                        })
+                        .catch((error) => {
+                            console.error("Fetch error:", error);
+                            processEvents([], successCallback);
+                        });
+                },
+                dateClick: function(info) {
+                    handleDateClick(info);
+                },
+                eventDidMount: function(info) {
+                    info.el.style.display = "none"; // Hide default event display
+                },
+                eventsSet: function(events) {
+                    console.log("Events set, updating appearance");
+                    updateCalendarAppearance();
+                },
+                dayMaxEvents: false,
+                showNonCurrentDates: false,
+            });
+            calendar.render();
+
+            // Refresh events if reload parameter is present
+            if (new URLSearchParams(window.location.search).get('reload') === '1') {
+                calendar.refetchEvents();
+                // Remove reload param from URL to prevent infinite refresh
+                window.history.replaceState({}, document.title, window.location.pathname + '?month=' + <?= $cur_month ?> + '&year=' + <?= $cur_year ?>);
+            }
+        });
+
+        // Include other functions from appointments-handler.js here
+        function processEvents(events, successCallback) {
+            console.log("Processing events:", events);
+            allEvents = events;
+
+            // Count appointments per date
+            appointmentCounts = {};
+            events.forEach((event) => {
+                const eventDate = new Date(event.start).toISOString().split("T")[0];
+                appointmentCounts[eventDate] = (appointmentCounts[eventDate] || 0) + 1;
+            });
+
+            console.log("Appointment counts:", appointmentCounts);
+            successCallback(events);
+
+            // Update calendar appearance after events are loaded
+            setTimeout(() => {
+                updateCalendarAppearance();
+                console.log("Updated counts:", appointmentCounts);
+            }, 100);
+        }
+
+        // ... (add other functions like handleDateClick, showAppointmentDetails, etc., from appointments-handler.js)
+        // For brevity, I'll include just one more as an example
+        function handleDateClick(info) {
+            const dateStr = info.dateStr;
+            const count = appointmentCounts[dateStr] || 0;
+
+            console.log(`Date clicked: ${dateStr}, Appointment count: ${count}`);
+
+            if (count > 0) {
+                showAppointmentDetails(dateStr, count);
+            } else {
+                openBookingModalForDate(dateStr);
+            }
+        }
+
+        function toggleModal(modalId) {
+            console.log("Toggling modal:", modalId); // Debug log
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            } else {
+                console.error("Modal not found:", modalId);
+            }
+        }
     </script>
 
     <script src="./js/profile-dropdown.js"></script>

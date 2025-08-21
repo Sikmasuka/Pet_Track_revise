@@ -1,19 +1,47 @@
 <?php
-require_once './functions/dashboard-handler.php';
-require_once './functions/auth.php';
-require_once './functions/logs.php';
+require_once __DIR__ . "/db.php";
+require_once __DIR__ . "/functions/dashboard-handler.php";
+require_once __DIR__ . "/functions/auth.php";
+require_once __DIR__ . "/functions/logs.php";
+include "includes/sitemap/Help/support.php";
 
 requireVet();
 
-// Fetch current veterinarian data for the modal
-$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
-$stmt->execute([$_SESSION['vet_id']]); // Assuming you store vet_id in session
-$currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
+// Pagination settings
+$itemsPerPage = 10; // Match admin-dashboard.php
+$currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($currentPage - 1) * $itemsPerPage;
 
-// Fetch recent activities (logs)
-$stmt = $pdo->prepare("SELECT Action_Type, Description, Table_Affected, created_at FROM Logs ORDER BY created_at DESC LIMIT 5");
+// Count total logs
+$totalStmt = $pdo->query("SELECT COUNT(*) FROM Logs WHERE Table_Affected = 'Guest'");
+$totalLogs = $totalStmt->fetchColumn();
+$totalPages = ceil($totalLogs / $itemsPerPage);
+
+// Fetch paginated logs
+$logQuery = "
+    SELECT 
+        l.Description,
+        l.Timestamp,
+        ap.owner_name AS name
+    FROM Logs l
+    LEFT JOIN appointments ap ON l.Table_Affected = 'Guest' AND l.User_ID = 0 AND ap.id = (SELECT MAX(id) FROM appointments WHERE owner_name LIKE CONCAT('%', SUBSTRING_INDEX(l.Description, ' ', 2), '%'))
+    WHERE l.Table_Affected = 'Guest'
+    ORDER BY l.Timestamp DESC
+    LIMIT :limit OFFSET :offset
+";
+
+$stmt = $pdo->prepare($logQuery);
+$stmt->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $recentActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch current veterinarian data for the modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
 
 ?>
 
@@ -108,6 +136,9 @@ $recentActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </a>
             <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
+            </a>
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+                <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
 
@@ -243,8 +274,56 @@ $recentActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </div>
+
+            <!-- Recent Activities Section -->
+            <div class="mt-8 bg-slate-700 border border-slate-600 rounded-lg p-4 shadow-sm hover:border-indigo-400 transition-colors">
+                <h3 class="text-base lg:text-lg font-semibold text-white mb-4">Recent Activities</h3>
+                <div class="table-container">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-slate-800">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs text-gray-400 uppercase tracking-wider">#</th>
+                                <th class="px-4 py-3 text-left text-xs text-gray-400 uppercase tracking-wider">Name</th>
+                                <th class="px-4 py-3 text-left text-xs text-gray-400 uppercase tracking-wider">Description</th>
+                                <th class="px-4 py-3 text-left text-xs text-gray-400 uppercase tracking-wider">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-slate-700 divide-y divide-slate-600">
+                            <?php foreach ($recentActivities as $index => $activity): ?>
+                                <?php $serial = ($offset + $index + 1); ?>
+                                <tr class="hover:bg-slate-600">
+                                    <td class="px-4 py-2 text-sm"><?= $serial ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($activity['name'] ?? 'Unknown') ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= htmlspecialchars($activity['Description']) ?></td>
+                                    <td class="px-4 py-2 text-sm"><?= date('M d, Y H:i', strtotime($activity['Timestamp'])) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <?php if (empty($recentActivities)): ?>
+                                <tr>
+                                    <td colspan="4" class="px-4 py-2 text-sm text-center text-gray-400">No recent appointment activities</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <div class="mt-4 flex justify-center space-x-2">
+                        <?php if ($currentPage > 1): ?>
+                            <a href="?page=<?= $currentPage - 1 ?>" class="px-3 py-1 bg-slate-600 text-white rounded hover:bg-slate-500">« Prev</a>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <a href="?page=<?= $i ?>" class="px-3 py-1 <?= $i === $currentPage ? 'bg-indigo-600 text-white' : 'bg-slate-600 text-gray-300' ?> rounded hover:bg-indigo-500 hover:text-white"><?= $i ?></a>
+                        <?php endfor; ?>
+
+                        <?php if ($currentPage < $totalPages): ?>
+                            <a href="?page=<?= $currentPage + 1 ?>" class="px-3 py-1 bg-slate-600 text-white rounded hover:bg-slate-500">Next »</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
+
+
 
     <!-- Profile Modal -->
     <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-60 z-[60] hidden flex items-center justify-center p-4">
@@ -334,39 +413,6 @@ $recentActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <!-- Recent Activities Section -->
-    <div class="mt-8 bg-slate-700 border border-slate-600 rounded-lg p-4 shadow-sm hover:border-indigo-400 transition-colors">
-        <h3 class="text-base lg:text-lg font-semibold text-white mb-4">Recent Activities</h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-300">
-                <thead class="text-xs text-gray-400 uppercase bg-slate-800">
-                    <tr>
-                        <th scope="col" class="px-4 py-3">Action</th>
-                        <th scope="col" class="px-4 py-3">Description</th>
-                        <th scope="col" class="px-4 py-3">Role</th>
-                        <th scope="col" class="px-4 py-3">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($recentActivities)): ?>
-                        <tr>
-                            <td colspan="4" class="px-4 py-3 text-center text-gray-400">No recent activities</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($recentActivities as $activity): ?>
-                            <tr class="border-b border-slate-600 hover:bg-slate-600">
-                                <td class="px-4 py-3"><?= htmlspecialchars($activity['Action_Type']) ?></td>
-                                <td class="px-4 py-3"><?= htmlspecialchars($activity['Description']) ?></td>
-                                <td class="px-4 py-3"><?= htmlspecialchars($activity['Table_Affected']) ?></td>
-                                <td class="px-4 py-3"><?= date('M d, Y H:i', strtotime($activity['created_at'])) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
         </div>
     </div>
 
@@ -461,112 +507,18 @@ $recentActivities = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         });
 
-        // Dropdown functionality
-        const button = document.getElementById('profileButton');
-        const menu = document.getElementById('dropdownMenu');
-        const chevron = document.getElementById('chevronIcon');
-
-        button.addEventListener('click', () => {
-            const isOpen = menu.classList.contains('opacity-100');
-
-            if (isOpen) {
-                // Close dropdown
-                menu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
-                menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-                chevron.style.transform = 'rotate(0deg)';
+        function toggleModal(modalId) {
+            console.log("Toggling modal:", modalId); // Debug log
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
             } else {
-                // Open dropdown
-                menu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-                menu.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
-                chevron.style.transform = 'rotate(180deg)';
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!button.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
-                menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-                chevron.style.transform = 'rotate(0deg)';
-            }
-        });
-
-        // Add smooth transitions to dropdown items
-        const dropdownItems = document.querySelectorAll('#dropdownMenu a, #dropdownMenu button');
-        dropdownItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                item.style.transform = 'translateX(4px)';
-            });
-            item.addEventListener('mouseleave', () => {
-                item.style.transform = 'translateX(0)';
-            });
-        });
-
-        // Simple Profile Modal Functions
-        function openProfileModal() {
-            // Close dropdown first
-            menu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
-            menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-            chevron.style.transform = 'rotate(0deg)';
-
-            // Show modal
-            const modal = document.getElementById('profileModal');
-            const modalContent = document.getElementById('profileModalContent');
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-
-            // Animate in
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
-        }
-
-        function closeProfileModal() {
-            const modal = document.getElementById('profileModal');
-            const modalContent = document.getElementById('profileModalContent');
-
-            // Animate out
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
-
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        function toggleModalPassword() {
-            const passwordInput = document.getElementById('vetPassword');
-            const passwordToggle = document.getElementById('modalPasswordToggle');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordToggle.classList.remove('fa-eye');
-                passwordToggle.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                passwordToggle.classList.remove('fa-eye-slash');
-                passwordToggle.classList.add('fa-eye');
+                console.error("Modal not found:", modalId);
             }
         }
-
-        // Close modal when clicking outside
-        document.getElementById('profileModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeProfileModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeProfileModal();
-            }
-        });
     </script>
 
+    <script src="./js/dashboard.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>

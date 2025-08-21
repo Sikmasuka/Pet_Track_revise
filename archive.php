@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . "/functions/archive-handler.php";
 require_once __DIR__ . "/functions/dashboard-handler.php";
+include "includes/sitemap/Help/support.php";
+
 
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -142,6 +144,9 @@ try {
             </a>
             <a href="archive.php" class="block text-sm text-white bg-green-600 px-4 py-2 rounded-md">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
+            </a>
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+                <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
 
@@ -351,6 +356,16 @@ try {
                 }
             });
             return false;
+        }
+
+        function toggleModal(modalId) {
+            console.log("Toggling modal:", modalId); // Debug log
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            } else {
+                console.error("Modal not found:", modalId);
+            }
         }
     </script>
 </body>

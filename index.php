@@ -67,6 +67,13 @@
                                 <i class="fas fa-eye text-sm"></i>
                             </button>
                         </div>
+                        <!-- Password strength bar -->
+                        <div class="w-full h-2 bg-gray-200 rounded mt-2 overflow-hidden">
+                            <div class="password-strength-bar h-2 rounded transition-all duration-300"></div>
+                        </div>
+
+                        <!-- 🔽 Error message will appear here -->
+                        <p id="passwordError" class="text-red-600 text-xs mt-1"></p>
                     </div>
 
                     <!-- Login Button -->
@@ -82,47 +89,10 @@
             </div>
         </main>
 
+        <script src="./js/auth.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const passwordInput = document.getElementById('password');
-                const togglePassword = document.getElementById('togglePassword');
-                const passwordIcon = togglePassword.querySelector('i');
-
-                // Function to toggle button visibility based on input value
-                function toggleButtonVisibility() {
-                    if (passwordInput.value.length > 0) {
-                        togglePassword.classList.remove('hidden');
-                    } else {
-                        togglePassword.classList.add('hidden');
-                    }
-                }
-
-                // Initial check for button visibility
-                toggleButtonVisibility();
-
-                // Event listener for input changes
-                passwordInput.addEventListener('input', toggleButtonVisibility);
-
-                // Toggle password visibility
-                togglePassword.addEventListener('click', function() {
-                    if (passwordInput.type === 'password') {
-                        passwordInput.type = 'text';
-                        passwordIcon.classList.remove('fa-eye');
-                        passwordIcon.classList.add('fa-eye-slash');
-                    } else {
-                        passwordInput.type = 'password';
-                        passwordIcon.classList.remove('fa-eye-slash');
-                        passwordIcon.classList.add('fa-eye');
-                    }
-                });
-
-                // Check if SweetAlert2 is loaded
-                if (typeof Swal === 'undefined') {
-                    console.error('SweetAlert2 is not loaded');
-                    return;
-                }
-
-                // Show SweetAlert2 for successful login
+            // SweetAlert2 success message (from backend PHP flag)
+            if (typeof Swal !== 'undefined') {
                 <?php if ($login_success): ?>
                     Swal.fire({
                         icon: 'success',
@@ -136,7 +106,7 @@
                         window.location.href = '<?php echo $redirect_url; ?>';
                     });
                 <?php endif; ?>
-            });
+            }
         </script>
     </body>
 

@@ -2,77 +2,6 @@ let calendar;
 let appointmentCounts = {}; // Store appointment counts for each date
 let allEvents = []; // Store all events
 
-document.addEventListener("DOMContentLoaded", function () {
-  var calendarEl = document.getElementById("calendar");
-  calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    initialDate: "2025-08-03", // Set to today, August 3, 2025
-    events: function (fetchInfo, successCallback, failureCallback) {
-      // Use relative path instead of absolute localhost URL
-      fetch("./functions/get-appointments.php")
-        .then((response) => {
-          console.log("Response status:", response.status);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.text(); // Get as text first to see what we're receiving
-        })
-        .then((text) => {
-          console.log(
-            "Raw response (first 200 chars):",
-            text.substring(0, 200)
-          );
-
-          // Try to parse as JSON
-          let events;
-          try {
-            events = JSON.parse(text);
-            console.log("Successfully parsed JSON:", events);
-          } catch (e) {
-            console.error("JSON parse error:", e);
-            console.error("Full response was:", text);
-
-            // If there's an HTML comment or other issue, try to extract JSON
-            const jsonMatch = text.match(/\[.*\]/s);
-            if (jsonMatch) {
-              try {
-                events = JSON.parse(jsonMatch[0]);
-                console.log("Extracted JSON from response:", events);
-              } catch (e2) {
-                console.error("Could not extract JSON either:", e2);
-                events = [];
-              }
-            } else {
-              events = [];
-            }
-          }
-
-          processEvents(events, successCallback);
-        })
-        .catch((error) => {
-          console.error("Fetch error:", error);
-          // Provide fallback empty events
-          processEvents([], successCallback);
-        });
-    },
-    dateClick: function (info) {
-      handleDateClick(info);
-    },
-    eventDidMount: function (info) {
-      // Hide the default event display as we're using custom indicators
-      info.el.style.display = "none";
-    },
-    eventsSet: function (events) {
-      // This runs after events are set/updated
-      console.log("Events set, updating appearance");
-      updateCalendarAppearance();
-    },
-    dayMaxEvents: false,
-    showNonCurrentDates: false,
-  });
-  calendar.render();
-});
-
 function processEvents(events, successCallback) {
   console.log("Processing events:", events);
   allEvents = events;
@@ -331,7 +260,7 @@ function showAppointmentModal(action) {
     document.getElementById("appointmentModalTitle").textContent =
       "Add New Appointment";
     form.reset();
-    form.action = "../functions/appointment-handler.php";
+    form.action = "/appointments.php";
     form.innerHTML += '<input type="hidden" name="add_record" value="1">';
   } else if (action === "edit") {
     document.getElementById("appointmentModalTitle").textContent =

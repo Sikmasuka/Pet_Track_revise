@@ -5681,3 +5681,1381 @@ Event: Maricar Bahala on 2025-08-08 (count: 1)
 Event: Test User on 2025-08-15 (count: 2)
 Event: 2323 on 2025-08-15 (count: 2)
 Events found: 9
+Time: 2025-08-17 10:36:04 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 11:13:30 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 11:13:37 - Start: 2025-09-01, End: 2025-09-30, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-09-30
+Events found: 0
+Time: 2025-08-17 11:13:50 - Start: 2025-09-11, End: 2025-09-11, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-11&end=2025-09-11
+Events found: 0
+Script executed at 2025-08-17 04:14:30
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Test User2
+    [contact_number] => 0939251666442
+    [appointment_date] => 2025-09-11
+    [appointment_time] => 14:42:00
+    [reason] => test only
+)
+
+Appointment logged: Guest Test User2 booked an appointment
+Time: 2025-08-17 11:14:31 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:19:47 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:19:53 - Start: 2025-09-01, End: 2025-09-30, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-09-30
+Count for 2025-09-11: 1
+Event: Test User2 on 2025-09-11 (count: 1)
+Events found: 1
+Time: 2025-08-17 12:20:45 - Start: 2025-09-11, End: 2025-09-11, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-11&end=2025-09-11
+Count for 2025-09-11: 1
+Event: Test User2 on 2025-09-11 (count: 1)
+Events found: 1
+Script executed at 2025-08-17 20:21:08
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => janpaul25
+    [contact_number] => 093925166642
+    [appointment_date] => 2025-09-11
+    [appointment_time] => 15:55:00
+    [reason] => only test
+)
+
+Appointment logged: Guest janpaul25 booked an appointment on September 11, 2025 at 3:55 PM
+Time: 2025-08-17 12:21:08 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:53:10 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:31 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:33 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:34 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:34 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:46 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:52 - Start: 2025-09-01, End: 2025-09-30, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-09-30
+Count for 2025-09-11: 2
+Event: Test User2 on 2025-09-11 (count: 2)
+Event: janpaul25 on 2025-09-11 (count: 2)
+Events found: 2
+Time: 2025-08-17 12:54:53 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:53 - Start: 2025-07-01, End: 2025-07-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-07-01&end=2025-07-31
+Events found: 0
+Time: 2025-08-17 12:54:54 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:54:54 - Start: 2025-09-01, End: 2025-09-30, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-09-30
+Count for 2025-09-11: 2
+Event: Test User2 on 2025-09-11 (count: 2)
+Event: janpaul25 on 2025-09-11 (count: 2)
+Events found: 2
+Time: 2025-08-17 12:55:08 - Start: 2025-09-10, End: 2025-09-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-10&end=2025-09-10
+Events found: 0
+Script executed at 2025-08-17 20:55:08
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Test User234
+    [contact_number] => 2131241232
+    [appointment_date] => 2025-09-10
+    [appointment_time] => 14:45:00
+    [reason] => 1asdasd
+)
+
+Appointment logged: Guest Test User234 booked an appointment on September 10, 2025 at 2:45 PM
+Time: 2025-08-17 12:55:09 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:55:10 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:55:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:56:44 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 12:56:47 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:07 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:07 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:08 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:09 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:13 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:25:14 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:16 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:16 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:18 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:19 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:49 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:53 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:26:57 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Events found: 9
+Time: 2025-08-17 21:27:10 - Start: 2025-08-20, End: 2025-08-20, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-20&end=2025-08-20
+Events found: 0
+Script executed at 2025-08-17 21:27:10
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Test User6
+    [contact_number] => 093925166642
+    [appointment_date] => 2025-08-20
+    [appointment_time] => 14:41:00
+    [reason] => ssww
+)
+
+Appointment logged: Guest Test User6 booked an appointment on August 20, 2025 at 2:41 PM
+Time: 2025-08-17 21:27:11 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 21:27:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 21:27:31 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 22:32:33 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 22:32:35 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 22:32:42 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 22:32:55 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 22:32:57 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-17 22:36:01 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-18 09:39:17 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-18 09:39:34 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-18 09:39:44 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:11:44 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:14:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:25:09 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:26:35 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:26:51 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:26:52 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:29:35 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:30:25 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:30:32 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:32:26 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:32:37 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:33:13 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:33:46 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:39:43 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:47:07 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:48:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Events found: 10
+Time: 2025-08-19 21:50:19 - Start: 2025-08-21, End: 2025-08-21, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-21&end=2025-08-21
+Events found: 0
+Script executed at 2025-08-19 21:50:19
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Samuel Seo
+    [contact_number] => 093925166644
+    [appointment_date] => 2025-08-21
+    [appointment_time] => 15:23:00
+    [reason] => Samuel seo test
+)
+
+Appointment logged: Guest Samuel Seo booked an appointment on August 21, 2025 at 3:23 PM
+Time: 2025-08-19 21:50:19 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-19 21:54:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-19 21:54:16 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-19 21:54:18 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-19 22:08:02 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-08-31
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:41:54 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:07 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:09 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:10 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:11 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:12 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:13 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:14 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:14 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:14 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 18:42:16 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 19:16:15 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 19:16:22 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 19:16:25 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 19:16:26 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11
+Time: 2025-08-20 19:16:27 - Start: 2025-08-01, End: 2025-08-31, Server: /Pet_Track_revise-3/functions/get-appointments.php
+Count for 2025-08-07: 6
+Count for 2025-08-08: 1
+Count for 2025-08-15: 2
+Count for 2025-08-20: 1
+Count for 2025-08-21: 1
+Event: mikay on 2025-08-07 (count: 6)
+Event: uyan on 2025-08-07 (count: 6)
+Event: odemil on 2025-08-07 (count: 6)
+Event: sheryl on 2025-08-07 (count: 6)
+Event: mikay on 2025-08-07 (count: 6)
+Event: closherl on 2025-08-07 (count: 6)
+Event: Maricar Bahala on 2025-08-08 (count: 1)
+Event: Test User on 2025-08-15 (count: 2)
+Event: 2323 on 2025-08-15 (count: 2)
+Event: Test User6 on 2025-08-20 (count: 1)
+Event: Samuel Seo on 2025-08-21 (count: 1)
+Events found: 11

@@ -1,5 +1,7 @@
 <?php
 require_once 'functions/profile-handler.php';
+include "includes/sitemap/Help/support.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -81,6 +83,9 @@ require_once 'functions/profile-handler.php';
             </a>
             <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
+            </a>
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+                <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
 
@@ -267,6 +272,16 @@ require_once 'functions/profile-handler.php';
                 }
             });
         });
+
+        function toggleModal(modalId) {
+            console.log("Toggling modal:", modalId); // Debug log
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            } else {
+                console.error("Modal not found:", modalId);
+            }
+        }
     </script>
 </body>
 

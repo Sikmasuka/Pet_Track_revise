@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../admin/record-handler.php';
+include "../includes/sitemap/Help/support.php";
 ?>
 
 <!DOCTYPE html>
@@ -51,11 +52,16 @@ require_once '../admin/record-handler.php';
             <a href="records.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
                 <i class="fa-solid fa-file-lines mr-2"> </i> Records
             </a>
-            <a href="../index.php" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span class="md:inline">Logout</span>
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('adminHelpModal')">
+                <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
+
+        <!-- Logout -->
+        <a href="../index.php" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            <span class="md:inline">Logout</span>
+        </a>
     </div>
 
     <!-- Overlay for mobile menu -->
@@ -221,6 +227,16 @@ require_once '../admin/record-handler.php';
         document.getElementById('closeAddModal').addEventListener('click', function() {
             document.getElementById('addModal').classList.add('hidden');
         });
+
+        function toggleModal(modalId) {
+            console.log("Toggling modal:", modalId); // Debug log
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            } else {
+                console.error("Modal not found:", modalId);
+            }
+        }
     </script>
 </body>
 
