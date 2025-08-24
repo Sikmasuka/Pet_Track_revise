@@ -103,7 +103,7 @@ include "includes/sitemap/Help/support.php";
     <!-- Main Content -->
     <div class="ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
         <!-- Header -->
-        <header class="bg-slate-800 rounded-none lg:rounded-lg p-4 lg:py-6 mx-4 shadow-sm mb-4 lg:mb-8 px-4 lg:px-8 mt-16 lg:mt-4 border border-slate-700">
+        <header class="bg-slate-800 rounded-none lg:rounded-lg p-4 lg:py-6 mx-4 shadow-sm mb-4 lg:mb-8 px-4 lg:px-8 border border-slate-700 ">
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-semibold flex items-center gap-2">
                 <i class="fas fa-user-circle text-indigo-400"></i>
                 <span>My Profile</span>

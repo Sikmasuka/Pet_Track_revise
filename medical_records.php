@@ -116,7 +116,7 @@ $records = $stmt->fetchAll();
 
 </head>
 
-<body class="bg-slate-900 min-h-screen">
+<body class="bg-slate-100 min-h-screen text-gray-800">
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
@@ -139,7 +139,7 @@ $records = $stmt->fetchAll();
 
         <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white hover:bg-slate-700 px-4 py-2 rounded-md hover:bg-slate-600 transition-colors">
+            <a href="dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
             <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
@@ -148,7 +148,7 @@ $records = $stmt->fetchAll();
             <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-gray-300 bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="medical_records.php" class="block text-sm text-white bg-slate-700 px-4 py-2 rounded-md">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
             <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
@@ -183,49 +183,49 @@ $records = $stmt->fetchAll();
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
 
         <!-- header -->
-        <header class="bg-slate-800 rounded-lg text-white py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-700">
+        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Top Section with Dropdown -->
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center">
 
                 <!-- Dashboard Title -->
                 <h1 class="text-xl lg:text-2xl font-bold">Medical Records</h1>
 
                 <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-slate-700 border border-slate-600 rounded-full hover:bg-slate-600 text-white text-lg transition-colors">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu"
-                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-700">
+                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
                         <!-- User Info Section -->
-                        <div class="px-4 py-3 border-b border-slate-700">
+                        <div class="px-4 py-3 border-b border-slate-200">
                             <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-slate-700 text-indigo-400 text-xl">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-white"><?= $vetName ?></p>
-                                    <p class="text-xs text-slate-400">Veterinarian</p>
+                                    <p class="text-sm font-semibold text-gray-800"><?= $vetName ?></p>
+                                    <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
                         </div>
                         <!-- Menu Options -->
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-150">
+                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
                                 <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-slate-400">Update your information</div>
+                                    <div class="text-xs text-gray-500">Update your information</div>
                                 </div>
                             </a>
-                            <hr class="my-1 border-slate-700">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-slate-700 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-400"></i>
+                            <hr class="my-1 border-slate-200">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
                                 <div>
                                     <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-500">Sign out of your account</div>
+                                    <div class="text-xs text-red-600">Sign out of your account</div>
                                 </div>
                             </a>
                         </div>
@@ -234,36 +234,36 @@ $records = $stmt->fetchAll();
             </div>
         </header>
 
-        <main class="bg-slate-800 p-4 lg:p-6 rounded-lg shadow-sm">
+        <main class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
             <!-- Medical Records Section -->
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-4">Medical Records</h2>
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-800 mb-4">Medical Records</h2>
 
             <?php if (count($records) > 0): ?>
                 <div class="overflow-x-auto">
                     <div class="max-h-96 overflow-y-auto">
-                        <table class="min-w-full divide-y divide-slate-700">
-                            <thead class="bg-slate-700 sticky top-0 z-2">
-                                <tr class="border-b border-slate-600">
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Pet Name</th>
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Date</th>
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Condition</th>
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Diagnosis</th>
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Symptoms</th>
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Treatment</th>
-                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider min-w-[100px] whitespace-nowrap overflow-hidden truncate">Actions</th>
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-gray-100 sticky top-0 z-2">
+                                <tr class="border-b border-slate-200">
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Pet Name</th>
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Date</th>
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Condition</th>
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Diagnosis</th>
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Symptoms</th>
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Treatment</th>
+                                    <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[100px] whitespace-nowrap overflow-hidden truncate">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-slate-800 divide-y divide-slate-700">
+                            <tbody class="bg-white divide-y divide-slate-200">
                                 <?php foreach ($records as $record): ?>
-                                    <tr class="border-b border-slate-700 hover:bg-slate-700/50 transition-colors">
-                                        <td class="px-4 py-2 text-slate-200"><?= htmlspecialchars($record['pet_name']) ?></td>
-                                        <td class="px-4 py-2 text-slate-200"><?= htmlspecialchars($record['date']) ?></td>
-                                        <td class="px-4 py-2 text-slate-200"><?= htmlspecialchars($record['medical_condition']) ?></td>
-                                        <td class="px-4 py-2 text-slate-200"><?= htmlspecialchars($record['medical_diagnosis']) ?></td>
-                                        <td class="px-4 py-2 text-slate-200"><?= htmlspecialchars($record['medical_symptoms']) ?></td>
-                                        <td class="px-4 py-2 text-slate-200"><?= htmlspecialchars($record['medical_treatment']) ?></td>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($record['pet_name']) ?></td>
+                                        <td class="px-4 py-2 text-gray-600"><?= htmlspecialchars($record['date']) ?></td>
+                                        <td class="px-4 py-2 text-gray-600"><?= htmlspecialchars($record['medical_condition']) ?></td>
+                                        <td class="px-4 py-2 text-gray-600"><?= htmlspecialchars($record['medical_diagnosis']) ?></td>
+                                        <td class="px-4 py-2 text-gray-600"><?= htmlspecialchars($record['medical_symptoms']) ?></td>
+                                        <td class="px-4 py-2 text-gray-600"><?= htmlspecialchars($record['medical_treatment']) ?></td>
                                         <td class="px-2 py-4 whitespace-nowrap text-sm sm:text-base">
-                                            <a href="?edit_record_id=<?= $record['record_id'] ?>" class="text-blue-500 hover:underline">Edit</a> |
+                                            <a href="?edit_record_id=<?= $record['record_id'] ?>" class="text-indigo-500 hover:underline">Edit</a> |
                                             <a href="?delete_record_id=<?= $record['record_id'] ?>" onclick="return confirm('Delete this record?')" class="text-red-500 hover:underline">Delete</a>
                                         </td>
                                     </tr>
@@ -273,18 +273,18 @@ $records = $stmt->fetchAll();
                     </div>
                 </div>
             <?php else: ?>
-                <p class="text-sm sm:text-base text-gray-700 text-center">No medical records added yet.</p>
+                <p class="text-sm sm:text-base text-gray-500 text-center">No medical records added yet.</p>
             <?php endif; ?>
 
-            <button onclick="showRecordModal('add')" class="mt-6 bg-indigo-600 text-white px-4 py-2 font-semibold rounded-md hover:bg-indigo-700 transition-colors text-sm sm:text-base">
+            <button onclick="showRecordModal('add')" class="mt-6 bg-indigo-500 text-white px-4 py-2 font-semibold rounded-md hover:bg-indigo-600 transition-colors text-sm sm:text-base">
                 <i class="fas fa-plus mr-2"></i> Add New Medical Record
             </button>
         </main>
     </div>
 
     <div id="recordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-slate-800 rounded-lg shadow-lg w-11/12 max-w-3xl max-h-[70vh] overflow-hidden flex flex-col border border-slate-700">
-            <div class="w-full bg-slate-700 rounded-t-lg text-white border-b border-slate-600">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl max-h-[70vh] overflow-hidden flex flex-col border border-slate-200">
+            <div class="w-full bg-gray-50 rounded-t-lg text-gray-800 border-b border-slate-200">
                 <h3 id="recordModalTitle" class="text-lg font-bold text-center py-2">Add New Medical Record</h3>
             </div>
             <form id="recordForm" method="POST" class="p-4 overflow-y-auto custom-scrollbar">
@@ -294,26 +294,26 @@ $records = $stmt->fetchAll();
                     }
 
                     .custom-scrollbar::-webkit-scrollbar-track {
-                        background: #2d3748;
+                        background: #edf2f7;
                         border-radius: 4px;
                     }
 
                     .custom-scrollbar::-webkit-scrollbar-thumb {
-                        background: #4a5568;
+                        background: #cbd5e0;
                         border-radius: 4px;
                     }
 
                     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                        background: #718096;
+                        background: #a0aec0;
                     }
                 </style>
                 <input type="hidden" name="record_id" id="record_id">
                 <div class="grid grid-cols-1 gap-4">
                     <div>
-                        <h4 class="text-sm font-bold text-slate-300 mb-2">Medical Record Information</h4>
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Medical Record Information</h4>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Pet</label>
-                            <select name="pet_id" id="petId" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <label class="block text-xs text-gray-500 mb-1">Pet</label>
+                            <select name="pet_id" id="petId" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
                                 <?php
                                 $stmt = $pdo->prepare("SELECT * FROM Pet ORDER BY pet_name ASC");
                                 $stmt->execute();
@@ -325,30 +325,30 @@ $records = $stmt->fetchAll();
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Date</label>
-                            <input type="date" name="date" id="recordDate" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <label class="block text-xs text-gray-500 mb-1">Date</label>
+                            <input type="date" name="date" id="recordDate" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Condition</label>
-                            <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            <label class="block text-xs text-gray-500 mb-1">Condition</label>
+                            <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Diagnosis</label>
-                            <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            <label class="block text-xs text-gray-500 mb-1">Diagnosis</label>
+                            <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Symptoms</label>
-                            <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            <label class="block text-xs text-gray-500 mb-1">Symptoms</label>
+                            <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Treatment</label>
-                            <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            <label class="block text-xs text-gray-500 mb-1">Treatment</label>
+                            <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-between mt-4 pt-2 border-t border-slate-700">
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors text-sm">Save</button>
-                    <button type="button" onclick="hideRecordModal()" class="text-slate-400 hover:text-white text-sm">Cancel</button>
+                <div class="flex justify-between mt-4 pt-2 border-t border-slate-200">
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors text-sm">Save</button>
+                    <button type="button" onclick="hideRecordModal()" class="text-gray-500 hover:text-gray-700 text-sm">Cancel</button>
                 </div>
             </form>
         </div>

@@ -1,7 +1,6 @@
 <?php
 require_once './functions/clients-handler.php';
 include "includes/sitemap/Help/support.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +48,7 @@ include "includes/sitemap/Help/support.php";
     </style>
 </head>
 
-<body class="bg-slate-900 min-h-screen text-gray-100">
+<body class="bg-slate-100 min-h-screen text-gray-800">
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
@@ -114,48 +113,48 @@ include "includes/sitemap/Help/support.php";
 
     <!-- Main Content -->
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
-        <header class="bg-slate-800 rounded-lg text-white py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-700">
+        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Top Section with Dropdown -->
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center">
                 <!-- Dashboard Title -->
-                <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
+                <h1 class="text-xl lg:text-2xl font-bold">Manage Clients</h1>
 
                 <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-slate-700 border border-slate-600 rounded-full hover:bg-slate-600 text-white text-lg transition-colors">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu"
-                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-700">
+                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
                         <!-- User Info Section -->
-                        <div class="px-4 py-3 border-b border-slate-700">
+                        <div class="px-4 py-3 border-b border-slate-200">
                             <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-slate-700 text-indigo-400 text-xl">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-white"><?= $vetName ?></p>
-                                    <p class="text-xs text-slate-400">Veterinarian</p>
+                                    <p class="text-sm font-semibold text-gray-800"><?= $vetName ?></p>
+                                    <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
                         </div>
                         <!-- Menu Options -->
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-150">
+                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
                                 <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-slate-400">Update your information</div>
+                                    <div class="text-xs text-gray-500">Update your information</div>
                                 </div>
                             </a>
-                            <hr class="my-1 border-slate-700">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-slate-700 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-400"></i>
+                            <hr class="my-1 border-slate-200">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
                                 <div>
                                     <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-500">Sign out of your account</div>
+                                    <div class="text-xs text-red-600">Sign out of your account</div>
                                 </div>
                             </a>
                         </div>
@@ -164,35 +163,35 @@ include "includes/sitemap/Help/support.php";
             </div>
         </header>
 
-        <main class="bg-slate-800 p-4 lg:p-6 rounded-lg shadow-sm border border-slate-700">
+        <main class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
             <?php if (isset($error)): ?>
-                <div class="bg-red-900/50 border-l-4 border-red-500 text-red-200 p-4 mb-4" role="alert">
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
                     <p><?= htmlspecialchars($error) ?></p>
                 </div>
             <?php endif; ?>
 
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-4">Clients</h2>
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-800 mb-4">Clients</h2>
 
             <?php if (count($clients) > 0): ?>
                 <div class="table-container">
-                    <table class="min-w-full divide-y divide-slate-700">
-                        <thead class="bg-slate-700 sticky top-0 z-5">
-                            <tr class="border-b border-slate-600">
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Name</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Address</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Contact Number</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Actions</th>
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-gray-100 sticky top-0 z-5">
+                            <tr class="border-b border-slate-200">
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Name</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Address</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Contact Number</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-slate-800 divide-y divide-slate-700">
+                        <tbody class="bg-white divide-y divide-slate-200">
                             <?php foreach ($clients as $client): ?>
-                                <tr class="hover:bg-slate-700/50 transition-colors">
-                                    <td class="px-4 py-2 text-sm text-slate-200"><?= htmlspecialchars($client['client_name']) ?></td>
-                                    <td class="px-4 py-2 text-sm text-slate-300"><?= htmlspecialchars($client['client_address']) ?></td>
-                                    <td class="px-4 py-2 text-sm text-slate-300"><?= htmlspecialchars($client['client_contact_number']) ?></td>
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-4 py-2 text-sm text-gray-700"><?= htmlspecialchars($client['client_name']) ?></td>
+                                    <td class="px-4 py-2 text-sm text-gray-600"><?= htmlspecialchars($client['client_address']) ?></td>
+                                    <td class="px-4 py-2 text-sm text-gray-600"><?= htmlspecialchars($client['client_contact_number']) ?></td>
                                     <td class="px-4 py-2 text-sm">
-                                        <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-indigo-400 hover:text-indigo-300 hover:underline">Edit</a> |
-                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-400 hover:text-red-300 hover:underline">Delete</a>
+                                        <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-indigo-500 hover:text-indigo-400 hover:underline">Edit</a> |
+                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:text-red-400 hover:underline">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -200,10 +199,10 @@ include "includes/sitemap/Help/support.php";
                     </table>
                 </div>
             <?php else: ?>
-                <p class="text-center text-slate-400 text-sm sm:text-base">No clients added yet.</p>
+                <p class="text-center text-gray-500 text-sm sm:text-base">No clients added yet.</p>
             <?php endif; ?>
 
-            <button onclick="showClientModal('add')" class="mt-6 bg-indigo-600 text-white px-4 py-2 font-semibold rounded-md hover:bg-indigo-700 transition-colors text-sm sm:text-base">
+            <button onclick="showClientModal('add')" class="mt-6 bg-indigo-500 text-white px-4 py-2 font-semibold rounded-md hover:bg-indigo-600 transition-colors text-sm sm:text-base">
                 <i class="fas fa-plus mr-2"></i>Add New Client
             </button>
         </main>
@@ -211,8 +210,8 @@ include "includes/sitemap/Help/support.php";
 
     <!-- Add/Edit Client & Pet Modal -->
     <div id="clientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-slate-800 rounded-lg shadow-lg w-11/12 max-w-3xl max-h-[70vh] overflow-hidden flex flex-col border border-slate-700">
-            <div class="w-full bg-slate-700 rounded-t-lg text-white border-b border-slate-600">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl max-h-[70vh] overflow-hidden flex flex-col border border-slate-200">
+            <div class="w-full bg-gray-50 rounded-t-lg text-gray-800 border-b border-slate-200">
                 <h3 id="modalTitle" class="text-lg font-bold text-center py-2">Add New Client & Pet</h3>
             </div>
             <form id="clientForm" method="POST" class="p-4 overflow-y-auto">
@@ -222,67 +221,67 @@ include "includes/sitemap/Help/support.php";
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Client Information -->
                     <div>
-                        <h4 class="text-sm font-bold text-slate-300 mb-2">Client Information</h4>
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Client Information</h4>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Client Name</label>
-                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Client Name</label>
+                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Address</label>
-                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Address</label>
+                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Contact Number</label>
-                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent" pattern="[0-9]{10,}">
+                            <label class="block text-xs text-gray-500 mb-1">Contact Number</label>
+                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" pattern="[0-9]{10,}">
                         </div>
                     </div>
 
                     <!-- Pet Information -->
                     <div>
-                        <h4 class="text-sm font-bold text-slate-300 mb-2">Pet Information</h4>
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Pet Information</h4>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Pet Name</label>
-                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Pet Name</label>
+                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Species
-                                <span id="speciesTooltip" class="text-xs text-slate-500 hidden">(Cannot be changed)</span>
+                            <label class="block text-xs text-gray-500 mb-1">Species
+                                <span id="speciesTooltip" class="text-xs text-gray-400 hidden">(Cannot be changed)</span>
                             </label>
-                            <select name="pet_species" id="petSpecies" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <select name="pet_species" id="petSpecies" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                                 <option value="">Select</option>
                                 <option value="Dog">Dog</option>
                                 <option value="Cat">Cat</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Pet Sex
-                                <span id="sexTooltip" class="text-xs text-slate-500 hidden">(Cannot be changed)</span>
+                            <label class="block text-xs text-gray-500 mb-1">Pet Sex
+                                <span id="sexTooltip" class="text-xs text-gray-400 hidden">(Cannot be changed)</span>
                             </label>
-                            <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                                 <option value="">Select</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Pet Breed</label>
-                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Pet Breed</label>
+                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Pet Weight (kg)</label>
-                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Pet Weight (kg)</label>
+                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                         <div class="mb-3">
-                            <label class="block text-xs text-slate-400 mb-1">Birth Date</label>
-                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-700 rounded-md text-sm bg-slate-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Birth Date</label>
+                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
                     </div>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex justify-between mt-4 pt-2 border-t border-slate-700">
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors text-sm">Save</button>
-                    <button type="button" onclick="hideModal()" class="text-slate-400 hover:text-white text-sm">Cancel</button>
+                <div class="flex justify-between mt-4 pt-2 border-t border-slate-200">
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors text-sm">Save</button>
+                    <button type="button" onclick="hideModal()" class="text-gray-500 hover:text-gray-700 text-sm">Cancel</button>
                 </div>
                 <input type="hidden" name="add_client" id="formAction" value="1">
             </form>

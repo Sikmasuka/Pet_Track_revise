@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . "/functions/archive-handler.php";
 require_once __DIR__ . "/functions/dashboard-handler.php";
-include "includes/sitemap/Help/support.php";
-
 
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -97,16 +95,15 @@ try {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-slate-100 min-h-screen text-gray-800">
 
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-green-500 to-green-600 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col">
-
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-700">
         <!-- Sidebar Header -->
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
@@ -114,35 +111,35 @@ try {
                 <span class="md:inline">Dashboard</span>
             </h2>
             <!-- Close button (mobile only) -->
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
         <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-id-badge mr-2"></i> Profile
             </a>
-            <a href="payment_methods.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-white hover:bg-green-600 px-4 py-2 rounded-md">
+            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-white bg-green-600 px-4 py-2 rounded-md">
+            <a href="archive.php" class="block text-sm text-white bg-slate-700 px-4 py-2 rounded-md">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
             <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
@@ -152,7 +149,7 @@ try {
 
         <!-- Logout -->
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:text-red-700 px-4 py-2 rounded-md">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -165,7 +162,7 @@ try {
     <div class="ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
 
         <!-- Header -->
-        <header class="bg-white rounded-lg text-green-800 py-4 shadow-sm mb-8 p-4 lg:p-8">
+        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-8 border border-slate-200">
             <!-- Top Greeting -->
             <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
                 <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= htmlspecialchars($vetName ?? 'User') ?>.</h1>
@@ -182,22 +179,22 @@ try {
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
-            <div class="mb-8 bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-                <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Pets and Clients</h2>
+            <div class="mb-8 bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Archived Pets and Clients</h2>
                 <?php if (count($clients) > 0): ?>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-gray-100">
                                 <tr class="border-b bg-gray-200">
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pet Name</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Species</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Weight</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Breed</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Client</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Pet Name</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Species</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Weight</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Breed</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Address</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Contact</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Archived At</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -221,7 +218,7 @@ try {
                                                     <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>"><?= htmlspecialchars($client['client_contact_number'] ?? 'N/A') ?></td>
                                                     <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>"><?= htmlspecialchars($client['updated_at'] ?? 'N/A') ?></td>
                                                     <td class="px-4 py-2 text-sm" rowspan="<?= $rowspan ?>">
-                                                        <a href="?action=restore&id=<?= $client_id ?>&table=client" class="text-blue-500 hover:underline" onclick="return confirmRestore(<?= $client_id ?>, 'client')">Restore</a> |
+                                                        <a href="?action=restore&id=<?= $client_id ?>&table=client" class="text-indigo-500 hover:underline" onclick="return confirmRestore(<?= $client_id ?>, 'client')">Restore</a> |
                                                         <a href="?action=delete&id=<?= $client_id ?>&table=client" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $client_id ?>, 'client')">Delete</a>
                                                     </td>
                                                 <?php endif; ?>
@@ -239,7 +236,7 @@ try {
                                             <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['client_contact_number'] ?? 'N/A') ?></td>
                                             <td class="px-4 py-2 text-sm"><?= htmlspecialchars($client['updated_at'] ?? 'N/A') ?></td>
                                             <td class="px-4 py-2 text-sm">
-                                                <a href="?action=restore&id=<?= $client_id ?>&table=client" class="text-blue-500 hover:underline" onclick="return confirmRestore(<?= $client_id ?>, 'client')">Restore</a> |
+                                                <a href="?action=restore&id=<?= $client_id ?>&table=client" class="text-indigo-500 hover:underline" onclick="return confirmRestore(<?= $client_id ?>, 'client')">Restore</a> |
                                                 <a href="?action=delete&id=<?= $client_id ?>&table=client" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $client_id ?>, 'client')">Delete</a>
                                             </td>
                                         </tr>
@@ -249,22 +246,22 @@ try {
                         </table>
                     </div>
                 <?php else: ?>
-                    <p class="text-center text-gray-700 text-sm mb-4">No archived clients found.</p>
+                    <p class="text-center text-gray-500 text-sm mb-4">No archived clients found.</p>
                 <?php endif; ?>
             </div>
 
-            <div class="mb-8 bg-white p-4 lg:p-6 rounded-lg shadow-sm">
-                <h2 class="text-lg font-semibold text-green-800 mb-4">Archived Medical Records</h2>
+            <div class="mb-8 bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Archived Medical Records</h2>
                 <?php if (count($medical_records) > 0): ?>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-gray-100">
                                 <tr class="border-b bg-gray-200">
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnosis</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Treatment</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Archived At</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Diagnosis</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Treatment</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Date</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Archived At</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -275,7 +272,7 @@ try {
                                         <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['date'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm">
-                                            <a href="?action=restore&id=<?= $record['record_id'] ?>&table=medical_records" class="text-blue-500 hover:underline" onclick="return confirmRestore(<?= $record['record_id'] ?>, 'medical_records')">Restore</a> |
+                                            <a href="?action=restore&id=<?= $record['record_id'] ?>&table=medical_records" class="text-indigo-500 hover:underline" onclick="return confirmRestore(<?= $record['record_id'] ?>, 'medical_records')">Restore</a> |
                                             <a href="?action=delete&id=<?= $record['record_id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['record_id'] ?>, 'medical_records')">Delete</a>
                                         </td>
                                     </tr>
@@ -284,7 +281,7 @@ try {
                         </table>
                     </div>
                 <?php else: ?>
-                    <p class="text-center text-gray-700 text-sm">No archived medical records</p>
+                    <p class="text-center text-gray-500 text-sm">No archived medical records</p>
                 <?php endif; ?>
             </div>
         </main>
@@ -368,6 +365,7 @@ try {
             }
         }
     </script>
+    <?php include "includes/sitemap/Help/support.php"; ?>
 </body>
 
 </html>
