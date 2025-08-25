@@ -178,15 +178,17 @@ CREATE TABLE archive (
 ALTER TABLE Admin
 ADD COLUMN admin_id INT AUTO_INCREMENT PRIMARY KEY FIRST;
 
-CREATE TABLE appointments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    owner_name VARCHAR(100) NOT NULL,
-    contact_number VARCHAR(20) NOT NULL,
-    appointment_date DATE NOT NULL,
-    appointment_time TIME NOT NULL,
-    reason TEXT NOT NULL,
-    status INT DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+CREATE TABLE `appointments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_name` varchar(100) NOT NULL,
+  `contact_number` varchar(20) NOT NULL,
+  `appointment_date` date DEFAULT NULL,
+  `appointment_time` time DEFAULT NULL,
+  `reason` text NOT NULL,
+  `status` varchar(20) DEFAULT 'Scheduled',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `duration` int(11) NOT NULL DEFAULT 90,
+  PRIMARY KEY (`id`)
+)
 

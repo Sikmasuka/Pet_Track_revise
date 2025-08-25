@@ -4,7 +4,6 @@ require_once __DIR__ . "/db.php"; // Adjust path to your PDO connection file
 require_once __DIR__ . "/functions/logs.php"; // Include the logs.php file
 include "includes/sitemap/Help/support.php";
 
-
 // Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -12,32 +11,20 @@ if (!isset($_SESSION['vet_id'])) {
 }
 
 // Fetch vet name for greeting
-$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id=?");
+$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
 
-// Function to get the current user's role (hypothetical, adjust based on your session/auth system)
+// Function to get the current user's role
 function getUserRole()
 {
-    // Example: Assume role is stored in session
-    return isset($_SESSION['role']) ? $_SESSION['role'] : 'Veterinarian'; // Default to Veterinarian
+    return isset($_SESSION['role']) ? $_SESSION['role'] : 'Veterinarian';
 }
 
-// Log appointment booking action
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name'])) {
-    try {
-        $userId = $_SESSION['vet_id'] ?? 1; // Use vet_id from session, fallback to 1 for testing
-        $userRole = getUserRole();
-        logAction($pdo, $userId, 'Appointment_Booked', "Booked for {$_POST['owner_name']} on {$_POST['appointment_date']} at {$_POST['appointment_time']}", $userRole);
-    } catch (PDOException $e) {
-        file_put_contents('debug.log', "Log error: " . $e->getMessage() . "\n", FILE_APPEND);
-    }
-}
-
-// Define $start_date and $end_date first
-$cur_year = 2025;
-$cur_month = 8; // August
+// Define $start_date and $end_date based on initial load or default
+$cur_year = date('Y'); // 2025
+$cur_month = date('m'); // 08 (August)
 if (isset($_GET['month']) && isset($_GET['year'])) {
     $cur_month = str_pad((int)$_GET['month'], 2, '0', STR_PAD_LEFT);
     $cur_year = (int)$_GET['year'];
@@ -63,17 +50,18 @@ $log_stmt = $pdo->prepare("
 $log_stmt->execute(['start_date' => $start_date, 'end_date' => $end_date]);
 $logs = $log_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get my name from the database
+// Get vet name from the database
 $stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
 $my_name_data = $stmt->fetch(PDO::FETCH_ASSOC);
 $my_name = $my_name_data ? $my_name_data['vet_name'] : "Unknown Vet";
 
-// Get ALL appointments for this month (without LIMIT for combining with logs)
+// Fetch ALL appointments for this month (without LIMIT for combining with logs)
 $stmt = $pdo->prepare("
-    SELECT owner_name, contact_number, appointment_date, appointment_time, reason
+    SELECT id, owner_name, contact_number, appointment_date, appointment_time, reason, status, duration
     FROM appointments
     WHERE appointment_date BETWEEN :start_date AND :end_date
+    AND status = 'Scheduled'
     ORDER BY appointment_date DESC, appointment_time DESC
 ");
 $stmt->execute(['start_date' => $start_date, 'end_date' => $end_date]);
@@ -82,66 +70,10 @@ $appoint_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Set up pagination for appointments only
 $items_per_page = 10;
 $page_num = isset($_GET['page']) && is_numeric($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-
-// Calculate pagination based on appointments only
 $total_items = count($appoint_list);
 $total_pages = ceil($total_items / $items_per_page);
 $start_point = ($page_num - 1) * $items_per_page;
-
-// Get the paginated slice of appointments
 $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
-
-// Handle form submission (from booking modal)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isset($_POST['appointment_date'])) {
-    file_put_contents('debug.log', "Form submitted: " . print_r($_POST, true) . "\n", FILE_APPEND);
-    try {
-        $owner_name = trim($_POST['owner_name']);
-        $contact_number = trim($_POST['contact_number']);
-        $appointment_date = trim($_POST['appointment_date']);
-        $appointment_time = trim($_POST['appointment_time']);
-        $reason = trim($_POST['reason']);
-
-        date_default_timezone_set('Asia/Manila'); // Match time zone
-        $dateObj = DateTime::createFromFormat('Y-m-d', $appointment_date, new DateTimeZone('Asia/Manila'));
-        if (!$dateObj || $dateObj->format('Y-m-d') !== $appointment_date) {
-            $_SESSION['error'] = "Invalid date format. Please use YYYY-MM-DD.";
-            header("Location: Appointments.php?month=$cur_month&year=$cur_year");
-            exit();
-        }
-
-        $dateTime = new DateTime("$appointment_date $appointment_time", new DateTimeZone('Asia/Manila'));
-        $now = new DateTime('now', new DateTimeZone('Asia/Manila')); // Current time: 10:09 AM PHT, August 18, 2025
-        if ($dateTime < $now) {
-            $_SESSION['error'] = "Cannot book appointments before " . $now->format('Y-m-d H:i:s') . " PHT.";
-            header("Location: Appointments.php?month=$cur_month&year=$cur_year");
-            exit();
-        }
-
-        $stmt = $pdo->prepare("INSERT INTO appointments (owner_name, contact_number, appointment_date, appointment_time, reason, status) VALUES (?, ?, ?, ?, ?, 'Scheduled')");
-        $stmt->execute([$owner_name, $contact_number, $appointment_date, $appointment_time, $reason]);
-        if ($stmt->rowCount() > 0) {
-            file_put_contents('debug.log', "Appointment inserted successfully\n", FILE_APPEND);
-            // Log the action
-            $userId = $_SESSION['vet_id'] ?? 1; // Use vet_id, fallback for testing
-            $userRole = getUserRole();
-            $description = "Guest $owner_name booked an appointment on $appointment_date at $appointment_time";
-            logAction($pdo, $userId, 'Appointment', $description, $userRole);
-            $_SESSION['success'] = "Appointment booked successfully!";
-            header("Location: Appointments.php?month=$cur_month&year=$cur_year&reload=1");
-            exit();
-        } else {
-            file_put_contents('debug.log', "No rows inserted\n", FILE_APPEND);
-            $_SESSION['error'] = "Appointment was not saved.";
-            header("Location: Appointments.php?month=$cur_month&year=$cur_year");
-            exit();
-        }
-    } catch (PDOException $e) {
-        file_put_contents('debug.log', "Error booking appointment: " . $e->getMessage() . "\n", FILE_APPEND);
-        $_SESSION['error'] = "Error booking appointment: " . $e->getMessage();
-        header("Location: Appointments.php?month=$cur_month&year=$cur_year");
-        exit();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -150,12 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointments</title>
+    <title>Appointments - PetTrack</title>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .chart-container {
             height: 300px;
@@ -234,8 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
             font-weight: bold;
         }
 
-        #appointmentModal .appointment-details,
-        #bookingModal .appointment-details {
+        #appointmentModal .appointment-details {
             max-height: 60vh;
             overflow-y: auto;
         }
@@ -341,7 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
     <!-- Main content -->
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
 
-        <!-- header -->
+        <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center mb-6">
@@ -427,14 +359,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Owner Name</th>
                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Phone</th>
                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Reason</th>
+                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Duration</th>
                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Time</th>
                         </tr>
                     </thead>
-                    <tbody class="">
+                    <tbody>
                         <?php if (empty($paginated_data)): ?>
                             <tr>
-                                <td colspan="6" class="py-2 px-4 border-b text-center text-sm text-gray-500">No appointments this month.</td>
+                                <td colspan="7" class="py-2 px-4 border-b text-center text-sm text-gray-500">No appointments this month.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($paginated_data as $index => $appointment): ?>
@@ -443,14 +376,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                                 $name = htmlspecialchars($appointment['owner_name']);
                                 $phone = htmlspecialchars($appointment['contact_number']);
                                 $reason = htmlspecialchars($appointment['reason']);
+                                $status = htmlspecialchars($appointment['status']);
+                                $duration = htmlspecialchars($appointment['duration']);
                                 $date = htmlspecialchars($appointment['appointment_date']);
-                                $time = htmlspecialchars($appointment['appointment_time']);
+                                // Convert time to 12-hour format (e.g., 2:30 PM)
+                                $time = date('h:i A', strtotime($appointment['appointment_time']));
                                 ?>
                                 <tr class="hover:bg-gray-50">
                                     <td class="py-2 px-4 border-b text-sm"><?= $serial ?></td>
                                     <td class="py-2 px-4 border-b text-sm"><?= $name ?></td>
                                     <td class="py-2 px-4 border-b text-sm"><?= $phone ?></td>
                                     <td class="py-2 px-4 border-b text-sm"><?= $reason ?></td>
+                                    <td class="py-2 px-4 border-b text-sm"><?= $duration ?> min</td>
                                     <td class="py-2 px-4 border-b text-sm"><?= $date ?></td>
                                     <td class="py-2 px-4 border-b text-sm"><?= $time ?></td>
                                 </tr>
@@ -497,61 +434,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                 <p id="modalDate" class="text-lg font-semibold"></p>
                 <p id="appointmentCount" class="text-sm text-gray-600"></p>
                 <div id="appointmentDetails" class="space-y-4"></div>
-                <button type="button" onclick="openBookingModal()" class="w-full px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600" id="bookNewBtn">Book New Appointment</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Placeholder for edit functionality (to be expanded)
-        <?php if (isset($_GET['edit_appointment_id'])): ?>
-            document.addEventListener('DOMContentLoaded', function() {
-                const appointmentId = <?= $_GET['edit_appointment_id'] ?>;
-                showAppointmentModal('edit');
-                // Fetch and populate form data here (requires AJAX or additional PHP logic)
-            });
-        <?php endif; ?>
+        let calendar;
+        let appointmentCounts = {};
+        let allEvents = {};
 
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
-                initialDate: "2025-08-17", // Updated to current date
+                initialDate: "<?= $start_date ?>", // Use PHP-generated start date
                 events: function(fetchInfo, successCallback, failureCallback) {
-                    fetch("./functions/get-appointments.php")
+                    const start = fetchInfo.startStr.split('T')[0]; // Extract date part
+                    const end = fetchInfo.endStr.split('T')[0]; // Extract date part
+                    console.log('Fetching events for:', {
+                        start,
+                        end
+                    });
+                    fetch(`./functions/get-appointments.php?start=${start}&end=${end}`)
                         .then((response) => {
-                            console.log("Response status:", response.status);
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
+                            console.log('Fetch response status:', response.status);
+                            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                             return response.text();
                         })
                         .then((text) => {
-                            console.log("Raw response (first 200 chars):", text.substring(0, 200));
+                            console.log('Raw response from get-appointments.php:', text);
                             let events;
                             try {
                                 events = JSON.parse(text);
-                                console.log("Successfully parsed JSON:", events);
-                            } catch (e) {
-                                console.error("JSON parse error:", e);
-                                console.error("Full response was:", text);
-                                const jsonMatch = text.match(/\[.*\]/s);
-                                if (jsonMatch) {
-                                    try {
-                                        events = JSON.parse(jsonMatch[0]);
-                                        console.log("Extracted JSON from response:", events);
-                                    } catch (e2) {
-                                        console.error("Could not extract JSON either:", e2);
-                                        events = [];
-                                    }
-                                } else {
-                                    events = [];
+                                console.log('Parsed events:', events);
+                                if (events.error) {
+                                    throw new Error(events.error);
                                 }
+                            } catch (e) {
+                                console.error("JSON parse error:", e, "Response:", text);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Failed to load appointments: Invalid data format.',
+                                    confirmButtonColor: '#dc3545'
+                                });
+                                events = [];
                             }
                             processEvents(events, successCallback);
                         })
                         .catch((error) => {
                             console.error("Fetch error:", error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: `Failed to load appointments: ${error.message}`,
+                                confirmButtonColor: '#dc3545'
+                            });
                             processEvents([], successCallback);
                         });
                 },
@@ -559,77 +497,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_name']) && isse
                     handleDateClick(info);
                 },
                 eventDidMount: function(info) {
-                    info.el.style.display = "none"; // Hide default event display
+                    info.el.style.display = "none";
                 },
                 eventsSet: function(events) {
-                    console.log("Events set, updating appearance");
+                    console.log('Events set, updating calendar appearance');
                     updateCalendarAppearance();
                 },
                 dayMaxEvents: false,
                 showNonCurrentDates: false,
+                timeZone: 'Asia/Manila'
             });
             calendar.render();
 
-            // Refresh events if reload parameter is present
-            if (new URLSearchParams(window.location.search).get('reload') === '1') {
-                calendar.refetchEvents();
-                // Remove reload param from URL to prevent infinite refresh
-                window.history.replaceState({}, document.title, window.location.pathname + '?month=' + <?= $cur_month ?> + '&year=' + <?= $cur_year ?>);
-            }
+            // Force refresh to ensure latest data
+            calendar.refetchEvents();
+
+            // Check for session messages
+            <?php if (isset($_SESSION['success'])): ?>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '<?php echo $_SESSION['success']; ?>',
+                    confirmButtonColor: '#28a745'
+                });
+                <?php unset($_SESSION['success']); ?>
+            <?php elseif (isset($_SESSION['error'])): ?>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '<?php echo $_SESSION['error']; ?>',
+                    confirmButtonColor: '#dc3545'
+                });
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
         });
-
-        // Include other functions from appointments-handler.js here
-        function processEvents(events, successCallback) {
-            console.log("Processing events:", events);
-            allEvents = events;
-
-            // Count appointments per date
-            appointmentCounts = {};
-            events.forEach((event) => {
-                const eventDate = new Date(event.start).toISOString().split("T")[0];
-                appointmentCounts[eventDate] = (appointmentCounts[eventDate] || 0) + 1;
-            });
-
-            console.log("Appointment counts:", appointmentCounts);
-            successCallback(events);
-
-            // Update calendar appearance after events are loaded
-            setTimeout(() => {
-                updateCalendarAppearance();
-                console.log("Updated counts:", appointmentCounts);
-            }, 100);
-        }
-
-        // ... (add other functions like handleDateClick, showAppointmentDetails, etc., from appointments-handler.js)
-        // For brevity, I'll include just one more as an example
-        function handleDateClick(info) {
-            const dateStr = info.dateStr;
-            const count = appointmentCounts[dateStr] || 0;
-
-            console.log(`Date clicked: ${dateStr}, Appointment count: ${count}`);
-
-            if (count > 0) {
-                showAppointmentDetails(dateStr, count);
-            } else {
-                openBookingModalForDate(dateStr);
-            }
-        }
-
-        function toggleModal(modalId) {
-            console.log("Toggling modal:", modalId); // Debug log
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.toggle('hidden');
-            } else {
-                console.error("Modal not found:", modalId);
-            }
-        }
     </script>
 
-    <script src="./js/profile-dropdown.js"></script>
     <script src="./js/appointment-handler.js"></script>
+    <script src="./js/profile-dropdown.js"></script>
     <script src="./js/sidebarHandler.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
 </body>
 

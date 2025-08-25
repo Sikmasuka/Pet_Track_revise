@@ -1,8 +1,6 @@
 <?php
 // Get Appointments - NO HTML COMMENTS ABOVE THIS LINE!
 require_once __DIR__ . "/../db.php"; // Adjust path to your PDO connection file
-
-// Set timezone to Asia/Manila for consistency
 date_default_timezone_set('Asia/Manila');
 
 header('Content-Type: application/json');
@@ -14,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-$start_date = isset($_GET['start']) ? $_GET['start'] : date('Y-m-01'); // Default to start of current month
-$end_date = isset($_GET['end']) ? $_GET['end'] : date('Y-m-t', strtotime($start_date));
+$start_date = isset($_GET['start']) ? substr($_GET['start'], 0, 10) : date('Y-m-01'); // Extract Y-m-d from ISO 8601
+$end_date = isset($_GET['end']) ? substr($_GET['end'], 0, 10) : date('Y-m-t', strtotime($start_date));
 
 // Validate date format
 if (!DateTime::createFromFormat('Y-m-d', $start_date) || !DateTime::createFromFormat('Y-m-d', $end_date)) {
@@ -36,6 +34,7 @@ try {
         SELECT appointment_date, COUNT(*) as count
         FROM appointments
         WHERE appointment_date BETWEEN :start_date AND :end_date
+        AND status = 'Scheduled'
         GROUP BY appointment_date
     ");
     $stmt->execute(['start_date' => $start_date, 'end_date' => $end_date]);
@@ -47,9 +46,10 @@ try {
 
     // Fetch appointment details
     $stmt = $pdo->prepare("
-        SELECT id, owner_name, contact_number, appointment_date, appointment_time, reason
+        SELECT id, owner_name, contact_number, appointment_date, appointment_time, reason, status, duration
         FROM appointments
         WHERE appointment_date BETWEEN :start_date AND :end_date
+        AND status = 'Scheduled'
         ORDER BY appointment_date, appointment_time
     ");
     $stmt->execute(['start_date' => $start_date, 'end_date' => $end_date]);
@@ -58,20 +58,28 @@ try {
     $events = [];
     foreach ($appointments as $appt) {
         $count = $day_counts[$appt['appointment_date']] ?? 0;
+        $startDateTime = new DateTime("{$appt['appointment_date']} {$appt['appointment_time']}", new DateTimeZone('Asia/Manila'));
+        $endDateTime = clone $startDateTime;
+        $endDateTime->modify("+{$appt['duration']} minutes");
+
         $events[] = [
+            'id' => $appt['id'],
             'title' => $appt['owner_name'] . ' - ' . $appt['reason'],
-            'start' => $appt['appointment_date'] . 'T' . $appt['appointment_time'],
+            'start' => $startDateTime->format('Y-m-d\TH:i:s'),
+            'end' => $endDateTime->format('Y-m-d\TH:i:s'),
             'extendedProps' => [
                 'contact' => $appt['contact_number'],
                 'owner' => $appt['owner_name'],
                 'reason' => $appt['reason'],
+                'status' => $appt['status'],
+                'duration' => $appt['duration'],
                 'count' => $count,
                 'isFull' => $count >= 6
             ],
             'backgroundColor' => $count >= 6 ? '#dc3545' : '#28a745', // Red if full, green if not
             'borderColor' => $count >= 6 ? '#dc3545' : '#28a745'
         ];
-        file_put_contents(__DIR__ . '/debug.log', "Event: " . $appt['owner_name'] . " on " . $appt['appointment_date'] . " (count: $count)\n", FILE_APPEND);
+        file_put_contents(__DIR__ . '/debug.log', "Event: " . $appt['owner_name'] . " on " . $appt['appointment_date'] . " at " . $appt['appointment_time'] . " (count: $count, duration: {$appt['duration']})\n", FILE_APPEND);
     }
 
     // Debug: Log the number of events

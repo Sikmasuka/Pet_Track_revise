@@ -168,11 +168,41 @@
                 margin: 0 auto;
             }
         }
+
+        /* Time slot availability styles */
+        #timeAvailability {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+        }
+
+        #timeAvailability.available {
+            color: #28a745;
+        }
+
+        #timeAvailability.taken {
+            color: #dc3545;
+        }
+
+        #timeAvailability .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        #timeAvailability.available .indicator {
+            background-color: #28a745;
+        }
+
+        #timeAvailability.taken .indicator {
+            background-color: #dc3545;
+        }
     </style>
 </head>
 
 <body class="bg-[#1DCD9F] min-h-screen">
-    <!-- header -->
+    <!-- Header -->
     <header class="fixed top-0 left-0 w-full bg-[#169976] shadow-md h-16 z-50">
         <div class="flex items-center justify-between h-full px-6">
             <div class="flex items-center gap-4">
@@ -422,17 +452,30 @@
                 </div>
                 <div>
                     <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
-                    <input type="time" id="time" name="appointment_time" required class="mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]" min="08:00" max="18:00" />
+                    <input type="time" id="time" name="appointment_time" required class="mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]" min="08:00" max="18:00" step="1800" />
+                    <p id="timeAvailability" class="text-sm mt-1 hidden">
+                        <span class="indicator"></span>
+                        <span id="timeStatus"></span>
+                    </p>
                     <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8 AM and 6 PM.</p>
-                    <p class="text-sm text-gray-500 mt-1">Please type or pick a time between 8 AM and 6 PM.</p>
+                    <p class="text-sm text-gray-500 mt-1">Please type or pick a time between 8 AM and 6 PM. Each appointment is 1 hour and 30 minutes.</p>
                 </div>
                 <div>
-                    <label for="reason" class="block text-sm font-medium text-gray-700">Reason</label>
-                    <textarea id="reason" name="reason" rows="3" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]"></textarea>
+                    <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Visit</label>
+                    <select id="reason" name="reason" required onchange="toggleOtherReason(this)" class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
+                        <option value="">-- Select Reason --</option>
+                        <option value="Checkup">Check-up</option>
+                        <option value="Vaccination">Vaccination</option>
+                        <option value="Grooming">Grooming</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="other_reason" name="other_reason" placeholder="Please specify" style="display:none; margin-top:5px;" class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
                 </div>
                 <div class="flex justify-end space-x-3 pt-4">
                     <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-[#169976] text-white rounded hover:bg-[#18b98e]">Submit</button>
+                    <button type="submit" id="submitButton" class="px-4 py-2 bg-[#169976] text-white rounded hover:bg-[#18b98e]">Submit</button>
                 </div>
             </form>
         </div>
@@ -509,6 +552,185 @@
             });
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
+
+        function openModal() {
+            document.getElementById("appointmentModal").classList.remove("hidden");
+            initializeCalendar();
+        }
+
+        function closeModal() {
+            document.getElementById("appointmentModal").classList.add("hidden");
+            document.getElementById("timeAvailability").classList.add("hidden");
+            document.getElementById("timeError").classList.add("hidden");
+            const submitButton = document.getElementById("submitButton");
+            submitButton.disabled = false;
+            submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+            submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
+        }
+
+        function toggleOtherReason(select) {
+            const otherReasonInput = document.getElementById("other_reason");
+            if (select.value === "Other") {
+                otherReasonInput.style.display = "block";
+                otherReasonInput.required = true;
+            } else {
+                otherReasonInput.style.display = "none";
+                otherReasonInput.value = "";
+                otherReasonInput.required = false;
+            }
+        }
+
+        // Calendar Initialization
+        let currentDate = new Date();
+
+        function initializeCalendar() {
+            const monthYear = document.getElementById("monthYear");
+            const calendarDays = document.getElementById("calendarDays");
+            const prevMonth = document.getElementById("prevMonth");
+            const nextMonth = document.getElementById("nextMonth");
+            const selectedDate = document.getElementById("selectedDate");
+            const timeInput = document.getElementById("time");
+
+            function renderCalendar() {
+                calendarDays.innerHTML = "";
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth();
+                monthYear.textContent = currentDate.toLocaleString("default", {
+                    month: "long",
+                    year: "numeric"
+                });
+
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDay = firstDay.getDay();
+
+                // Add empty days for the first week
+                for (let i = 0; i < startingDay; i++) {
+                    const emptyDiv = document.createElement("div");
+                    calendarDays.appendChild(emptyDiv);
+                }
+
+                // Add days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayDiv = document.createElement("div");
+                    dayDiv.textContent = day;
+                    dayDiv.classList.add("cursor-pointer", "hover:bg-gray-200", "rounded-full", "p-1");
+
+                    const current = new Date(year, month, day);
+                    if (current < new Date()) {
+                        dayDiv.classList.add("text-gray-400", "cursor-not-allowed");
+                    } else {
+                        dayDiv.addEventListener("click", () => {
+                            selectedDate.value = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                            const days = document.querySelectorAll("#calendarDays div");
+                            days.forEach(d => d.classList.remove("bg-[#169976]", "text-white"));
+                            dayDiv.classList.add("bg-[#169976]", "text-white");
+                            checkTimeAvailability();
+                        });
+                    }
+                    calendarDays.appendChild(dayDiv);
+                }
+            }
+
+            prevMonth.addEventListener("click", () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+
+            nextMonth.addEventListener("click", () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+            // Check time availability on time input change
+            timeInput.addEventListener("change", checkTimeAvailability);
+
+            // Initial render
+            renderCalendar();
+
+            // Time validation on form submit
+            document.getElementById("appointmentForm").addEventListener("submit", function(e) {
+                const timeInput = document.getElementById("time");
+                const timeError = document.getElementById("timeError");
+                const timeAvailability = document.getElementById("timeAvailability");
+                const [hours, minutes] = timeInput.value.split(":").map(Number);
+                if (hours < 8 || hours > 18 || (hours === 18 && minutes > 0)) {
+                    e.preventDefault();
+                    timeError.classList.remove("hidden");
+                    timeAvailability.classList.add("hidden");
+                } else if (!selectedDate.value) {
+                    e.preventDefault();
+                    alert("Please select a date.");
+                } else if (timeAvailability.classList.contains("taken")) {
+                    e.preventDefault();
+                    timeAvailability.classList.remove("hidden");
+                    timeAvailability.textContent = "This time slot is taken.";
+                }
+            });
+        }
+
+        // Function to check time slot availability
+        function checkTimeAvailability() {
+            const selectedDate = document.getElementById("selectedDate").value;
+            const timeInput = document.getElementById("time").value;
+            const timeAvailability = document.getElementById("timeAvailability");
+            const timeStatus = document.getElementById("timeStatus");
+            const submitButton = document.getElementById("submitButton");
+
+            if (!selectedDate || !timeInput) {
+                timeAvailability.classList.add("hidden");
+                submitButton.disabled = false;
+                submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+                submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
+                return;
+            }
+
+            fetch(`./functions/get-appointments.php?start=${selectedDate}&end=${selectedDate}`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.json();
+                })
+                .then(events => {
+                    const duration = 90; // 1 hour 30 minutes
+                    const selectedTime = new Date(`${selectedDate}T${timeInput}:00`);
+                    const selectedEndTime = new Date(selectedTime.getTime() + duration * 60 * 1000);
+
+                    let isTaken = false;
+                    for (const event of events) {
+                        const eventStart = new Date(event.start);
+                        const eventEnd = new Date(eventStart.getTime() + (event.extendedProps.duration || 90) * 60 * 1000);
+                        if (selectedTime < eventEnd && selectedEndTime > eventStart) {
+                            isTaken = true;
+                            break;
+                        }
+                    }
+
+                    timeAvailability.classList.remove("hidden");
+                    if (isTaken) {
+                        timeAvailability.classList.remove("available");
+                        timeAvailability.classList.add("taken");
+                        timeStatus.textContent = "This time slot is taken.";
+                        submitButton.disabled = true;
+                        submitButton.classList.add("bg-gray-400", "cursor-not-allowed");
+                        submitButton.classList.remove("bg-[#169976]", "hover:bg-[#18b98e]");
+                    } else {
+                        timeAvailability.classList.remove("taken");
+                        timeAvailability.classList.add("available");
+                        timeStatus.textContent = "This time slot is available.";
+                        submitButton.disabled = false;
+                        submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+                        submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error checking time availability:", error);
+                    timeAvailability.classList.add("hidden");
+                    submitButton.disabled = false;
+                    submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+                    submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
+                });
+        }
     </script>
 
     <script src="./js/landing-page.js"></script>
