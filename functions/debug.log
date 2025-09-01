@@ -9730,3 +9730,521 @@ Count for 2025-08-30: 2
 Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
 Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
 Events found: 2
+Time: 2025-08-27 22:57:37 - Start: 2025-09-10, End: 2025-09-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-10&end=2025-09-10
+Events found: 0
+Script executed at 2025-08-27 22:57:40
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => James Lee
+    [contact_number] => 09372841234
+    [appointment_date] => 2025-09-10
+    [appointment_time] => 14:30:00
+    [reason] => Checkup
+)
+
+Appointment logged: Guest James Lee booked an appointment on September 10, 2025 at 2:30 PM
+Time: 2025-08-27 23:01:04 - Start: 2025-09-10, End: 2025-09-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-10&end=2025-09-10
+Count for 2025-09-10: 1
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Time: 2025-08-27 23:01:13 - Start: 2025-09-10, End: 2025-09-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-10&end=2025-09-10
+Count for 2025-09-10: 1
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Time: 2025-08-27 23:01:28 - Start: 2025-09-10, End: 2025-09-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-10&end=2025-09-10
+Count for 2025-09-10: 1
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Time: 2025-08-27 23:01:42 - Start: 2025-09-10, End: 2025-09-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-10&end=2025-09-10
+Count for 2025-09-10: 1
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Script executed at 2025-08-27 23:01:44
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Mikaykay Abecia
+    [contact_number] => 532324223123
+    [appointment_date] => 2025-09-10
+    [appointment_time] => 09:30:00
+    [reason] => Grooming
+)
+
+Appointment logged: Guest Mikaykay Abecia booked an appointment on September 10, 2025 at 9:30 AM
+Time: 2025-08-27 23:01:57 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:01:57 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:10 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:11 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:15 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:15 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:17 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:17 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:02:21 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:16:28 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:16:28 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:26:02 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:26:02 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:51 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:51 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:53 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:56 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:57 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:57 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:57 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:58 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:58 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:58 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:59 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:59 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:59 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:59 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:36:59 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:37:00 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:37:00 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:37:10 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:37:12 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:37:17 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-30: 2
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-27 23:37:41 - Start: 2025-08-28, End: 2025-08-28, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-28&end=2025-08-28
+Events found: 0
+Time: 2025-08-27 23:37:47 - Start: 2025-08-28, End: 2025-08-28, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-28&end=2025-08-28
+Events found: 0
+Time: 2025-08-27 23:37:47 - Start: 2025-08-28, End: 2025-08-28, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-28&end=2025-08-28
+Events found: 0
+Script executed at 2025-08-27 23:37:48
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Seongji Yeok
+    [contact_number] => 093925166643
+    [appointment_date] => 2025-08-28
+    [appointment_time] => 14:30:00
+    [reason] => Vaccination
+)
+
+Appointment logged: Guest Seongji Yeok booked an appointment on August 28, 2025 at 2:30 PM
+Time: 2025-08-27 23:37:51 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-27 23:37:51 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 22:56:30 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 22:56:30 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:03:14 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:03:14 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:08:34 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:08:34 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:08:44 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:08:45 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:22:14 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-29 23:22:14 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-30 23:50:54 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-30 23:50:54 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:20:36 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:20:36 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:53:50 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:53:50 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:54:15 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:54:15 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:54:26 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:54:26 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:54:32 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 21:54:32 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:03:46 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:03:46 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:04:48 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:04:48 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:05:30 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:05:30 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:05:55 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:05:55 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:06:29 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:06:29 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:06:37 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-31 22:06:43 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:06:45 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-31 22:06:46 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-08-31 22:06:48 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:06:48 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-08-31 22:06:57 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-08-31 22:07:05 - Start: 2025-08-01, End: 2025-09-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-08-01&end=2025-09-01
+Count for 2025-08-28: 1
+Count for 2025-08-30: 2
+Event: Seongji Yeok on 2025-08-28 at 14:30:00 (count: 1, duration: 90)
+Event: tikoy on 2025-08-30 at 13:00:00 (count: 2, duration: 90)
+Event: tikay on 2025-08-30 at 15:00:00 (count: 2, duration: 90)
+Events found: 3
+Time: 2025-09-01 16:03:30 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-09-01 16:03:30 - Start: 2025-09-01, End: 2025-10-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-09-01&end=2025-10-01
+Count for 2025-09-10: 2
+Event: Mikaykay Abecia on 2025-09-10 at 09:30:00 (count: 2, duration: 90)
+Event: James Lee on 2025-09-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2

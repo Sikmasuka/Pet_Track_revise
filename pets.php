@@ -17,6 +17,10 @@ $stmt->execute([$_SESSION['vet_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
 
+// Fetch vet data for modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
 
 /**
  * Handle adding and updating pets via POST requests
@@ -69,6 +73,7 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute();
 $pets = $stmt->fetchAll();
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
@@ -113,6 +118,7 @@ $pets = $stmt->fetchAll();
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include('./includes/edit-profile.php'); ?>
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
@@ -135,31 +141,28 @@ $pets = $stmt->fetchAll();
 
         <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="dashboard.php" class="block text-sm text-white hover:bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-white bg-slate-700 px-4 py-2 rounded-md">
+            <a href="pets.php" class="block text-sm text-gray-300 bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
-                <i class="fas fa-id-badge mr-2"></i> Profile
-            </a>
-            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
@@ -183,30 +186,24 @@ $pets = $stmt->fetchAll();
                 <!-- Dashboard Title -->
                 <h1 class="text-xl lg:text-2xl font-bold">Pets</h1>
 
-                <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
                     <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
-
-                    <!-- Dropdown Menu -->
-                    <div id="dropdownMenu"
-                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                        <!-- User Info Section -->
+                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
                         <div class="px-4 py-3 border-b border-slate-200">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?= $vetName ?></p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
                                     <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- Menu Options -->
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
                                 <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
@@ -234,7 +231,7 @@ $pets = $stmt->fetchAll();
             <?php if (count($pets) > 0): ?>
                 <div class="overflow-y-auto max-h-96">
                     <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-gray-100 sticky top-0 z-2">
+                        <thead class="bg-gray-300 sticky top-0 z-2">
                             <tr class="border-b border-slate-200">
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Pet Name</th>
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Species</th>
@@ -345,10 +342,11 @@ $pets = $stmt->fetchAll();
         }
     </script>
 
-    <script src="./js/profile-dropdown.js"></script>
+    <script src="./js/dashboard.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
+    <script src="./js/edit-profile.js"></script>
 </body>
 
 </html>

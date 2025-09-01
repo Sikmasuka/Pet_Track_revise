@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../db.php';
 require_once '../functions/logs.php';
 require_once '../functions/auth.php'; // Adjust path to auth.php (since this is in the admin folder)

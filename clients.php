@@ -1,6 +1,13 @@
 <?php
-require_once './functions/clients-handler.php';
+require_once __DIR__ . '/functions/clients-handler.php';
 include "includes/sitemap/Help/support.php";
+
+// Fetch vet data for modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
@@ -45,10 +52,29 @@ include "includes/sitemap/Help/support.php";
         ::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #edf2f7;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
     </style>
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include('./includes/edit-profile.php'); ?>
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
@@ -71,31 +97,28 @@ include "includes/sitemap/Help/support.php";
 
         <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="dashboard.php" class="block text-sm text-white hover:bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-white bg-slate-700 px-4 py-2 rounded-md">
+            <a href="clients.php" class="block text-sm text-gray-300 bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
-                <i class="fas fa-id-badge mr-2"></i> Profile
-            </a>
-            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
@@ -119,30 +142,24 @@ include "includes/sitemap/Help/support.php";
                 <!-- Dashboard Title -->
                 <h1 class="text-xl lg:text-2xl font-bold">Manage Clients</h1>
 
-                <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
                     <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
-
-                    <!-- Dropdown Menu -->
-                    <div id="dropdownMenu"
-                        class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                        <!-- User Info Section -->
+                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
                         <div class="px-4 py-3 border-b border-slate-200">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?= $vetName ?></p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
                                     <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- Menu Options -->
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
                                 <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
@@ -175,7 +192,7 @@ include "includes/sitemap/Help/support.php";
             <?php if (count($clients) > 0): ?>
                 <div class="table-container">
                     <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-gray-100 sticky top-0 z-5">
+                        <thead class="bg-gray-300 sticky top-0 z-2">
                             <tr class="border-b border-slate-200">
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Name</th>
                                 <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap">Address</th>
@@ -208,15 +225,16 @@ include "includes/sitemap/Help/support.php";
         </main>
     </div>
 
-    <!-- Add/Edit Client & Pet Modal -->
+    <!-- Add/Edit Client, Pet & Medical Record Modal -->
     <div id="clientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl max-h-[70vh] overflow-hidden flex flex-col border border-slate-200">
-            <div class="w-full bg-gray-50 rounded-t-lg text-gray-800 border-b border-slate-200">
-                <h3 id="modalTitle" class="text-lg font-bold text-center py-2">Add New Client & Pet</h3>
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-4xl max-h-[80vh] overflow-hidden flex flex-col border border-slate-700">
+            <div class="w-full bg-slate-700 rounded-t-lg text-gray-800 border-b border-slate-200">
+                <h3 id="modalTitle" class="text-lg font-bold text-center py-2 text-white">Add New Client, Pet & Medical Record</h3>
             </div>
-            <form id="clientForm" method="POST" class="p-4 overflow-y-auto">
+            <form id="clientForm" method="POST" class="p-4 overflow-y-auto custom-scrollbar">
                 <input type="hidden" name="client_id" id="client_id">
                 <input type="hidden" name="pet_id" id="pet_id">
+                <input type="hidden" name="record_id" id="record_id">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Client Information -->
@@ -224,15 +242,15 @@ include "includes/sitemap/Help/support.php";
                         <h4 class="text-sm font-bold text-gray-700 mb-2">Client Information</h4>
                         <div class="mb-3">
                             <label class="block text-xs text-gray-500 mb-1">Client Name</label>
-                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-gray-500 mb-1">Address</label>
-                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
                         </div>
                         <div class="mb-3">
                             <label class="block text-xs text-gray-500 mb-1">Contact Number</label>
-                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" pattern="[0-9]{10,}">
+                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" pattern="[0-9]{10,}" required>
                         </div>
                     </div>
 
@@ -278,6 +296,33 @@ include "includes/sitemap/Help/support.php";
                     </div>
                 </div>
 
+                <!-- Medical Record Information -->
+                <div class="mt-4">
+                    <h4 class="text-sm font-bold text-gray-700 mb-2">Medical Record Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <div class="mb-3">
+                                <label class="block text-xs text-gray-500 mb-1">Condition</label>
+                                <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-xs text-gray-500 mb-1">Diagnosis</label>
+                                <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mb-3">
+                                <label class="block text-xs text-gray-500 mb-1">Symptoms</label>
+                                <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-xs text-gray-500 mb-1">Treatment</label>
+                                <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Action Buttons -->
                 <div class="flex justify-between mt-4 pt-2 border-t border-slate-200">
                     <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors text-sm">Save</button>
@@ -306,9 +351,9 @@ include "includes/sitemap/Help/support.php";
             sexTooltip.classList.add('hidden');
 
             formAction.name = 'add_client';
-            modalTitle.textContent = 'Add New Client & Pet';
+            modalTitle.textContent = 'Add New Client, Pet, and Medical Record';
 
-            // Set required attributes only for add mode or if pet exists (handled by edit block)
+            // Set required attributes for add mode
             if (action === 'add') {
                 document.getElementById('petName').setAttribute('required', '');
                 document.getElementById('petSpecies').setAttribute('required', '');
@@ -316,11 +361,26 @@ include "includes/sitemap/Help/support.php";
                 document.getElementById('petBreed').setAttribute('required', '');
                 document.getElementById('petWeight').setAttribute('required', '');
                 document.getElementById('petBirthDate').setAttribute('required', '');
+                document.getElementById('medicalCondition').setAttribute('required', '');
+                document.getElementById('medicalDiagnosis').setAttribute('required', '');
+                document.getElementById('medicalSymptoms').setAttribute('required', '');
+                document.getElementById('medicalTreatment').setAttribute('required', '');
             }
 
             if (action === 'edit') {
-                modalTitle.textContent = 'Edit Client & Pet';
+                modalTitle.textContent = 'Edit Client, Pet, and Medical Record';
                 formAction.name = 'update_client';
+                // All fields are required in edit mode
+                document.getElementById('petName').setAttribute('required', '');
+                document.getElementById('petSpecies').setAttribute('required', '');
+                document.getElementById('petSex').setAttribute('required', '');
+                document.getElementById('petBreed').setAttribute('required', '');
+                document.getElementById('petWeight').setAttribute('required', '');
+                document.getElementById('petBirthDate').setAttribute('required', '');
+                document.getElementById('medicalCondition').setAttribute('required', '');
+                document.getElementById('medicalDiagnosis').setAttribute('required', '');
+                document.getElementById('medicalSymptoms').setAttribute('required', '');
+                document.getElementById('medicalTreatment').setAttribute('required', '');
             }
 
             modal.classList.remove('hidden');
@@ -342,7 +402,7 @@ include "includes/sitemap/Help/support.php";
         function confirmDelete(clientId) {
             if (typeof Swal === 'undefined') {
                 // Fallback if SweetAlert2 fails to load
-                if (confirm('Are you sure you want to delete this client and their associated pets?')) {
+                if (confirm('Are you sure you want to delete this client, their associated pets, and medical records?')) {
                     window.location.href = `?delete_client_id=${clientId}`;
                 }
                 return false;
@@ -350,14 +410,14 @@ include "includes/sitemap/Help/support.php";
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This will also delete all associated pets. You won\'t be able to revert this!',
+                text: 'This will also delete all associated pets and medical records. You won\'t be able to revert this!',
                 icon: 'warning',
                 background: '#1e293b',
                 color: '#e2e8f0',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
                 cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Yes, delete client and pets!'
+                confirmButtonText: 'Yes, delete client, pets, and records!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = `?delete_client_id=${clientId}`;
@@ -429,15 +489,22 @@ include "includes/sitemap/Help/support.php";
                     document.getElementById('petSex').disabled = false;
                     document.getElementById('speciesTooltip').classList.add('hidden');
                     document.getElementById('sexTooltip').classList.add('hidden');
-
-                    // Remove required attributes
-                    console.log('Removing required attributes for pet fields');
-                    document.getElementById('petName').removeAttribute('required');
-                    document.getElementById('petSpecies').removeAttribute('required');
-                    document.getElementById('petSex').removeAttribute('required');
-                    document.getElementById('petBreed').removeAttribute('required');
-                    document.getElementById('petWeight').removeAttribute('required');
-                    document.getElementById('petBirthDate').removeAttribute('required');
+                <?php endif; ?>
+                // Set medical record values if exists
+                // Set medical record values if exists
+                <?php if ($medicalRecordToEdit): ?>
+                    document.getElementById('record_id').value = <?= json_encode($medicalRecordToEdit['record_id'] ?? '') ?>;
+                    document.getElementById('medicalCondition').value = <?= json_encode($medicalRecordToEdit['medical_condition'] ?? '') ?>;
+                    document.getElementById('medicalDiagnosis').value = <?= json_encode($medicalRecordToEdit['medical_diagnosis'] ?? '') ?>;
+                    document.getElementById('medicalSymptoms').value = <?= json_encode($medicalRecordToEdit['medical_symptoms'] ?? '') ?>;
+                    document.getElementById('medicalTreatment').value = <?= json_encode($medicalRecordToEdit['medical_treatment'] ?? '') ?>;
+                <?php else: ?>
+                    // Clear medical record fields if no record exists
+                    document.getElementById('record_id').value = '';
+                    document.getElementById('medicalCondition').value = '';
+                    document.getElementById('medicalDiagnosis').value = '';
+                    document.getElementById('medicalSymptoms').value = '';
+                    document.getElementById('medicalTreatment').value = '';
                 <?php endif; ?>
             });
         <?php endif; ?>
@@ -451,11 +518,32 @@ include "includes/sitemap/Help/support.php";
                 console.error("Modal not found:", modalId);
             }
         }
+
+        document.getElementById('clientForm').addEventListener('submit', function(event) {
+            const medicalFields = ['medicalCondition', 'medicalDiagnosis', 'medicalSymptoms', 'medicalTreatment'];
+            for (const id of medicalFields) {
+                if (!document.getElementById(id).value.trim()) {
+                    event.preventDefault();
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'All medical record fields are required.',
+                        icon: 'error',
+                        background: '#1e293b',
+                        color: '#e2e8f0',
+                        confirmButtonColor: '#6366f1'
+                    });
+                    return;
+                }
+            }
+        });
     </script>
-    <script src="./js/profile-dropdown.js"></script>
+
+    <!-- scrpits -->
+    <script src="./js/dashboard.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
+    <script src="./js/edit-profile.js"></script>
 </body>
 
 </html>

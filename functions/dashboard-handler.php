@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once './db.php';
 require_once 'auth.php'; // Include auth.php
 
@@ -11,11 +10,17 @@ if (!isset($_SESSION['vet_id'])) {
     exit;
 }
 
-// Fetch vet name for greeting
-$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id=?");
+// Fetch current vet data for the modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
-$user = $stmt->fetch();
-$vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Debug: Check if data is fetched
+if (!$vet) {
+    echo "<script>console.error('No vet data found for vet_id: " . $_SESSION['vet_id'] . "');</script>";
+} else {
+    echo "<script>console.log('Vet data loaded:', " . json_encode($vet) . ");</script>";
+}
 
 // Fetch the counts
 $stmtClients = $pdo->prepare("SELECT COUNT(*) FROM Client");

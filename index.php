@@ -1,113 +1,140 @@
-    <?php
-    // Start the session
-    session_start();
+<?php
+// Start the session
+session_start();
 
-    // Check if the user is already logged in
-    if (isset($_SESSION['admin_id'])) {
-        // Admin is logged in, redirect to admin dashboard
-        header('Location: admin/admin-dashboard.php');
-        exit;
-    } elseif (isset($_SESSION['vet_id'])) {
-        // Veterinarian is logged in, redirect to veterinarian dashboard
-        header('Location: dashboard.php');
-        exit;
-    }
+// Check if the user is already logged in
+if (isset($_SESSION['admin_id'])) {
+    header('Location: admin/admin-dashboard.php');
+    exit;
+} elseif (isset($_SESSION['vet_id'])) {
+    header('Location: dashboard.php');
+    exit;
+}
 
-    // Include authentication script for handling login form submission
-    require_once 'functions/authentication.php';
-    ?>
+// Include authentication script
+require_once 'functions/authentication.php';
+?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
-        <title>Pet Track | Login</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
+    <title>Pet Track | Login</title>
 
-        <!-- Include Tailwind CSS -->
-        <script src="https://cdn.tailwindcss.com"></script>
-        <!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <!-- Load SweetAlert2 -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="Assets/Extension.js"></script>
-    </head>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="Assets/Extension.js"></script>
+</head>
 
-    <body class="bg-gray-100">
+<body class="bg-gray-100">
+    <!-- Main Section -->
+    <main class="py-5 min-h-screen flex items-center justify-center bg-cover bg-center"
+        style="background-image: url('image/ThumbnailCatDog.png');">
 
-        <!-- Main Content Section -->
-        <main class="py-5 min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('image/ThumbnailCatDog.png');">
-            <div class="w-full max-w-sm px-4 bg-white p-4 rounded-lg shadow-lg" style="max-height: 80vh; overflow-y: auto;">
-                <h1 class="text-xl font-bold text-green-800 text-center mb-2 flex items-center justify-center gap-2">PET TRACK<img src="image/MainIcon.png" class="w-6"></h1>
-                <h3 class="text-lg font-semibold text-center mb-4">Login</h3>
+        <!-- Login Box -->
+        <div class="flex w-full max-w-3xl bg-white rounded-2xl shadow-lg overflow-hidden">
 
-                <!-- Message (if any) -->
+            <!-- Left: Logo + Description -->
+            <div class="hidden md:flex flex-col justify-center items-center w-1/2 p-6 text-center">
+                <img src="image/MainIcon.png" alt="Logo" class="w-16 mb-3">
+                <h1 class="text-3xl font-bold text-green-700">PET TRACK</h1>
+                <p class="text-lg text-gray-600 mt-2">
+                    Balingasag Dog and Cat clinic management system
+                </p>
+            </div>
+
+            <!-- Divider -->
+            <div class="hidden md:block w-px bg-gray-200"></div>
+
+            <!-- Right: Login Form -->
+            <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+                <h2 class="text-lg font-bold text-gray-800 text-center mb-1">Welcome Back!</h2>
+                <p class="text-xs text-gray-500 text-center mb-5">Login to continue</p>
+
+                <!-- Error message -->
                 <?php if (isset($message) && $message): ?>
-                    <p class="rounded-sm w-full bg-red-200 p-2 text-red-700 text-xs text-center mb-3"><?php echo htmlspecialchars($message); ?></p>
+                    <p class="rounded-sm w-full bg-red-100 p-2 text-red-600 text-xs text-center mb-4">
+                        <?php echo htmlspecialchars($message); ?>
+                    </p>
                 <?php endif; ?>
 
-                <form action="index.php" method="POST" class="p-2">
-                    <!-- Username Input -->
-                    <div class="mb-3 relative">
-                        <label for="username" class="block text-xs font-medium text-gray-700">Username</label>
+                <form action="index.php" method="POST" class="space-y-4">
+                    <!-- Username -->
+                    <div>
+                        <label for="username" class="block text-xs font-semibold text-gray-600 mb-1">Username</label>
                         <div class="relative">
-                            <input type="text" id="username" name="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 text-sm" placeholder="Enter your username" required>
-                            <p class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"><i class="fa fa-user text-sm"></i></p>
+                            <input type="text" id="username" name="username"
+                                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                                placeholder="Enter your username" required>
+                            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <i class="fa fa-user"></i>
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Password Input -->
-                    <div class="mb-3 relative">
-                        <label for="password" class="block text-xs font-medium text-gray-700">Password</label>
-                        <div class="mt-1 flex items-center relative">
-                            <input type="password" id="password" name="password" class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 pr-10 text-sm" placeholder="Enter your password" required>
-                            <button type="button" id="togglePassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none hidden">
-                                <i class="fas fa-eye text-sm"></i>
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-xs font-semibold text-gray-600 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password"
+                                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10 text-sm"
+                                placeholder="Enter your password" required>
+                            <button type="button" id="togglePassword"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-eye"></i>
                             </button>
                         </div>
                         <!-- Password strength bar -->
                         <div class="w-full h-2 bg-gray-200 rounded mt-2 overflow-hidden">
                             <div class="password-strength-bar h-2 rounded transition-all duration-300"></div>
                         </div>
+                        <p id="passwordError" class="text-red-500 text-xs mt-1"></p>
+                    </div>
 
-                        <!-- 🔽 Error message will appear here -->
-                        <p id="passwordError" class="text-red-600 text-xs mt-1"></p>
+                    <!-- Remember + Forgot -->
+                    <div class="flex items-center justify-between text-xs">
+                        <label class="flex items-center text-gray-600">
+                            <input type="checkbox" name="remember" class="mr-2"> Remember Me
+                        </label>
+                        <a href="#" class="text-green-600 hover:underline">Forgot password?</a>
                     </div>
 
                     <!-- Login Button -->
-                    <div class="mb-4">
-                        <button type="submit" name="login" class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none text-sm font-bold duration-200">Login</button>
-                    </div>
+                    <button type="submit" name="login"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-md text-sm transition duration-200">
+                        Login
+                    </button>
                 </form>
-
-                <!-- Additional Links -->
-                <div class="text-center">
-                    <p><a href="#" class="text-xs text-blue-500 hover:underline hover:text-blue-800">Forgot password?</a></p>
-                </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <script src="./js/auth.js"></script>
-        <script>
-            // SweetAlert2 success message (from backend PHP flag)
-            if (typeof Swal !== 'undefined') {
-                <?php if ($login_success): ?>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Login Successful!',
-                        text: 'Redirecting to your dashboard...',
-                        confirmButtonColor: '#3085d6',
-                        timer: 1500,
-                        showConfirmButton: false,
-                        timerProgressBar: true
-                    }).then(() => {
-                        window.location.href = '<?php echo $redirect_url; ?>';
-                    });
-                <?php endif; ?>
-            }
-        </script>
-    </body>
+    <script src="./js/auth.js"></script>
+    <script>
+        // SweetAlert2 success message
+        if (typeof Swal !== 'undefined') {
+            <?php if ($login_success): ?>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: 'Redirecting to your dashboard...',
+                    confirmButtonColor: '#3085d6',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                }).then(() => {
+                    window.location.href = '<?php echo $redirect_url; ?>';
+                });
+            <?php endif; ?>
+        }
+    </script>
+</body>
 
-    </html>
+</html>

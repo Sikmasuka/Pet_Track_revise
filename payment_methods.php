@@ -102,7 +102,9 @@ $payments = $stmt->fetchAll();
     </style>
 </head>
 
-<body class="bg-slate-900 min-h-screen text-gray-100">
+<body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include('./includes/edit-profile.php'); ?>
+
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="mobile-menu-btn lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
         <i class="fas fa-bars"></i>
@@ -136,9 +138,6 @@ $payments = $stmt->fetchAll();
             <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
-                <i class="fas fa-id-badge mr-2"></i> Profile
-            </a>
             <a href="payment_methods.php" class="block text-sm text-white bg-slate-700 px-4 py-2 rounded-md">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
@@ -166,47 +165,42 @@ $payments = $stmt->fetchAll();
 
     <!-- Main Content -->
     <div class="main-content ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
-        <header class="bg-slate-800 rounded-lg py-4 shadow-sm mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-700">
+        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Top Section with Dropdown -->
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center">
                 <!-- Dashboard Title -->
-                <h1 class="text-xl lg:text-2xl font-bold">Payment Records</h1>
+                <h1 class="text-xl lg:text-2xl font-bold">Payment History</h1>
 
-                <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-slate-700 border border-slate-600 rounded-full hover:bg-slate-600 text-white text-lg transition-colors">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
-
-                    <!-- Dropdown Menu -->
-                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-700">
-                        <!-- User Info Section -->
-                        <div class="px-4 py-3 border-b border-slate-700">
+                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                        <div class="px-4 py-3 border-b border-slate-200">
                             <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-slate-700 text-indigo-400 text-xl">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-white"><?= $vetName ?></p>
-                                    <p class="text-xs text-slate-400">Veterinarian</p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
+                                    <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- Menu Options -->
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-150">
+                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
                                 <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-slate-400">Update your information</div>
+                                    <div class="text-xs text-gray-500">Update your information</div>
                                 </div>
                             </a>
-                            <hr class="my-1 border-slate-700">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-slate-700 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-400"></i>
+                            <hr class="my-1 border-slate-200">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
                                 <div>
                                     <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-500">Sign out of your account</div>
+                                    <div class="text-xs text-red-600">Sign out of your account</div>
                                 </div>
                             </a>
                         </div>
@@ -215,38 +209,38 @@ $payments = $stmt->fetchAll();
             </div>
         </header>
 
-        <div class="bg-slate-800 rounded-lg shadow-sm p-6 mb-6 lg:mb-8 border border-slate-700">
+        <div class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Payment History Table -->
             <?php if (count($payments) > 0): ?>
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-4">Payment History</h2>
+                    <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">Payment History</h2>
                     <!-- Record Payment Button -->
                     <button onclick="showPaymentModal()" class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 text-sm sm:text-base transition-colors duration-200">
                         <i class="fas fa-plus mr-2"></i>Record Payment
                     </button>
                 </div>
                 <div class="table-container">
-                    <table class="min-w-full divide-y divide-slate-700">
-                        <thead class="bg-slate-700 sticky top-0 z-5">
-                            <tr class="border-b border-slate-600">
-                                <th class="px-3 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider">Client</th>
-                                <th class="px-3 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider">Method</th>
-                                <th class="px-3 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider">Amount</th>
-                                <th class="px-3 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider">Description</th>
-                                <th class="px-3 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider">Date</th>
-                                <th class="px-3 py-3 text-left text-xs sm:text-sm font-medium text-slate-300 uppercase tracking-wider">Actions</th>
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-gray-300 sticky top-0 z-2">
+                            <tr class="border-b border-slate-200">
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Client</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Method</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Amount</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Description</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Date</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-slate-800 divide-y divide-slate-700">
+                        <tbody class="bg-white divide-y divide-slate-200">
                             <?php foreach ($payments as $pay): ?>
-                                <tr class="hover:bg-slate-700/50 transition-colors">
-                                    <td class="px-4 py-2 text-sm text-slate-200"><?= htmlspecialchars($pay['client_name']) ?></td>
-                                    <td class="px-3 py-3 text-sm text-slate-300"><?= htmlspecialchars($pay['method_name']) ?></td>
-                                    <td class="px-3 py-3 text-sm text-slate-300 font-medium">₱<?= number_format($pay['amount'], 2) ?></td>
-                                    <td class="px-3 py-3 text-sm text-slate-300 truncate-cell" title="<?= htmlspecialchars($pay['description']) ?>">
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($pay['client_name']) ?></td>
+                                    <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($pay['method_name']) ?></td>
+                                    <td class="px-4 py-2 text-gray-700 font-medium">₱<?= number_format($pay['amount'], 2) ?></td>
+                                    <td class="px-4 py-2 text-gray-700 truncate-cell" title="<?= htmlspecialchars($pay['description']) ?>">
                                         <?= htmlspecialchars($pay['description']) ?>
                                     </td>
-                                    <td class="px-3 py-3 text-sm text-slate-300"><?= date('M j, Y', strtotime($pay['date'])) ?></td>
+                                    <td class="px-4 py-2 text-gray-700"><?= date('M j, Y', strtotime($pay['date'])) ?></td>
                                     <td class="px-3 py-3 text-sm">
                                         <button onclick="printReceipt('<?= htmlspecialchars($pay['client_name']) ?>', '<?= htmlspecialchars($pay['method_name']) ?>', '<?= $pay['amount'] ?>', '<?= htmlspecialchars($pay['description']) ?>', '<?= $pay['date'] ?>')"
                                             class="text-indigo-400 hover:text-indigo-300 hover:underline">
@@ -425,10 +419,11 @@ $payments = $stmt->fetchAll();
         }
     </script>
 
-    <script src="./js/profile-dropdown.js"></script>
+    <script src="./js/dashboard.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
+    <script src="./js/edit-profile.js"></script>
 </body>
 
 </html>

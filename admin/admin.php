@@ -58,69 +58,123 @@ include "../includes/sitemap/Help/support.php";
                 max-width: 600px;
             }
         }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
-
+<body class="bg-slate-100 min-h-screen text-gray-800">
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-green-600 text-white p-3 rounded-md shadow-lg">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Sidebar (unchanged) -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-50 bg-gradient-to-b from-green-500 to-green-600 text-white p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-600">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl lg:text-2xl lg:mt-3 font-semibold mb-6 flex items-center gap-2 lg:mt-0">
+            <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-
-        <nav class="mt-8 lg:mt-36">
-            <a href="admin-dashboard.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fas fa-tachometer-alt mr-2"></i>
-                Dashboard
+        <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
+            <a href="admin-dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="admin.php" class="block text-md lg:text-md text-white bg-green-600 px-4 py-2 mb-2 rounded-md">
+            <a href="admin.php" class="block text-sm text-white bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
-            <a href="records.php" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-                <i class="fa-solid fa-file-lines mr-2"> </i> Records
+            <a href="records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+                <i class="fa-solid fa-file-lines mr-2"></i> Records
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('adminHelpModal')">
+            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('adminHelpModal')">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
-
-        <!-- Logout -->
-        <a href="../index.php" onclick="confirmLogout(event)" class="block text-md lg:text-md text-white hover:bg-green-600 px-4 py-2 mb-2 rounded-md">
-            <i class="fas fa-sign-out-alt mr-2"></i>
-            <span class="md:inline">Logout</span>
-        </a>
-    </div>
+        <div class="pt-4">
+            <a href="../index.php" onclick="confirmLogout(event)" class="block text-sm text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </div>
+    </aside>
 
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Dashboard Container -->
-    <div class="ml-0 lg:ml-48 p-3 pt-14 lg:pt-3">
-        <h1 class="text-xl sm:text-2xl font-bold text-green-700 mb-4">Veterinarian Accounts</h1>
+    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
 
-        <!-- Add New Veterinarian Button -->
-        <button id="openAddModal" class="bg-green-500 text-white px-3 py-2 text-sm sm:text-base rounded-md hover:bg-green-600 mb-6">
-            Add New Veterinarian
-        </button>
+        <!-- Headre -->
+        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
+            <!-- Top Section with Dropdown -->
+            <div class="flex justify-between items-center">
+                <!-- Dashboard Title -->
+                <h1 class="text-xl lg:text-2xl font-bold">Manage Veterinarian</h1>
+
+                <div class="relative inline-block text-left">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                        <div class="px-4 py-3 border-b border-slate-200">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
+                                    <p class="text-xs text-gray-500">Veterinarian</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-1">
+                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                                <i class="fas fa-edit text-indigo-400"></i>
+                                <div>
+                                    <div class="font-medium">Edit Profile</div>
+                                    <div class="text-xs text-gray-500">Update your information</div>
+                                </div>
+                            </a>
+                            <hr class="my-1 border-slate-200">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
+                                <div>
+                                    <div class="font-medium">Logout</div>
+                                    <div class="text-xs text-red-600">Sign out of your account</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
         <!-- Add Veterinarian Modal -->
         <div id="addModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-            <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full overflow-hidden">
+            <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full overflow-hidden border border-slate-200">
                 <!-- Modal Header -->
-                <div class="bg-green-500 px-4 py-3">
-                    <h3 id="petModalTitle" class="text-lg sm:text-xl font-bold text-center text-white">
+                <div class="bg-indigo-500 px-4 py-3">
+                    <h3 id="petModalTitle" class="text-lg lg:text-xl font-bold text-center text-white">
                         Add Veterinarian
                     </h3>
                 </div>
@@ -128,24 +182,24 @@ include "../includes/sitemap/Help/support.php";
                 <!-- Modal Body -->
                 <div class="p-4">
                     <form method="POST" id="addVetForm" class="grid grid-cols-1 gap-3">
-                        <label for="vet_name" class="font-medium text-sm sm:text-base">Name</label>
-                        <input type="text" name="vet_name" id="vet_name" placeholder="Name" required class="p-2 border rounded-md text-sm sm:text-base">
+                        <label for="vet_name" class="font-medium text-sm text-gray-800">Name</label>
+                        <input type="text" name="vet_name" id="vet_name" placeholder="Name" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
 
-                        <label for="vet_contact_number" class="font-medium text-sm sm:text-base">Contact Number</label>
-                        <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required class="p-2 border rounded-md text-sm sm:text-base">
+                        <label for="vet_contact_number" class="font-medium text-sm text-gray-800">Contact Number</label>
+                        <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
 
-                        <label for="vet_username" class="font-medium text-sm sm:text-base">Username</label>
-                        <input type="text" name="vet_username" id="vet_username" placeholder="Username" required class="p-2 border rounded-md text-sm sm:text-base">
+                        <label for="vet_username" class="font-medium text-sm text-gray-800">Username</label>
+                        <input type="text" name="vet_username" id="vet_username" placeholder="Username" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
 
-                        <label for="vet_password" class="font-medium text-sm sm:text-base">Password</label>
-                        <input type="password" name="vet_password" id="vet_password" placeholder="Password" required class="p-2 border rounded-md text-sm sm:text-base">
+                        <label for="vet_password" class="font-medium text-sm text-gray-800">Password</label>
+                        <input type="password" name="vet_password" id="vet_password" placeholder="Password" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <div class="strenght-password"></div>
 
                         <div class="flex justify-between items-center mt-3 gap-3">
-                            <button type="submit" name="add_vet" class="bg-green-500 text-white px-3 py-2 text-sm sm:text-base rounded-md hover:bg-green-600">
+                            <button type="submit" name="add_vet" class="bg-indigo-500 text-white px-4 py-2 text-sm rounded-md hover:bg-indigo-600 transition-colors">
                                 Add Veterinarian
                             </button>
-                            <button type="button" id="closeAddModal" class="bg-red-500 text-white px-3 py-2 text-sm sm:text-base rounded-md hover:bg-red-600">
+                            <button type="button" id="closeAddModal" class="bg-red-500 text-white px-4 py-2 text-sm rounded-md hover:bg-red-600 transition-colors">
                                 Close
                             </button>
                         </div>
@@ -155,35 +209,43 @@ include "../includes/sitemap/Help/support.php";
         </div>
 
         <!-- Table -->
-        <div class="bg-white p-4 sm:p-5 rounded-lg shadow-md table-container">
-            <h2 class="text-lg sm:text-xl font-semibold mb-3">Veterinarians List</h2>
-            <table class="w-full table-auto border-collapse">
+        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg table-container border border-slate-200">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">Veterinarians List</h2>
+
+                <!-- Add New Veterinarian Button -->
+                <button id="openAddModal" class="bg-indigo-500 text-white px-4 py-2 text-sm rounded-md hover:bg-indigo-600 mb-8 transition-colors">
+                    Add New Veterinarian
+                </button>
+            </div>
+
+            <table class="w-full table-auto divide-y divide-slate-200">
                 <thead>
-                    <tr class="bg-green-100 text-green-800">
-                        <th class="p-2 text-left text-xs sm:text-sm">Name</th>
-                        <th class="p-2 text-left text-xs sm:text-sm">Contact</th>
-                        <th class="p-2 text-left text-xs sm:text-sm">Username</th>
-                        <th class="p-2 text-left text-xs sm:text-sm">Password</th>
-                        <th class="p-2 text-center text-xs sm:text-sm">Actions</th>
+                    <tr class="bg-gray-300 text-gray-700">
+                        <th class="p-4 text-left text-xs uppercase tracking-wider">Name</th>
+                        <th class="p-4 text-left text-xs uppercase tracking-wider">Contact</th>
+                        <th class="p-4 text-left text-xs uppercase tracking-wider">Username</th>
+                        <th class="p-4 text-left text-xs uppercase tracking-wider">Password</th>
+                        <th class="p-4 text-center text-xs uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-slate-200">
                     <?php foreach ($vets as $vet): ?>
-                        <tr class="border-b">
-                            <td class="p-2 text-xs sm:text-sm"><?= htmlspecialchars($vet['vet_name']) ?></td>
-                            <td class="p-2 text-xs sm:text-sm"><?= htmlspecialchars($vet['vet_contact_number']) ?></td>
-                            <td class="p-2 text-xs sm:text-sm"><?= htmlspecialchars($vet['vet_username']) ?></td>
-                            <td class="p-2 text-xs sm:text-sm italic text-gray-400">Hidden (encrypted)</td>
-                            <td class="p-2 text-center text-xs sm:text-sm">
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_name']) ?></td>
+                            <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_contact_number']) ?></td>
+                            <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_username']) ?></td>
+                            <td class="p-4 text-sm italic text-gray-500">Hidden (encrypted)</td>
+                            <td class="p-4 text-center text-sm">
                                 <a href="#"
-                                    class="text-blue-600 hover:underline mr-2 edit-btn"
+                                    class="text-indigo-500 hover:text-indigo-700 mr-2 edit-btn transition-colors"
                                     data-vet-id="<?= $vet['vet_id'] ?>"
                                     data-vet-name="<?= htmlspecialchars($vet['vet_name'], ENT_QUOTES) ?>"
                                     data-vet-contact="<?= htmlspecialchars($vet['vet_contact_number'], ENT_QUOTES) ?>"
                                     data-vet-username="<?= htmlspecialchars($vet['vet_username'], ENT_QUOTES) ?>">
                                     Edit
                                 </a>
-                                <a href="#" onclick="confirmDelete(<?= $vet['vet_id'] ?>)" class="text-red-600 hover:underline">Delete</a>
+                                <a href="#" onclick="confirmDelete(<?= $vet['vet_id'] ?>)" class="text-red-500 hover:text-red-700 transition-colors">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -193,10 +255,10 @@ include "../includes/sitemap/Help/support.php";
 
         <!-- Edit Veterinarian Modal -->
         <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
-            <div class="bg-white rounded-lg shadow-lg w-full overflow-y-auto">
+            <div class="bg-white rounded-lg shadow-lg w-full overflow-y-auto border border-slate-200">
                 <!-- Modal Header -->
-                <div class="w-full bg-green-500 px-4 py-3">
-                    <h3 class="text-lg sm:text-xl font-bold text-center text-white">
+                <div class="w-full bg-indigo-500 px-4 py-3">
+                    <h3 class="text-lg lg:text-xl font-bold text-center text-white">
                         Edit Veterinarian
                     </h3>
                 </div>
@@ -206,16 +268,16 @@ include "../includes/sitemap/Help/support.php";
                     <form method="POST" class="grid grid-cols-1 gap-3">
                         <input type="hidden" name="vet_id" id="edit_vet_id">
 
-                        <input type="text" name="vet_name" id="edit_vet_name" placeholder="Name" required class="p-2 border rounded-md w-full text-sm sm:text-base">
-                        <input type="text" name="vet_contact_number" id="edit_vet_contact_number" placeholder="Contact Number" required class="p-2 border rounded-md w-full text-sm sm:text-base">
-                        <input type="text" name="vet_username" id="edit_vet_username" placeholder="Username" required class="p-2 border rounded-md w-full text-sm sm:text-base">
-                        <input type="password" name="vet_password" id="edit_vet_password" placeholder="Add password to change it" class="p-2 border rounded-md w-full text-sm sm:text-base">
+                        <input type="text" name="vet_name" id="edit_vet_name" placeholder="Name" required class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        <input type="text" name="vet_contact_number" id="edit_vet_contact_number" placeholder="Contact Number" required class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        <input type="text" name="vet_username" id="edit_vet_username" placeholder="Username" required class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        <input type="password" name="vet_password" id="edit_vet_password" placeholder="Add password to change it" class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
 
                         <div class="flex justify-between gap-3 mt-3">
-                            <button type="submit" name="update_vet" class="bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-600 w-full text-sm sm:text-base">
+                            <button type="submit" name="update_vet" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 w-full text-sm transition-colors">
                                 Update Veterinarian
                             </button>
-                            <button type="button" id="closeEditModal" class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 w-full text-sm sm:text-base">
+                            <button type="button" id="closeEditModal" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full text-sm transition-colors">
                                 Close
                             </button>
                         </div>

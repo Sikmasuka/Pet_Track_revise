@@ -39,3 +39,16 @@ function getPets($pdo)
         return [];
     }
 }
+
+function getClients($pdo)
+{
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM client WHERE status = 1 ORDER BY client_name ASC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        global $error;
+        $error = "Database error: " . $e->getMessage();
+        return [];
+    }
+}

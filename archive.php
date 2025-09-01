@@ -9,79 +9,6 @@ if (!isset($_SESSION['vet_id'])) {
 
 // Get vet name using the function from archive-handler.php
 $vetName = getVetName($pdo, $_SESSION['vet_id']);
-
-$showRestoreAlert = false;
-$showDeleteAlert = false;
-$alertTable = '';
-$clients = []; // Initialize $clients to avoid undefined variable error
-$medical_records = []; // Initialize $medical_records for consistency
-
-try {
-    // Handle actions FIRST - before fetching data
-    if (isset($_GET['action'], $_GET['id'], $_GET['table'])) {
-        $id = (int)$_GET['id'];
-        $table = $_GET['table'];
-
-        if ($_GET['action'] == 'restore') {
-            if (restoreRecord($pdo, $id, $table)) {
-                // Redirect with success parameter
-                header("Location: archive.php?success=restore&table=" . urlencode($table));
-                exit;
-            }
-        } elseif ($_GET['action'] == 'delete') {
-            if (deleteFromArchive($pdo, $id, $table)) {
-                // Redirect with success parameter
-                header("Location: archive.php?success=delete&table=" . urlencode($table));
-                exit;
-            }
-        }
-    }
-
-    // Check for success parameters from redirect
-    if (isset($_GET['success']) && isset($_GET['table'])) {
-        if ($_GET['success'] === 'restore') {
-            $showRestoreAlert = true;
-            $alertTable = $_GET['table'];
-        } elseif ($_GET['success'] === 'delete') {
-            $showDeleteAlert = true;
-            $alertTable = $_GET['table'];
-        }
-    }
-
-    // NOW fetch the data after handling any actions
-    // Fetch archived clients and pets (status = 0)
-    $stmt = $pdo->query("
-        SELECT c.client_id, c.client_name, c.client_address, c.client_contact_number, c.updated_at, 
-               p.pet_id, p.pet_name, p.pet_species, p.pet_weight, p.pet_breed
-        FROM client c
-        LEFT JOIN pet p ON p.client_id = c.client_id
-        WHERE c.status = 0
-    ");
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $clients[$row['client_id']]['client_name'] = $row['client_name'];
-        $clients[$row['client_id']]['client_address'] = $row['client_address'];
-        $clients[$row['client_id']]['client_contact_number'] = $row['client_contact_number'];
-        $clients[$row['client_id']]['updated_at'] = $row['updated_at'];
-        if ($row['pet_id']) {
-            $clients[$row['client_id']]['pets'][] = [
-                'pet_name' => $row['pet_name'],
-                'pet_species' => $row['pet_species'],
-                'pet_weight' => $row['pet_weight'],
-                'pet_breed' => $row['pet_breed']
-            ];
-        }
-    }
-
-    // Fetch archived medical records
-    $stmt = $pdo->query("
-        SELECT record_id, pet_id, medical_diagnosis, medical_treatment, date, updated_at as deleted_at
-        FROM medical_records
-        WHERE status = 0
-    ");
-    $medical_records = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $error = $e->getMessage();
-}
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +23,7 @@ try {
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include('./includes/edit-profile.php'); ?>
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
@@ -130,9 +58,6 @@ try {
             <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="profile.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
-                <i class="fas fa-id-badge mr-2"></i> Profile
-            </a>
             <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
@@ -161,12 +86,47 @@ try {
     <!-- Main Container -->
     <div class="ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
 
-        <!-- Header -->
-        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-8 border border-slate-200">
-            <!-- Top Greeting -->
-            <div class="flex justify-between flex-col sm:flex-row items-start sm:items-center gap-4">
-                <h1 class="text-xl lg:text-2xl font-bold">Hello, <?= htmlspecialchars($vetName ?? 'User') ?>.</h1>
-                <h1 class="text-xl lg:text-2xl font-bold">Archive</h1>
+        <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
+            <!-- Top Section with Dropdown -->
+            <div class="flex justify-between items-center">
+                <!-- Dashboard Title -->
+                <h1 class="text-xl lg:text-2xl font-bold">Archives</h1>
+
+                <div class="relative inline-block text-left">
+                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                        <div class="px-4 py-3 border-b border-slate-200">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
+                                    <p class="text-xs text-gray-500">Veterinarian</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-1">
+                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                                <i class="fas fa-edit text-indigo-400"></i>
+                                <div>
+                                    <div class="font-medium">Edit Profile</div>
+                                    <div class="text-xs text-gray-500">Update your information</div>
+                                </div>
+                            </a>
+                            <hr class="my-1 border-slate-200">
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
+                                <div>
+                                    <div class="font-medium">Logout</div>
+                                    <div class="text-xs text-red-600">Sign out of your account</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -259,9 +219,9 @@ try {
                                 <tr class="border-b bg-gray-200">
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Diagnosis</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Treatment</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Condition</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Date</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Archived At</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-600 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -269,12 +229,9 @@ try {
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['medical_diagnosis'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['medical_treatment'] ?? 'N/A') ?></td>
+                                        <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['medical_condition'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['date'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-2 text-sm"><?= htmlspecialchars($record['deleted_at'] ?? 'N/A') ?></td>
-                                        <td class="px-4 py-2 text-sm">
-                                            <a href="?action=restore&id=<?= $record['record_id'] ?>&table=medical_records" class="text-indigo-500 hover:underline" onclick="return confirmRestore(<?= $record['record_id'] ?>, 'medical_records')">Restore</a> |
-                                            <a href="?action=delete&id=<?= $record['record_id'] ?>&table=medical_records" class="text-red-500 hover:underline" onclick="return confirmDelete(<?= $record['record_id'] ?>, 'medical_records')">Delete</a>
-                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -287,9 +244,6 @@ try {
         </main>
     </div>
 
-    <script src="./js/sidebarHandler.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./js/confirmLogout.js"></script>
     <!-- Sweetalert Confirmation -->
     <script>
         // Check for restore or delete success
@@ -365,6 +319,13 @@ try {
             }
         }
     </script>
+
+    <!-- scrpits -->
+    <script src="./js/dashboard.js"></script>
+    <script src="./js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/confirmLogout.js"></script>
+    <script src="./js/edit-profile.js"></script>
     <?php include "includes/sitemap/Help/support.php"; ?>
 </body>
 
