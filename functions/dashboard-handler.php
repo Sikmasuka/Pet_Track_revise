@@ -4,6 +4,8 @@ require_once 'auth.php'; // Include auth.php
 
 // Protect vet pages
 requireVet();
+
+
 // Check login
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -11,15 +13,16 @@ if (!isset($_SESSION['vet_id'])) {
 }
 
 // Fetch current vet data for the modal
-$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
-$vet = $stmt->fetch(PDO::FETCH_ASSOC);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
 
 // Debug: Check if data is fetched
-if (!$vet) {
+if (!$vetName) {
     echo "<script>console.error('No vet data found for vet_id: " . $_SESSION['vet_id'] . "');</script>";
 } else {
-    echo "<script>console.log('Vet data loaded:', " . json_encode($vet) . ");</script>";
+    echo "<script>console.log('Vet data loaded:', " . json_encode($vetName) . ");</script>";
 }
 
 // Fetch the counts

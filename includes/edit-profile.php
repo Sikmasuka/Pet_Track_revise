@@ -1,9 +1,12 @@
 <?php
-// Debug: Log $vet data to console for verification
+// Debug: Log data to console for verification
 echo '<script>';
-echo 'console.log("Debug: $vet data in edit-profile.php", ' . json_encode($vet ?? null) . ');';
-if (!isset($vet)) {
-    echo 'console.error("Error: $vet is not defined in edit-profile.php");';
+if (isset($vet)) {
+    echo 'console.log("Debug: $vet data in edit-profile.php", ' . json_encode($vet) . ');';
+} elseif (isset($currentAdmin)) {
+    echo 'console.log("Debug: $currentAdmin data in edit-profile.php", ' . json_encode($currentAdmin) . ');';
+} else {
+    echo 'console.error("Error: Neither $vet nor $currentAdmin is defined in edit-profile.php");';
 }
 echo '</script>';
 ?>
@@ -24,34 +27,39 @@ echo '</script>';
         <!-- Modal Body -->
         <div class="p-4">
             <form method="POST" action="functions/profile-handler.php" class="space-y-4" id="editProfileForm">
+                <!-- Hidden field to indicate user type -->
+                <input type="hidden" name="user_type" value="<?php echo isset($currentAdmin) ? 'admin' : 'vet'; ?>">
+
                 <!-- Name Field -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                     <input type="text"
-                        name="vet_name"
-                        value="<?php echo htmlspecialchars($vet['vet_name'] ?? ''); ?>"
+                        name="name"
+                        value="<?php echo htmlspecialchars($currentAdmin['admin_name'] ?? $vet['vet_name'] ?? ''); ?>"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                         required
                         placeholder="Enter your full name">
                 </div>
 
-                <!-- Contact Number Field -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
-                    <input type="tel"
-                        name="vet_contact_number"
-                        value="<?php echo htmlspecialchars($vet['vet_contact_number'] ?? ''); ?>"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                        required
-                        placeholder="Enter your contact number">
-                </div>
+                <!-- Contact Number Field (only for vets) -->
+                <?php if (isset($vet)): ?>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                        <input type="tel"
+                            name="contact_number"
+                            value="<?php echo htmlspecialchars($vet['vet_contact_number'] ?? ''); ?>"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            required
+                            placeholder="Enter your contact number">
+                    </div>
+                <?php endif; ?>
 
                 <!-- Username Field -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <input type="text"
-                        name="vet_username"
-                        value="<?php echo htmlspecialchars($vet['vet_username'] ?? ''); ?>"
+                        name="username"
+                        value="<?php echo htmlspecialchars($currentAdmin['admin_username'] ?? $vet['vet_username'] ?? ''); ?>"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                         required
                         placeholder="Enter your username">
@@ -62,7 +70,7 @@ echo '</script>';
                     <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
                     <div class="relative">
                         <input type="password"
-                            name="vet_password"
+                            name="password"
                             id="vetPassword"
                             class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                             placeholder="Leave blank to keep current">

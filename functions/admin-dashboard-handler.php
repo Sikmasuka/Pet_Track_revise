@@ -12,8 +12,8 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 // Fetch vet name for greeting
-$stmt = $pdo->prepare("SELECT * FROM admin WHERE admin_name=?");
-$stmt->execute([$_SESSION['username']]);
+$stmt = $pdo->prepare("SELECT * FROM admin WHERE admin_id=?");
+$stmt->execute([$_SESSION['admin_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['admin_name']) : "Admin not found";
 

@@ -7,15 +7,11 @@ include "includes/sitemap/Help/support.php";
 
 requireVet();
 
-// Define $vetName
-$vetName = htmlspecialchars($currentVet['vet_name'] ?? 'Veterinarian');
+// Fetch vet data for modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Fetch veterinarian data for modal (if not already set)
-if (!isset($currentVet)) {
-    $stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
-    $stmt->execute([$_SESSION['vet_id']]);
-    $currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
-}
 ob_end_flush();
 ?>
 

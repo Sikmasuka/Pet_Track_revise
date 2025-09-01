@@ -24,6 +24,6 @@ session_destroy();
 echo "Session destroyed.<br>";
 
 // Redirect to the login page with full URL
-$host = $_SERVER['HTTP_HOST'];   // gets localhost or 192.168.1.13 automatically
-header("Location: http://$host/Pet_Track_revise-3/index.php");
+$host = $_SERVER['HTTP_HOST'];   // e.g. localhost or 192.168.1.13
+header("Location: http://$host/index.php");
 exit;

@@ -1,8 +1,24 @@
 <?php
 require_once '../functions/auth.php';
-require_once '../admin/admin-dashboard-handler.php';
-include "../includes/sitemap/Help/support.php";
+require_once '../functions/admin-dashboard-handler.php';
 requireAdmin();
+
+// Fetch admin data
+if (!isset($currentAdmin)) {
+    $stmt = $pdo->prepare("SELECT * FROM admin WHERE admin_id = ?");
+    $stmt->execute([$_SESSION['admin_id']]);
+    $currentAdmin = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Define $adminName
+$adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
+
+// Debug session and admin data
+error_log("Debug: \$_SESSION in admin-dashboard.php: " . json_encode($_SESSION));
+error_log("Debug: \$currentAdmin in admin-dashboard.php: " . json_encode($currentAdmin));
+
+// Include edit-profile.php after defining $currentAdmin
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +48,6 @@ requireAdmin();
             }
         }
 
-        /* Table responsiveness */
         .table-container {
             overflow-x: auto;
         }
@@ -42,13 +57,11 @@ requireAdmin();
             min-width: 400px;
         }
 
-        /* Dropdown menu for mobile */
         #dropdownMenu {
             width: 80vw;
             max-width: 260px;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -70,6 +83,9 @@ requireAdmin();
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include "../includes/sitemap/Help/support.php"; ?>
+    <?php include '../includes/edit-profile.php'; ?>
+
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
         <i class="fas fa-bars"></i>
@@ -117,26 +133,24 @@ requireAdmin();
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
-
-                <!-- Profile Dropdown -->
                 <div class="relative inline-block text-left">
                     <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
-                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
                         <div class="px-4 py-3 border-b border-slate-200">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?= $vetName ?></p>
-                                    <p class="text-xs text-gray-500">Veterinarian</p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $adminName; ?></p>
+                                    <p class="text-xs text-gray-500">Admin</p>
                                 </div>
                             </div>
                         </div>
                         <div class="py-1">
-                            <a href="profile.php" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
                                 <i class="fas fa-edit text-indigo-400"></i>
                                 <div>
                                     <div class="font-medium">Edit Profile</div>
@@ -158,7 +172,6 @@ requireAdmin();
 
             <!-- Metrics Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
-                <!-- Clients Card -->
                 <div class="bg-white p-4 rounded-md h-full relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="clients.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -168,8 +181,6 @@ requireAdmin();
                         <p class="text-xl"><?= $clientCount ?></p>
                     </div>
                 </div>
-
-                <!-- Vets Card -->
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="admin.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -179,8 +190,6 @@ requireAdmin();
                         <p class="text-xl"><?= $vetCount ?></p>
                     </div>
                 </div>
-
-                <!-- Pets Card -->
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="pets.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -190,8 +199,6 @@ requireAdmin();
                         <p class="text-xl"><?= $petCount ?></p>
                     </div>
                 </div>
-
-                <!-- Medical Records Card -->
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="medical_records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -201,8 +208,6 @@ requireAdmin();
                         <p class="text-xl"><?= $recordCount ?></p>
                     </div>
                 </div>
-
-                <!-- Total Payments Card -->
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="payment_methods.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -234,47 +239,21 @@ requireAdmin();
             </div>
         </main>
 
-        <!-- Recent Activities Section -->
-        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg mt-8 border border-slate-200">
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-800 mb-6">Recent Activities</h2>
+        <div class="mt-8 bg-white border border-slate-200 rounded-lg p-4 shadow-lg hover:border-indigo-400 transition-colors">
+            <h3 class="text-base lg:text-lg font-semibold text-gray-800 mb-4">Recent Activities</h3>
             <div class="table-container overflow-x-scroll lg:overflow-x-hidden">
                 <table class="min-w-full divide-y divide-slate-200">
                     <thead class="bg-gray-300">
                         <tr>
                             <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">#</th>
-                            <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider min-w-[90px]">Name</th>
-                            <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider min-w-[110px]">Description</th>
-                            <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider min-w-[90px]">Date</th>
+                            <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Name</th>
+                            <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Date</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-slate-200">
-                        <?php foreach ($logs as $index => $log): ?>
-                            <?php $serial = ($offset + $index + 1); ?>
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-2 text-sm"><?= $serial ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['name'] ?? 'Guest') ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['Description'] ?? '') ?></td>
-                                <td class="px-4 py-2 text-sm"><?= htmlspecialchars($log['Timestamp'] ?? '') ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        <?php if (empty($logs)): ?>
-                            <tr>
-                                <td colspan="4" class="px-4 py-2 text-sm text-center text-gray-500">No recent activities logged.</td>
-                            </tr>
-                        <?php endif; ?>
+                    <tbody id="activities-body" class="bg-white divide-y divide-slate-200">
                     </tbody>
                 </table>
-                <div class="mt-4 flex justify-center space-x-2">
-                    <?php if ($currentPage > 1): ?>
-                        <a href="?page=<?= $currentPage - 1 ?>" class="px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded hover:bg-gray-200">« Prev</a>
-                    <?php endif; ?>
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <a href="?page=<?= $i ?>" class="px-3 py-1 text-sm <?= $i === $currentPage ? 'bg-indigo-500 text-white' : 'bg-gray-100 text-gray-700' ?> rounded hover:bg-indigo-500 hover:text-white"><?= $i ?></a>
-                    <?php endfor; ?>
-                    <?php if ($currentPage < $totalPages): ?>
-                        <a href="?page=<?= $currentPage + 1 ?>" class="px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded hover:bg-gray-200">Next »</a>
-                    <?php endif; ?>
-                </div>
             </div>
         </div>
     </div>
@@ -382,11 +361,118 @@ requireAdmin();
                 console.error("Modal not found:", modalId);
             }
         }
+
+        // AJAX polling for Recent Activities
+        let currentPage = 1;
+        let isFetching = false;
+
+        async function fetchRecentActivities(page = 1) {
+            if (isFetching) return;
+            isFetching = true;
+
+            const tbody = document.getElementById("activities-body");
+            if (!tbody) {
+                console.error("Activities table body not found");
+                isFetching = false;
+                return;
+            }
+
+            const newTbody = document.createElement("tbody");
+            newTbody.classList.add("bg-white", "divide-y", "divide-slate-200");
+            newTbody.innerHTML = '<tr><td colspan="4" class="px-4 py-2 text-sm text-center text-gray-500">Loading...</td></tr>';
+
+            try {
+                const url = `./admin-get-recent-activities.php?page=${page}`;
+                console.log("Attempting to fetch:", url);
+                const response = await fetch(url);
+                console.log("Response status:", response.status, response.statusText);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.log("Error response text:", errorText);
+                    throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
+                }
+                const text = await response.text();
+                console.log("Raw response:", text);
+                if (!text) throw new Error("Empty response from server");
+                const data = JSON.parse(text);
+                console.log("Parsed data:", data);
+
+                newTbody.innerHTML = '';
+                if (!data.activities || data.activities.length === 0) {
+                    newTbody.innerHTML = '<tr><td colspan="4" class="px-4 py-2 text-sm text-center text-gray-500">No recent activities</td></tr>';
+                } else {
+                    data.activities.forEach((activity, index) => {
+                        const serial = data.offset + index + 1;
+                        const timestamp = new Date(activity.Timestamp);
+                        const formattedDate = isNaN(timestamp.getTime()) ? 'Unknown' : timestamp.toLocaleString();
+                        const row = `
+                    <tr class="hover:bg-gray-50 opacity-0 transition-opacity duration-300">
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">${serial}</td>
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">${activity.name || 'Admin'}</td>
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">${activity.Description || 'No description'}</td>
+                        <td class="px-4 py-2 text-sm whitespace-nowrap">${formattedDate}</td>
+                    </tr>
+                `;
+                        newTbody.insertAdjacentHTML("beforeend", row);
+                    });
+                }
+
+                const parentTable = tbody.parentElement;
+                tbody.classList.add("opacity-0");
+                setTimeout(() => {
+                    parentTable.replaceChild(newTbody, tbody);
+                    newTbody.id = "activities-body";
+                    newTbody.classList.remove("opacity-0");
+                    newTbody.querySelectorAll("tr").forEach((row, index) => {
+                        setTimeout(() => row.classList.remove("opacity-0"), index * 50);
+                    });
+                }, 300);
+
+                const pagination = document.getElementById("pagination");
+                if (pagination) {
+                    pagination.innerHTML = '';
+                    if (data.currentPage > 1) {
+                        pagination.innerHTML += `<button onclick="fetchRecentActivities(${data.currentPage - 1})" class="px-3 py-1 bg-gray-100 text-gray-800 rounded hover:bg-gray-200">« Prev</button>`;
+                    }
+                    for (let i = 1; i <= data.totalPages; i++) {
+                        pagination.innerHTML += `<button onclick="fetchRecentActivities(${i})" class="px-3 py-1 ${i === data.currentPage ? 'bg-indigo-500 text-white' : 'bg-gray-100 text-gray-700'} rounded hover:bg-indigo-500 hover:text-white">${i}</button>`;
+                    }
+                    if (data.currentPage < data.totalPages) {
+                        pagination.innerHTML += `<button onclick="fetchRecentActivities(${data.currentPage + 1})" class="px-3 py-1 bg-gray-100 text-gray-800 rounded hover:bg-gray-200">Next »</button>`;
+                    }
+                }
+
+                currentPage = data.currentPage;
+            } catch (error) {
+                console.error("Fetch error:", error.message);
+                newTbody.innerHTML = `<tr><td colspan="4" class="px-4 py-2 text-sm text-center text-red-500">Failed to load activities: ${error.message}</td></tr>`;
+                const parentTable = tbody.parentElement;
+                parentTable.replaceChild(newTbody, tbody);
+                newTbody.id = "activities-body";
+                newTbody.classList.remove("opacity-0");
+            } finally {
+                isFetching = false;
+            }
+        }
+
+        // Poll every 10 seconds on page 1
+        setInterval(() => {
+            if (currentPage === 1 && !isFetching) {
+                fetchRecentActivities(1);
+            }
+        }, 10000);
+
+        // Initial fetch
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRecentActivities(1);
+        });
     </script>
+
+    <script src="../js/dashboard.js"></script>
     <script src="../js/sidebarHandler.js"></script>
-    <script src="../js/profile-dropdown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/Pet_Track_revise-2/js/confirmLogout.js"></script>
+    <script src="../js/edit-profile.js"></script>
+    <script src="../js/profile-dropdown.js"></script>
     <script src="../js/confirmLogout.js"></script>
 </body>
 
