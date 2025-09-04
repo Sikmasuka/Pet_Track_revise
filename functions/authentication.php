@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-require_once 'db.php';
+require_once __DIR__ . '/../db.php';
 require_once 'logs.php';
 
 // If already logged in, redirect to appropriate dashboard
