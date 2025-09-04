@@ -93,6 +93,7 @@ function deleteFromArchive($pdo, $id, $table)
 {
     try {
         if ($table === 'client') {
+
             // Fetch client name for logging
             $stmt = $pdo->prepare("SELECT client_name FROM client WHERE client_id = ?");
             $stmt->execute([$id]);

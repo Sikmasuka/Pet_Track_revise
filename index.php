@@ -35,8 +35,7 @@ require_once 'functions/authentication.php';
 
 <body class="bg-gray-100">
     <!-- Main Section -->
-    <main class="py-5 min-h-screen flex items-center justify-center bg-cover bg-center"
-        style="background-image: url('image/ThumbnailCatDog.png');">
+    <main class="py-5 min-h-screen flex items-center justify-center bg-cover bg-center bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-xl">
 
         <!-- Login Box -->
         <div class="flex w-full max-w-3xl bg-white rounded-2xl shadow-lg overflow-hidden">
