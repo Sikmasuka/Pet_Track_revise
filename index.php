@@ -33,9 +33,9 @@ require_once 'functions/authentication.php';
     <script src="Assets/Extension.js"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-700">
     <!-- Main Section -->
-    <main class="py-5 min-h-screen flex items-center justify-center bg-cover bg-center bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-xl">
+    <main class="py-5 min-h-screen flex items-center justify-center rounded-xl">
 
         <!-- Login Box -->
         <div class="flex w-full max-w-3xl bg-white rounded-2xl shadow-lg overflow-hidden">
