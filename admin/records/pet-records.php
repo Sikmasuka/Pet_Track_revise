@@ -170,7 +170,7 @@ include(__DIR__ . '/../../includes/sitemap/Help/support.php');
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center">
                 <!-- Dashboard Title -->
-                <h1 class="text-xl lg:text-2xl font-bold">Manage Records</h1>
+                <h1 class="text-xl lg:text-2xl font-bold">Manage Pet Records</h1>
 
                 <div class="relative inline-block text-left">
                     <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">

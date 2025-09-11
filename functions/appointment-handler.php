@@ -70,6 +70,21 @@ try {
         exit();
     }
 
+    // Validate time is between 8:00 AM and 6:00 PM
+    $timeObj = DateTime::createFromFormat('H:i:s', $appointment_time, new DateTimeZone('Asia/Manila'));
+    if ($timeObj === false) {
+        $_SESSION['error'] = "Invalid appointment time.";
+        header("Location: ../landing-page.php");
+        exit();
+    }
+    $hours = (int)$timeObj->format('H');
+    $minutes = (int)$timeObj->format('i');
+    if ($hours < 8 || $hours > 18 || ($hours === 18 && $minutes > 0)) {
+        $_SESSION['error'] = "Appointments can only be booked between 8:00 AM and 6:00 PM.";
+        header("Location: ../landing-page.php");
+        exit();
+    }
+
     // Check total appointments for the date (max 6)
     $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM appointments WHERE appointment_date = :appointment_date");
     $stmt->execute(['appointment_date' => $appointment_date]);

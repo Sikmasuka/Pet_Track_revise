@@ -198,6 +198,31 @@
         #timeAvailability.taken .indicator {
             background-color: #dc3545;
         }
+
+        /* Taken time slots list styles */
+        #takenTimeSlots {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+        }
+
+        #takenTimeSlots ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        #takenTimeSlots li {
+            color: #dc3545;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        #takenTimeSlots:empty {
+            display: none;
+        }
     </style>
 </head>
 
@@ -457,8 +482,9 @@
                         <span class="indicator"></span>
                         <span id="timeStatus"></span>
                     </p>
-                    <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8 AM and 6 PM.</p>
-                    <p class="text-sm text-gray-500 mt-1">Please type or pick a time between 8 AM and 6 PM. Each appointment is 1 hour and 30 minutes.</p>
+                    <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8:00 AM and 6:00 PM.</p>
+                    <div id="takenTimeSlots" class="text-sm mt-1"></div>
+                    <p class="text-sm text-gray-500 mt-1">Please select a time between 8:00 AM and 6:00 PM. Each appointment is 1 hour and 30 minutes.</p>
                 </div>
                 <div>
                     <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Visit</label>
@@ -562,6 +588,7 @@
             document.getElementById("appointmentModal").classList.add("hidden");
             document.getElementById("timeAvailability").classList.add("hidden");
             document.getElementById("timeError").classList.add("hidden");
+            document.getElementById("takenTimeSlots").innerHTML = "";
             const submitButton = document.getElementById("submitButton");
             submitButton.disabled = false;
             submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
@@ -659,6 +686,7 @@
                     e.preventDefault();
                     timeError.classList.remove("hidden");
                     timeAvailability.classList.add("hidden");
+                    document.getElementById("takenTimeSlots").innerHTML = "";
                 } else if (!selectedDate.value) {
                     e.preventDefault();
                     alert("Please select a date.");
@@ -670,19 +698,34 @@
             });
         }
 
-        // Function to check time slot availability
+        // Function to check time slot availability and display taken slots
         function checkTimeAvailability() {
             const selectedDate = document.getElementById("selectedDate").value;
             const timeInput = document.getElementById("time").value;
             const timeAvailability = document.getElementById("timeAvailability");
             const timeStatus = document.getElementById("timeStatus");
             const submitButton = document.getElementById("submitButton");
+            const takenTimeSlots = document.getElementById("takenTimeSlots");
+            const timeError = document.getElementById("timeError");
+
+            // Clear previous state
+            timeAvailability.classList.add("hidden");
+            timeError.classList.add("hidden");
+            takenTimeSlots.innerHTML = "";
+            submitButton.disabled = false;
+            submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+            submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
+
+            // Validate time input
+            if (timeInput) {
+                const [hours, minutes] = timeInput.split(":").map(Number);
+                if (hours < 8 || hours > 18 || (hours === 18 && minutes > 0)) {
+                    timeError.classList.remove("hidden");
+                    return;
+                }
+            }
 
             if (!selectedDate || !timeInput) {
-                timeAvailability.classList.add("hidden");
-                submitButton.disabled = false;
-                submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
-                submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
                 return;
             }
 
@@ -696,6 +739,7 @@
                     const selectedTime = new Date(`${selectedDate}T${timeInput}:00`);
                     const selectedEndTime = new Date(selectedTime.getTime() + duration * 60 * 1000);
 
+                    // Check if selected time slot is taken
                     let isTaken = false;
                     for (const event of events) {
                         const eventStart = new Date(event.start);
@@ -718,14 +762,35 @@
                         timeAvailability.classList.remove("taken");
                         timeAvailability.classList.add("available");
                         timeStatus.textContent = "This time slot is available.";
-                        submitButton.disabled = false;
-                        submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
-                        submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
+                    }
+
+                    // Display all taken time slots
+                    if (events.length > 0) {
+                        const timeSlotsList = document.createElement("ul");
+                        events.forEach(event => {
+                            const eventStart = new Date(event.start);
+                            const eventEnd = new Date(eventStart.getTime() + (event.extendedProps.duration || 90) * 60 * 1000);
+                            const startTime = eventStart.toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                timeZone: 'Asia/Manila'
+                            });
+                            const endTime = eventEnd.toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                timeZone: 'Asia/Manila'
+                            });
+                            const li = document.createElement("li");
+                            li.textContent = `${startTime} - ${endTime}`;
+                            timeSlotsList.appendChild(li);
+                        });
+                        takenTimeSlots.appendChild(timeSlotsList);
                     }
                 })
                 .catch(error => {
                     console.error("Error checking time availability:", error);
                     timeAvailability.classList.add("hidden");
+                    takenTimeSlots.innerHTML = "";
                     submitButton.disabled = false;
                     submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
                     submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");

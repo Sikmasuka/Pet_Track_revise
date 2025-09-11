@@ -138,7 +138,7 @@ include(__DIR__ . '/../../includes/sitemap/Help/support.php');
                         <span class="whitespace-normal leading-snug">Medical Records</span>
                     </a>
 
-                    <a href="./records/admin-payments.php"
+                    <a href="./records/payment-records.php"
                         class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
@@ -321,12 +321,20 @@ include(__DIR__ . '/../../includes/sitemap/Help/support.php');
         recordsBtn.addEventListener('click', () => {
             if (recordsMenu.classList.contains('max-h-0')) {
                 recordsMenu.classList.remove('max-h-0', 'opacity-0');
-                recordsMenu.classList.add('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-96', 'opacity-100');
             } else {
-                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.remove('max-h-96', 'opacity-100');
                 recordsMenu.classList.add('max-h-0', 'opacity-0');
             }
             recordsArrow.classList.toggle('rotate-180');
+        });
+
+        // Prevent submenu links from toggling the dropdown
+        const submenuLinks = document.querySelectorAll('#recordsMenu a');
+        submenuLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from bubbling up to recordsBtn
+            });
         });
     </script>
 

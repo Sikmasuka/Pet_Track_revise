@@ -229,11 +229,11 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
 
         <!-- Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="./admin-dashboard.php"
+            <a href="admin-dashboard.php"
                 class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="./admin.php"
+            <a href="admin.php"
                 class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
@@ -254,18 +254,26 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
                 <!-- Submenu -->
                 <div id="recordsMenu"
                     class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
+
                     <a href="./records/pet-records.php"
-                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-paw mr-2"></i> Pets
                     </a>
+
                     <a href="./records/client-records.php"
-                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-user mr-2"></i> Clients
                     </a>
+
                     <a href="./records/medical-records.php"
-                        class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
-                        <i class="fas fa-file-medical mr-2 mt-1"></i>
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-file-medical mr-2"></i>
                         <span class="whitespace-normal leading-snug">Medical Records</span>
+                    </a>
+
+                    <a href="./records/admin-payments.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
                 </div>
             </div>
@@ -582,9 +590,9 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
         recordsBtn.addEventListener('click', () => {
             if (recordsMenu.classList.contains('max-h-0')) {
                 recordsMenu.classList.remove('max-h-0', 'opacity-0');
-                recordsMenu.classList.add('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-96', 'opacity-100');
             } else {
-                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.remove('max-h-96', 'opacity-100');
                 recordsMenu.classList.add('max-h-0', 'opacity-0');
             }
             recordsArrow.classList.toggle('rotate-180');

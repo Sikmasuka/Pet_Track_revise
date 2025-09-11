@@ -134,18 +134,26 @@ ob_end_flush();
                 <!-- Submenu -->
                 <div id="recordsMenu"
                     class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
+
                     <a href="./records/pet-records.php"
-                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-paw mr-2"></i> Pets
                     </a>
+
                     <a href="./records/client-records.php"
-                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-user mr-2"></i> Clients
                     </a>
+
                     <a href="./records/medical-records.php"
-                        class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
-                        <i class="fas fa-file-medical mr-2 mt-1"></i>
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-file-medical mr-2"></i>
                         <span class="whitespace-normal leading-snug">Medical Records</span>
+                    </a>
+
+                    <a href="./records/admin-payments.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
                 </div>
             </div>
@@ -223,7 +231,7 @@ ob_end_flush();
             <!-- Metrics Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
                 <div class="bg-white p-4 rounded-md h-full relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="clients.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+                    <a href="./records/client-records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center mt-4">
@@ -232,7 +240,7 @@ ob_end_flush();
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="admin.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+                    <a href="./admin.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center mt-4">
@@ -241,7 +249,7 @@ ob_end_flush();
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="pets.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+                    <a href="./records/pet-records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center mt-4">
@@ -250,7 +258,7 @@ ob_end_flush();
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="medical_records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+                    <a href="./records/medical-records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center mt-4">
@@ -524,9 +532,9 @@ ob_end_flush();
         recordsBtn.addEventListener('click', () => {
             if (recordsMenu.classList.contains('max-h-0')) {
                 recordsMenu.classList.remove('max-h-0', 'opacity-0');
-                recordsMenu.classList.add('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-96', 'opacity-100');
             } else {
-                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.remove('max-h-96', 'opacity-100');
                 recordsMenu.classList.add('max-h-0', 'opacity-0');
             }
             recordsArrow.classList.toggle('rotate-180');
