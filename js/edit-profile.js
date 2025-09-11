@@ -13,48 +13,51 @@ console.log("Debug: editProfileLink", editProfileLink ? "found" : "not found");
 window.toggleModal = function (modalId) {
   console.log(`Debug: toggleModal called with modalId=${modalId}`);
   const modal = document.getElementById(modalId);
-  const modalContent = document.getElementById(modalId + "Content");
+
+  if (!modal) {
+    console.error(`Error: Modal ${modalId} not found`);
+    return;
+  }
+
   console.log(`Debug: Modal ${modalId}`, modal ? "found" : "not found");
-  console.log(
-    `Debug: Modal content ${modalId}Content`,
-    modalContent ? "found" : "not found"
-  );
 
-  if (modal) {
-    const isHidden = modal.classList.contains("hidden");
-    console.log(
-      `Debug: Modal ${modalId} is ${isHidden ? "hidden" : "visible"}`
-    );
+  const isHidden = modal.classList.contains("hidden");
+  console.log(`Debug: Modal ${modalId} is ${isHidden ? "hidden" : "visible"}`);
 
-    if (isHidden) {
-      // Opening modal
-      console.log(`Debug: Opening modal ${modalId}`);
-      modal.classList.remove("hidden");
-      document.body.classList.add("overflow-hidden");
+  if (isHidden) {
+    // Opening modal
+    console.log(`Debug: Opening modal ${modalId}`);
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
 
+    // Special handling for modals with content wrappers (like editProfileModal)
+    const modalContent = document.getElementById(modalId + "Content");
+    if (modalContent) {
       // Add slight delay for smooth animation
       setTimeout(() => {
-        if (modalContent) {
-          modalContent.classList.remove("scale-95", "opacity-0");
-          modalContent.classList.add("scale-100", "opacity-100");
-        }
+        modalContent.classList.remove("scale-95", "opacity-0");
+        modalContent.classList.add("scale-100", "opacity-100");
       }, 10);
-    } else {
-      // Closing modal
-      console.log(`Debug: Closing modal ${modalId}`);
-      if (modalContent) {
-        modalContent.classList.remove("scale-100", "opacity-100");
-        modalContent.classList.add("scale-95", "opacity-0");
-      }
+    }
+  } else {
+    // Closing modal
+    console.log(`Debug: Closing modal ${modalId}`);
+    const modalContent = document.getElementById(modalId + "Content");
+
+    if (modalContent) {
+      modalContent.classList.remove("scale-100", "opacity-100");
+      modalContent.classList.add("scale-95", "opacity-0");
 
       // Wait for animation before hiding
       setTimeout(() => {
         modal.classList.add("hidden");
         document.body.classList.remove("overflow-hidden");
       }, 200);
+    } else {
+      // For modals without content wrappers (like adminHelpModal)
+      modal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
     }
-  } else {
-    console.error(`Error: Modal ${modalId} not found`);
   }
 };
 

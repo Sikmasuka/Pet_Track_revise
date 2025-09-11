@@ -138,3 +138,4 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in C:\xampp\htdocs\Pet_Track_revise-3\admin\admin-get-recent-activities.php on line 10
+[09-Sep-2025 02:58:23 Europe/Berlin] Error in admin-get-recent-activities.php: SQLSTATE[HY000]: General error: 1030 Got error 1877 "Unknown error" from storage engine InnoDB

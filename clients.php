@@ -77,12 +77,12 @@ ob_end_flush();
     <?php include('./includes/edit-profile.php'); ?>
 
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-700">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-teal-800">
         <!-- Sidebar Header -->
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
@@ -90,42 +90,42 @@ ob_end_flush();
                 <span class="md:inline">Dashboard</span>
             </h2>
             <!-- Close button (mobile only) -->
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-200 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
         <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white hover:bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
+            <a href="dashboard.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-gray-300 bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="clients.php" class="block text-sm text-white bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="pets.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="medical_records.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="payment_methods.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="appointments.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="archive.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="#" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors" onclick="toggleModal('vetHelpModal')">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
 
         <!-- Logout -->
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
+            <a href="logout.php" onclick="confirmLogout(event)" class="block text-md text-white hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -181,13 +181,51 @@ ob_end_flush();
         </header>
 
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
-            <?php if (isset($error)): ?>
+            <?php if (isset($error) || isset($_GET['error'])): ?>
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-                    <p><?= htmlspecialchars($error) ?></p>
+                    <p><?= htmlspecialchars($error ?? $_GET['error']) ?></p>
                 </div>
             <?php endif; ?>
 
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-800 mb-4">Clients</h2>
+            <?php if (isset($_GET['message'])): ?>
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+                    <p><?= htmlspecialchars($_GET['message']) ?></p>
+                </div>
+            <?php endif; ?>
+
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg sm:text-xl lg:text-xl font-semibold text-gray-800 mb-4">List of Clients</h2>
+
+                <button onclick="showClientModal('add')" class="mt-6 bg-indigo-500 text-white px-4 py-2 font-semibold rounded-md hover:bg-indigo-600 transition-colors text-sm sm:text-base">
+                    <i class="fas fa-plus mr-2"></i>Add New Client
+                </button>
+            </div>
+
+
+            <!-- Filter Dropdowns in Same Row -->
+            <div class="flex flex-row gap-6 mb-4">
+                <form method="GET">
+                    <label for="species1" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
+                    <select name="species" id="species1"
+                        class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                        onchange="this.form.submit()">
+                        <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
+                        <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Dog</option>
+                        <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Cat</option>
+                    </select>
+                </form>
+
+                <form method="GET">
+                    <label for="species2" class="text-sm font-medium text-gray-700 mr-2">Filter by Sex:</label>
+                    <select name="sex" id="species2"
+                        class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                        onchange="this.form.submit()">
+                        <option value="All" <?= (!isset($_GET['sex']) || $_GET['sex'] === 'All') ? 'selected' : '' ?>>All</option>
+                        <option value="Male" <?= (isset($_GET['sex']) && $_GET['sex'] === 'Male') ? 'selected' : '' ?>>Male</option>
+                        <option value="Female" <?= (isset($_GET['sex']) && $_GET['sex'] === 'Female') ? 'selected' : '' ?>>Female</option>
+                    </select>
+                </form>
+            </div>
 
             <?php if (count($clients) > 0): ?>
                 <div class="table-container">
@@ -218,17 +256,13 @@ ob_end_flush();
             <?php else: ?>
                 <p class="text-center text-gray-500 text-sm sm:text-base">No clients added yet.</p>
             <?php endif; ?>
-
-            <button onclick="showClientModal('add')" class="mt-6 bg-indigo-500 text-white px-4 py-2 font-semibold rounded-md hover:bg-indigo-600 transition-colors text-sm sm:text-base">
-                <i class="fas fa-plus mr-2"></i>Add New Client
-            </button>
         </main>
     </div>
 
     <!-- Add/Edit Client, Pet & Medical Record Modal -->
     <div id="clientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-4xl max-h-[80vh] overflow-hidden flex flex-col border border-slate-700">
-            <div class="w-full bg-slate-700 rounded-t-lg text-gray-800 border-b border-slate-200">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-4xl max-h-[80vh] overflow-hidden flex flex-col border border-teal-800">
+            <div class="w-full bg-gradient-to-r from-emerald-600 to-teal-700 rounded-t-lg text-gray-800 border-b border-teal-800">
                 <h3 id="modalTitle" class="text-lg font-bold text-center py-2 text-white">Add New Client, Pet & Medical Record</h3>
             </div>
             <form id="clientForm" method="POST" class="p-4 overflow-y-auto custom-scrollbar">
@@ -303,21 +337,21 @@ ob_end_flush();
                         <div>
                             <div class="mb-3">
                                 <label class="block text-xs text-gray-500 mb-1">Condition</label>
-                                <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                                <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="block text-xs text-gray-500 mb-1">Diagnosis</label>
-                                <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                                <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
                             </div>
                         </div>
                         <div>
                             <div class="mb-3">
                                 <label class="block text-xs text-gray-500 mb-1">Symptoms</label>
-                                <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                                <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="block text-xs text-gray-500 mb-1">Treatment</label>
-                                <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required></textarea>
+                                <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
                             </div>
                         </div>
                     </div>
@@ -342,19 +376,31 @@ ob_end_flush();
             const speciesTooltip = document.getElementById('speciesTooltip');
             const sexTooltip = document.getElementById('sexTooltip');
 
-            form.reset();
+            // Reset form but preserve existing values for edit mode
             form.querySelector('input[name="update_client"]')?.remove();
-            // Enable dropdowns and hide tooltips
+            // Enable dropdowns and hide tooltips by default
             document.getElementById('petSpecies').disabled = false;
             document.getElementById('petSex').disabled = false;
             speciesTooltip.classList.add('hidden');
             sexTooltip.classList.add('hidden');
 
-            formAction.name = 'add_client';
-            modalTitle.textContent = 'Add New Client, Pet, and Medical Record';
+            // Clear required attributes for all fields initially
+            document.getElementById('petName').removeAttribute('required');
+            document.getElementById('petSpecies').removeAttribute('required');
+            document.getElementById('petSex').removeAttribute('required');
+            document.getElementById('petBreed').removeAttribute('required');
+            document.getElementById('petWeight').removeAttribute('required');
+            document.getElementById('petBirthDate').removeAttribute('required');
+            document.getElementById('medicalCondition').removeAttribute('required');
+            document.getElementById('medicalDiagnosis').removeAttribute('required');
+            document.getElementById('medicalSymptoms').removeAttribute('required');
+            document.getElementById('medicalTreatment').removeAttribute('required');
 
-            // Set required attributes for add mode
             if (action === 'add') {
+                form.reset(); // Clear form for adding new client
+                formAction.name = 'add_client';
+                modalTitle.textContent = 'Add New Client, Pet, and Medical Record';
+                // Set required attributes for add mode
                 document.getElementById('petName').setAttribute('required', '');
                 document.getElementById('petSpecies').setAttribute('required', '');
                 document.getElementById('petSex').setAttribute('required', '');
@@ -370,17 +416,8 @@ ob_end_flush();
             if (action === 'edit') {
                 modalTitle.textContent = 'Edit Client, Pet, and Medical Record';
                 formAction.name = 'update_client';
-                // All fields are required in edit mode
-                document.getElementById('petName').setAttribute('required', '');
-                document.getElementById('petSpecies').setAttribute('required', '');
-                document.getElementById('petSex').setAttribute('required', '');
-                document.getElementById('petBreed').setAttribute('required', '');
-                document.getElementById('petWeight').setAttribute('required', '');
-                document.getElementById('petBirthDate').setAttribute('required', '');
-                document.getElementById('medicalCondition').setAttribute('required', '');
-                document.getElementById('medicalDiagnosis').setAttribute('required', '');
-                document.getElementById('medicalSymptoms').setAttribute('required', '');
-                document.getElementById('medicalTreatment').setAttribute('required', '');
+                // Debugging: Log pet_id when opening edit modal
+                console.log('Opening edit modal with pet_id:', document.getElementById('pet_id').value);
             }
 
             modal.classList.remove('hidden');
@@ -455,8 +492,12 @@ ob_end_flush();
             });
         <?php endif; ?>
 
+        // Populate fields for edit mode
         <?php if ($clientToEdit): ?>
             document.addEventListener('DOMContentLoaded', function() {
+                console.log('Client to edit:', <?= json_encode($clientToEdit) ?>); // Debug client data
+                console.log('Pet to edit:', <?= json_encode($petToEdit) ?>); // Debug pet data
+                console.log('Medical record to edit:', <?= json_encode($medicalRecordToEdit) ?>); // Debug medical record data
                 showClientModal('edit');
                 // Set client values
                 document.getElementById('client_id').value = <?= json_encode($clientToEdit['client_id'] ?? '') ?>;
@@ -472,10 +513,17 @@ ob_end_flush();
                     document.getElementById('petWeight').value = <?= json_encode($petToEdit['pet_weight'] ?? '') ?>;
                     document.getElementById('petBirthDate').value = <?= json_encode($petToEdit['pet_birth_date'] ?? '') ?>;
                     document.getElementById('petSpecies').value = <?= json_encode($petToEdit['pet_species'] ?? '') ?>;
-                    document.getElementById('petSpecies').disabled = true;
-                    document.getElementById('petSex').disabled = true;
-                    document.getElementById('speciesTooltip').classList.remove('hidden');
-                    document.getElementById('sexTooltip').classList.remove('hidden');
+                    document.getElementById('petSpecies').disabled = false;
+                    document.getElementById('petSex').disabled = false;
+                    document.getElementById('speciesTooltip').classList.add('hidden');
+                    document.getElementById('sexTooltip').classList.add('hidden');
+                    // Set required attributes for pet fields when pet exists
+                    document.getElementById('petName').setAttribute('required', '');
+                    document.getElementById('petSpecies').setAttribute('required', '');
+                    document.getElementById('petSex').setAttribute('required', '');
+                    document.getElementById('petBreed').setAttribute('required', '');
+                    document.getElementById('petWeight').setAttribute('required', '');
+                    document.getElementById('petBirthDate').setAttribute('required', '');
                 <?php else: ?>
                     // Clear pet fields if no pet exists
                     document.getElementById('pet_id').value = '';
@@ -491,13 +539,17 @@ ob_end_flush();
                     document.getElementById('sexTooltip').classList.add('hidden');
                 <?php endif; ?>
                 // Set medical record values if exists
-                // Set medical record values if exists
                 <?php if ($medicalRecordToEdit): ?>
                     document.getElementById('record_id').value = <?= json_encode($medicalRecordToEdit['record_id'] ?? '') ?>;
                     document.getElementById('medicalCondition').value = <?= json_encode($medicalRecordToEdit['medical_condition'] ?? '') ?>;
                     document.getElementById('medicalDiagnosis').value = <?= json_encode($medicalRecordToEdit['medical_diagnosis'] ?? '') ?>;
                     document.getElementById('medicalSymptoms').value = <?= json_encode($medicalRecordToEdit['medical_symptoms'] ?? '') ?>;
                     document.getElementById('medicalTreatment').value = <?= json_encode($medicalRecordToEdit['medical_treatment'] ?? '') ?>;
+                    // Set required attributes for medical record fields when record exists
+                    document.getElementById('medicalCondition').setAttribute('required', '');
+                    document.getElementById('medicalDiagnosis').setAttribute('required', '');
+                    document.getElementById('medicalSymptoms').setAttribute('required', '');
+                    document.getElementById('medicalTreatment').setAttribute('required', '');
                 <?php else: ?>
                     // Clear medical record fields if no record exists
                     document.getElementById('record_id').value = '';
@@ -521,24 +573,56 @@ ob_end_flush();
 
         document.getElementById('clientForm').addEventListener('submit', function(event) {
             const medicalFields = ['medicalCondition', 'medicalDiagnosis', 'medicalSymptoms', 'medicalTreatment'];
-            for (const id of medicalFields) {
-                if (!document.getElementById(id).value.trim()) {
-                    event.preventDefault();
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'All medical record fields are required.',
-                        icon: 'error',
-                        background: '#1e293b',
-                        color: '#e2e8f0',
-                        confirmButtonColor: '#6366f1'
-                    });
-                    return;
+            const petFields = ['petName', 'petSpecies', 'petSex', 'petBreed', 'petWeight', 'petBirthDate'];
+            const petId = document.getElementById('pet_id').value.trim();
+            const hasPetData = petFields.some(id => document.getElementById(id).value.trim());
+
+            // Debugging: Log form data
+            console.log('Submitting form with pet_id:', petId);
+            console.log('Pet fields:', petFields.map(id => ({
+                [id]: document.getElementById(id).value.trim()
+            })));
+
+            // If any pet field is filled, all pet fields must be filled
+            if (hasPetData) {
+                for (const id of petFields) {
+                    if (!document.getElementById(id).value.trim()) {
+                        event.preventDefault();
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'All pet fields are required if any pet field is filled.',
+                            icon: 'error',
+                            background: '#1e293b',
+                            color: '#e2e8f0',
+                            confirmButtonColor: '#6366f1'
+                        });
+                        return;
+                    }
+                }
+            }
+
+            // If any medical field is filled, all medical fields must be filled
+            const hasMedicalData = medicalFields.some(id => document.getElementById(id).value.trim());
+            if (hasMedicalData) {
+                for (const id of medicalFields) {
+                    if (!document.getElementById(id).value.trim()) {
+                        event.preventDefault();
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'All medical record fields are required if any medical field is filled.',
+                            icon: 'error',
+                            background: '#1e293b',
+                            color: '#e2e8f0',
+                            confirmButtonColor: '#6366f1'
+                        });
+                        return;
+                    }
                 }
             }
         });
     </script>
 
-    <!-- scrpits -->
+    <!-- scripts -->
     <script src="./js/dashboard.js"></script>
     <script src="./js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

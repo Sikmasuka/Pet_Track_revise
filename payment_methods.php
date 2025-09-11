@@ -2,9 +2,6 @@
 // Start session and include database connection
 session_start();
 require_once 'db.php';
-include "includes/sitemap/Help/support.php";
-
-
 // Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -17,20 +14,27 @@ $stmt->execute([$_SESSION['vet_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
 
+// Initialize error message variable
+$error_message = '';
+
 /**
  * Handle adding, updating payment methods, and recording payments via POST requests
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['record_payment'])) {
-        $stmt = $pdo->prepare("INSERT INTO Payments (client_name, method_id, amount, description, date) VALUES (?, ?, ?, ?, NOW())");
-        $stmt->execute([
-            $_POST['client_name'],
-            $_POST['method_id'],
-            $_POST['amount'],
-            $_POST['description']
-        ]);
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+        try {
+            $stmt = $pdo->prepare("INSERT INTO Payments (client_name, method_id, amount, description, date) VALUES (?, ?, ?, ?, NOW())");
+            $stmt->execute([
+                $_POST['client_name'],
+                $_POST['method_id'],
+                $_POST['amount'],
+                $_POST['description']
+            ]);
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        } catch (PDOException $e) {
+            $error_message = "Error recording payment: " . $e->getMessage();
+        }
     }
 }
 
@@ -39,6 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  */
 $stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN Payment_Methods m ON p.method_id = m.method_id ORDER BY p.date DESC");
 $payments = $stmt->fetchAll();
+
+/**
+ * Fetch all clients for dropdown
+ */
+$stmt = $pdo->query("SELECT client_name FROM Client ORDER BY client_name ASC");
+$clients = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +102,6 @@ $payments = $stmt->fetchAll();
             overflow-x: hidden;
         }
 
-        /* Truncate long text with ellipsis */
         .truncate-cell {
             max-width: 200px;
             white-space: nowrap;
@@ -103,74 +112,73 @@ $payments = $stmt->fetchAll();
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include('./includes/sitemap/Help/support.php') ?>
     <?php include('./includes/edit-profile.php'); ?>
 
+    <!-- Display error message if any -->
+    <?php if (!empty($error_message)): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline"><?php echo htmlspecialchars($error_message); ?></span>
+        </div>
+    <?php endif; ?>
+
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="mobile-menu-btn lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-700">
-        <!-- Sidebar Header -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-teal-800">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <!-- Close button (mobile only) -->
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-200 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-
-        <!-- Sidebar Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="dashboard.php" class="block text-sm text-white px-4 py-2 rounded-md hover:bg-teal-900 transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="clients.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="pets.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="medical_records.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="payment_methods.php" class="block text-sm text-white bg-slate-700 px-4 py-2 rounded-md">
+            <a href="payment_methods.php" class="block text-sm bg-teal-800 text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="appointments.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="archive.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-700 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="#" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors" onclick="toggleModal('vetHelpModal')">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
-
-        <!-- Logout -->
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
     </aside>
 
-    <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main Content -->
     <div class="main-content ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
+        <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
-            <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center">
-                <!-- Dashboard Title -->
-                <h1 class="text-xl lg:text-2xl font-bold">Payment History</h1>
-
+                <h1 class="text-xl lg:text-2xl font-bold">Manage Payments</h1>
                 <div class="relative inline-block text-left">
                     <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
                         <i class="fas fa-user"></i>
@@ -214,10 +222,56 @@ $payments = $stmt->fetchAll();
             <?php if (count($payments) > 0): ?>
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">Payment History</h2>
-                    <!-- Record Payment Button -->
                     <button onclick="showPaymentModal()" class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 text-sm sm:text-base transition-colors duration-200">
                         <i class="fas fa-plus mr-2"></i>Record Payment
                     </button>
+                </div>
+                <!-- Filter Dropdowns in Same Row -->
+                <div class="flex flex-row gap-6 mb-4">
+                    <form method="GET">
+                        <label for="yearFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Year:</label>
+                        <select name="year" id="yearFilter"
+                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                            onchange="this.form.submit()">
+                            <option value="All" <?= (!isset($_GET['year']) || $_GET['year'] === 'All') ? 'selected' : '' ?>>All</option>
+                            <?php
+                            $stmt = $pdo->query("SELECT DISTINCT YEAR(date) AS year FROM Payments ORDER BY year DESC");
+                            $years = $stmt->fetchAll();
+                            foreach ($years as $year): ?>
+                                <option value="<?= $year['year'] ?>" <?= (isset($_GET['year']) && $_GET['year'] == $year['year']) ? 'selected' : '' ?>>
+                                    <?= $year['year'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
+                    <form method="GET">
+                        <label for="monthFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Month:</label>
+                        <select name="month" id="monthFilter"
+                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                            onchange="this.form.submit()">
+                            <option value="All" <?= (!isset($_GET['month']) || $_GET['month'] === 'All') ? 'selected' : '' ?>>All</option>
+                            <?php
+                            $months = [
+                                1 => 'January',
+                                2 => 'February',
+                                3 => 'March',
+                                4 => 'April',
+                                5 => 'May',
+                                6 => 'June',
+                                7 => 'July',
+                                8 => 'August',
+                                9 => 'September',
+                                10 => 'October',
+                                11 => 'November',
+                                12 => 'December'
+                            ];
+                            foreach ($months as $num => $name): ?>
+                                <option value="<?= $num ?>" <?= (isset($_GET['month']) && $_GET['month'] == $num) ? 'selected' : '' ?>>
+                                    <?= $name ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
                 </div>
                 <div class="table-container">
                     <table class="min-w-full divide-y divide-slate-200">
@@ -232,7 +286,27 @@ $payments = $stmt->fetchAll();
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-200">
-                            <?php foreach ($payments as $pay): ?>
+                            <?php
+                            // Apply filters to payment query
+                            $query = "SELECT p.*, m.method_name FROM Payments p JOIN Payment_Methods m ON p.method_id = m.method_id";
+                            $conditions = [];
+                            $params = [];
+                            if (isset($_GET['year']) && $_GET['year'] !== 'All') {
+                                $conditions[] = "YEAR(p.date) = ?";
+                                $params[] = $_GET['year'];
+                            }
+                            if (isset($_GET['month']) && $_GET['month'] !== 'All') {
+                                $conditions[] = "MONTH(p.date) = ?";
+                                $params[] = $_GET['month'];
+                            }
+                            if (!empty($conditions)) {
+                                $query .= " WHERE " . implode(" AND ", $conditions);
+                            }
+                            $query .= " ORDER BY p.date DESC";
+                            $stmt = $pdo->prepare($query);
+                            $stmt->execute($params);
+                            $payments = $stmt->fetchAll();
+                            foreach ($payments as $pay): ?>
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($pay['client_name']) ?></td>
                                     <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($pay['method_name']) ?></td>
@@ -267,20 +341,25 @@ $payments = $stmt->fetchAll();
 
     <!-- Payment Modal -->
     <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
-        <div class="bg-slate-800 rounded-lg shadow-xl w-full max-w-md max-h-[90vh] flex flex-col border border-slate-700">
-            <div class="bg-slate-700 rounded-t-lg text-white px-4 py-3 border-b border-slate-600">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] flex flex-col border border-gray-200">
+            <div class="bg-gray-100 rounded-t-lg text-gray-800 px-4 py-3 border-b border-gray-300">
                 <h3 class="text-lg font-bold">Record Payment</h3>
             </div>
             <form method="POST" class="p-4 overflow-y-auto">
                 <div class="mb-3">
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Client Name</label>
-                    <input type="text" name="client_name" required
-                        class="w-full p-2 text-sm border border-slate-700 rounded-md bg-slate-700 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Client</label>
+                    <select name="client_name" required
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <option value="">Select Client</option>
+                        <?php foreach ($clients as $client): ?>
+                            <option value="<?= htmlspecialchars($client['client_name']) ?>"><?= htmlspecialchars($client['client_name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Payment Method</label>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Payment Method</label>
                     <select name="method_id" required
-                        class="w-full p-2 text-sm border border-slate-700 rounded-md bg-slate-700 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         <option value="">Select Payment Method</option>
                         <?php
                         $stmt = $pdo->query("SELECT * FROM Payment_Methods ORDER BY method_name ASC");
@@ -291,19 +370,19 @@ $payments = $stmt->fetchAll();
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Amount (₱)</label>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Amount (₱)</label>
                     <input type="number" name="amount" min="0" step="0.01" required
-                        class="w-full p-2 text-sm border border-slate-700 rounded-md bg-slate-700 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Description</label>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Description</label>
                     <textarea name="description"
-                        class="w-full p-2 text-sm border border-slate-700 rounded-md bg-slate-700 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                        class="w-full p-2 text-sm border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                         rows="2" placeholder="Enter payment description..."></textarea>
                 </div>
-                <div class="flex justify-end gap-3 pt-3 border-t border-slate-700">
+                <div class="flex justify-end gap-3 pt-3 border-t border-gray-300">
                     <button type="button" onclick="hidePaymentModal()"
-                        class="px-3 py-1 text-sm text-slate-400 hover:text-white">Cancel</button>
+                        class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">Cancel</button>
                     <button type="submit" name="record_payment"
                         class="bg-indigo-600 text-white px-4 py-1 text-sm rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         Save Payment
@@ -312,6 +391,7 @@ $payments = $stmt->fetchAll();
             </form>
         </div>
     </div>
+
     <!-- Print Logic -->
     <iframe id="receiptFrame" class="hidden"></iframe>
 
@@ -325,7 +405,6 @@ $payments = $stmt->fetchAll();
         }
 
         function printReceipt(clientName, methodName, amount, description, date) {
-            // Format the date
             const formattedDate = new Date(date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -334,70 +413,97 @@ $payments = $stmt->fetchAll();
                 minute: '2-digit'
             });
 
-            // Create receipt HTML
             const receiptHTML = `
-                <html>
-                <head>
-                    <title>Payment Receipt</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; }
-                        .header { text-align: center; margin-bottom: 20px; }
-                        .clinic-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
-                        .receipt-title { font-size: 18px; margin-bottom: 20px; }
-                        .details { margin-bottom: 20px; }
-                        .detail-row { display: flex; margin-bottom: 8px; }
-                        .detail-label { font-weight: bold; width: 120px; }
-                        .thank-you { text-align: center; margin-top: 30px; font-style: italic; }
-                        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #666; }
-                        hr { border: 0; border-top: 1px dashed #ccc; margin: 20px 0; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <div class="clinic-name">Vet Clinic</div>
-                        <div>123 Clinic Street, Vet City</div>
-                        <div>Phone: (123) 456-7890</div>
-                        <hr>
-                        <div class="receipt-title">PAYMENT RECEIPT</div>
-                    </div>
-                    
-                    <div class="details">
-                        <div class="detail-row">
-                            <div class="detail-label">Date:</div>
-                            <div>${formattedDate}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Client Name:</div>
-                            <div>${clientName}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Payment Method:</div>
-                            <div>${methodName}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Amount:</div>
-                            <div>₱${parseFloat(amount).toFixed(2)}</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Description:</div>
-                            <div>${description || 'N/A'}</div>
-                        </div>
-                    </div>
-                    
-                    <hr>
-                    
-                    <div class="thank-you">
-                        Thank you for your payment!
-                    </div>
-                    
-                    <div class="footer">
-                        This is an official receipt from Vet Clinic
-                    </div>
-                </body>
-                </html>
-            `;
+        <html>
+        <head>
+            <title>Payment Receipt</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    padding: 20px; 
+                    max-width: 400px; 
+                    margin: 0 auto; 
+                    text-align: center;
+                }
+                .header { margin-bottom: 20px; }
+                .clinic-name { 
+                    font-size: 24px; 
+                    font-weight: bold; 
+                    margin-bottom: 5px; 
+                    color: #2ecc71; /* emerald green */
+                }
+                .receipt-title { 
+                    font-size: 18px; 
+                    margin: 20px 0; 
+                    font-weight: bold;
+                }
+                .details { 
+                    margin-bottom: 20px; 
+                    text-align: left; 
+                    display: inline-block; 
+                }
+                .detail-row { display: flex; margin-bottom: 8px; }
+                .detail-label { font-weight: bold; width: 120px; }
+                .detail-value { flex: 1; }
+                .thank-you { 
+                    text-align: center; 
+                    margin-top: 30px; 
+                    font-style: italic; 
+                }
+                .footer { 
+                    text-align: center; 
+                    margin-top: 40px; 
+                    font-size: 12px; 
+                    color: #666; 
+                }
+                hr { 
+                    border: 0; 
+                    border-top: 1px dashed #ccc; 
+                    margin: 20px 0; 
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="clinic-name">Vet Clinic</div>
+                <div>123 Clinic Street, Vet City</div>
+                <div>Phone: (123) 456-7890</div>
+                <hr>
+                <div class="receipt-title">PAYMENT RECEIPT</div>
+            </div>
+            <div class="details">
+                <div class="detail-row">
+                    <div class="detail-label">Date:</div>
+                    <div class="detail-value">${formattedDate}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Client Name:</div>
+                    <div class="detail-value">${clientName}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Payment Method:</div>
+                    <div class="detail-value">${methodName}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Amount:</div>
+                    <div class="detail-value">₱${parseFloat(amount).toFixed(2)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Description:</div>
+                    <div class="detail-value">${description || 'N/A'}</div>
+                </div>
+            </div>
+            <hr>
+            <div class="thank-you">
+                Thank you for your payment!
+            </div>
+            <div class="footer">
+                This is an official receipt from Vet Clinic
+            </div>
+        </body>
+        </html>
+    `;
 
-            // Print the receipt
             const frame = document.getElementById('receiptFrame');
             frame.contentDocument.open();
             frame.contentDocument.write(receiptHTML);
@@ -408,8 +514,9 @@ $payments = $stmt->fetchAll();
             }, 500);
         }
 
+
         function toggleModal(modalId) {
-            console.log("Toggling modal:", modalId); // Debug log
+            console.log("Toggling modal:", modalId);
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.toggle('hidden');

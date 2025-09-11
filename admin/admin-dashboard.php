@@ -87,37 +87,86 @@ ob_end_flush();
     <?php include '../includes/edit-profile.php'; ?>
 
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-600">
-        <div class="flex items-center justify-between mb-6">
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-emerald-900">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
+            <button id="closeSidebarBtn"
+                class="lg:hidden text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+
+        <!-- Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
+            <a href="admin-dashboard.php"
+                class="block text-sm text-white bg-teal-800 hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="admin.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="admin.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
-            <a href="records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
-                <i class="fa-solid fa-file-lines mr-2"></i> Records
+
+            <!-- Records Dropdown -->
+            <div class="space-y-0.5">
+                <button id="recordsBtn"
+                    class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>Records</span>
+                    <svg id="recordsArrow"
+                        class="w-4 h-4 ml-1 transition-transform duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Submenu -->
+                <div id="recordsMenu"
+                    class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
+                    <a href="./records/pet-records.php"
+                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-paw mr-2"></i> Pets
+                    </a>
+                    <a href="./records/client-records.php"
+                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-user mr-2"></i> Clients
+                    </a>
+                    <a href="./records/medical-records.php"
+                        class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
+                        <i class="fas fa-file-medical mr-2 mt-1"></i>
+                        <span class="whitespace-normal leading-snug">Medical Records</span>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Active Link Example -->
+            <a href="./admin-appointments.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('adminHelpModal')">
+
+            <a href="#" onclick="toggleModal('adminHelpModal')"
+                class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
+
+        <!-- Logout -->
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
+            <a href="../index.php" onclick="confirmLogout(event)"
+                class="block text-sm text-gray-200 hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -125,6 +174,7 @@ ob_end_flush();
 
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+
 
     <!-- Main Dashboard Container -->
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
@@ -465,6 +515,29 @@ ob_end_flush();
         // Initial fetch
         document.addEventListener('DOMContentLoaded', () => {
             fetchRecentActivities(1);
+        });
+
+        const recordsBtn = document.getElementById('recordsBtn');
+        const recordsMenu = document.getElementById('recordsMenu');
+        const recordsArrow = document.getElementById('recordsArrow');
+
+        recordsBtn.addEventListener('click', () => {
+            if (recordsMenu.classList.contains('max-h-0')) {
+                recordsMenu.classList.remove('max-h-0', 'opacity-0');
+                recordsMenu.classList.add('max-h-40', 'opacity-100');
+            } else {
+                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-0', 'opacity-0');
+            }
+            recordsArrow.classList.toggle('rotate-180');
+        });
+
+        // Prevent submenu links from toggling the dropdown
+        const submenuLinks = document.querySelectorAll('#recordsMenu a');
+        submenuLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from bubbling up to recordsBtn
+            });
         });
     </script>
 

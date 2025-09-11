@@ -1,20 +1,18 @@
 <?php
 session_start();
-require_once __DIR__ . "/db.php"; // Adjust path to your PDO connection file
-require_once __DIR__ . "/functions/logs.php"; // Include the logs.php file
-include "includes/sitemap/Help/support.php";
+require_once __DIR__ . "/../db.php"; // Adjust path to your PDO connection file
+require_once __DIR__ . "/../functions/logs.php"; // Include the logs.php file
+include "../includes/sitemap/Help/support.php";
 
-// Check if user is logged in
-if (!isset($_SESSION['vet_id'])) {
-    header('Location: index.php');
-    exit;
+// Fetch admin data
+if (!isset($currentAdmin)) {
+    $stmt = $pdo->prepare("SELECT * FROM admin WHERE admin_id = ?");
+    $stmt->execute([$_SESSION['admin_id']]);
+    $currentAdmin = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Fetch vet name for greeting
-$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id = ?");
-$stmt->execute([$_SESSION['vet_id']]);
-$user = $stmt->fetch();
-$vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
+// Define $adminName
+$adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 
 // Function to get the current user's role
 function getUserRole()
@@ -50,11 +48,6 @@ $log_stmt = $pdo->prepare("
 $log_stmt->execute(['start_date' => $start_date, 'end_date' => $end_date]);
 $logs = $log_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get vet name from the database
-$stmt = $pdo->prepare("SELECT vet_name FROM veterinarian WHERE vet_id = ?");
-$stmt->execute([$_SESSION['vet_id']]);
-$my_name_data = $stmt->fetch(PDO::FETCH_ASSOC);
-$my_name = $my_name_data ? $my_name_data['vet_name'] : "Unknown Vet";
 
 // Fetch ALL appointments for this month (without LIMIT for combining with logs)
 $stmt = $pdo->prepare("
@@ -83,13 +76,17 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointments - PetTrack</title>
-    <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
+    <link rel="stylesheet" href="../Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        .hidden {
+            display: none !important;
+        }
+
         .chart-container {
             height: 300px;
             width: 100%;
@@ -208,7 +205,6 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
-    <?php include('./includes/edit-profile.php'); ?>
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
@@ -216,49 +212,87 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-teal-800">
-        <div class="flex items-center justify-between mb-6">
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-emerald-900">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
-                <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
+                <img src="../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-200 duration-200">
+            <button id="closeSidebarBtn"
+                class="lg:hidden text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+
+        <!-- Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white px-4 py-2 rounded-md hover:bg-teal-900 transition-colors">
+            <a href="./admin-dashboard.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
-                <i class="fas fa-user mr-2"></i> Clients
+            <a href="./admin.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
+                <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
-            <a href="pets.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
-                <i class="fas fa-paw mr-2"></i> Pets
-            </a>
-            <a href="medical_records.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
-                <i class="fas fa-file-medical mr-2"></i> Medical Records
-            </a>
-            <a href="payment_methods.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
-                <i class="fas fa-credit-card mr-2"></i> Payments
-            </a>
-            <a href="appointments.php" class="block text-sm text-white bg-teal-800 hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
+
+            <!-- Records Dropdown -->
+            <div class="space-y-0.5">
+                <button id="recordsBtn"
+                    class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>Records</span>
+                    <svg id="recordsArrow"
+                        class="w-4 h-4 ml-1 transition-transform duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Submenu -->
+                <div id="recordsMenu"
+                    class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
+                    <a href="./records/pet-records.php"
+                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-paw mr-2"></i> Pets
+                    </a>
+                    <a href="./records/client-records.php"
+                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-user mr-2"></i> Clients
+                    </a>
+                    <a href="./records/medical-records.php"
+                        class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
+                        <i class="fas fa-file-medical mr-2 mt-1"></i>
+                        <span class="whitespace-normal leading-snug">Medical Records</span>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Active Link Example -->
+            <a href="./admin-appointments.php"
+                class="block text-sm text-white bg-teal-800 hover:bg-emerald-700 px-4 py-2 rounded-md">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
-                <i class="fa-solid fa-box-archive mr-2"></i> Archive
-            </a>
-            <a href="#" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors" onclick="toggleModal('vetHelpModal')">
+
+            <a href="#" onclick="toggleModal('adminHelpModal')"
+                class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
+
+        <!-- Logout -->
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
+            <a href="../index.php" onclick="confirmLogout(event)"
+                class="block text-sm text-gray-200 hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
     </aside>
 
+    <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main content -->
@@ -282,7 +316,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $adminName; ?></p>
                                     <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
@@ -422,7 +456,32 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
         </div>
     </div>
 
+
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure all modals are hidden on page load
+            const modals = ['adminHelpModal', 'appointmentModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        });
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
         let calendar;
         let appointmentCounts = {};
         let allEvents = {};
@@ -439,7 +498,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
                         start,
                         end
                     });
-                    fetch(`./functions/get-appointments.php?start=${start}&end=${end}`)
+                    fetch(`/Pet_Track_revise-3/functions/get-appointments.php?start=${start}&end=${end}`)
                         .then((response) => {
                             console.log('Fetch response status:', response.status);
                             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -515,13 +574,38 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
                 <?php unset($_SESSION['error']); ?>
             <?php endif; ?>
         });
+
+        const recordsBtn = document.getElementById('recordsBtn');
+        const recordsMenu = document.getElementById('recordsMenu');
+        const recordsArrow = document.getElementById('recordsArrow');
+
+        recordsBtn.addEventListener('click', () => {
+            if (recordsMenu.classList.contains('max-h-0')) {
+                recordsMenu.classList.remove('max-h-0', 'opacity-0');
+                recordsMenu.classList.add('max-h-40', 'opacity-100');
+            } else {
+                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-0', 'opacity-0');
+            }
+            recordsArrow.classList.toggle('rotate-180');
+        });
+
+        // Prevent submenu links from toggling the dropdown
+        const submenuLinks = document.querySelectorAll('#recordsMenu a');
+        submenuLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from bubbling up to recordsBtn
+            });
+        });
     </script>
 
-    <script src="./js/appointment-handler.js"></script>
-    <script src="./js/dashboard.js"></script>
-    <script src="./js/sidebarHandler.js"></script>
+    <?php include '../includes/edit-profile.php'; ?>
+    <script src="../js/appointment-handler.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./js/confirmLogout.js"></script>
-    <script src="./js/edit-profile.js"></script>
+    <script src="../js/confirmLogout.js"></script>
+    <script src="../js/edit-profile.js"></script>
+</body>
 
 </html>

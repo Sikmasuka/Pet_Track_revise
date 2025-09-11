@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../admin/record-handler.php';
-include "../includes/sitemap/Help/support.php";
+require_once '../record-handler.php';
+include(__DIR__ . '/../../includes/sitemap/Help/support.php');
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ include "../includes/sitemap/Help/support.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
+    <link rel="icon" href="../../image/MainIcon.png" type="image/x-icon">
     <title>Veterinarian Admin - Records</title>
 
     <!-- Include Tailwind CSS -->
@@ -19,7 +19,7 @@ include "../includes/sitemap/Help/support.php";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Load SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="Assets/Extension.js"></script>
+    <script src="../../Assets/Extension.js"></script>
     <style>
         /* Table responsiveness */
         .table-container {
@@ -72,63 +72,88 @@ include "../includes/sitemap/Help/support.php";
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-600">
-        <div class="flex items-center justify-between mb-6">
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-emerald-900">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
-                <img src="../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
+                <img src="../../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
+            <button id="closeSidebarBtn"
+                class="lg:hidden text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+
+        <!-- Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="./admin-dashboard.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="../admin-dashboard.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="./admin.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="../admin.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
 
             <!-- Records Dropdown -->
             <div class="space-y-0.5">
                 <button id="recordsBtn"
-                    class="w-full flex items-center justify-between text-sm text-white bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
-                    <span><i class="fa-solid fa-file-lines mr-2"></i> Records</span>
-                    <svg id="recordsArrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>Records</span>
+                    <svg id="recordsArrow"
+                        class="w-4 h-4 ml-1 transition-transform duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
 
                 <!-- Submenu -->
-                <div id="recordsMenu" class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
-                    <a href="./records/pet-records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-3 py-2 rounded-md hover:text-white transition-colors">
-                        Pets
+                <div id="recordsMenu"
+                    class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
+                    <a href="./records/pet-records.php"
+                        class="block text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-paw mr-2"></i> Pets
                     </a>
-                    <a href="records-clients.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-3 py-2 rounded-md hover:text-white transition-colors">
-                        Clients
+                    <a href="./client-records.php"
+                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-user mr-2"></i> Clients
                     </a>
-                    <a href="records-medical.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-3 py-2 rounded-md hover:text-white transition-colors">
-                        Medical Records
-                    </a>
-                    <a href="records-medical.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-3 py-2 rounded-md hover:text-white transition-colors">
-                        Veterinarians
+                    <a href="./medical-records.php"
+                        class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
+                        <i class="fas fa-file-medical mr-2 mt-1"></i>
+                        <span class="whitespace-normal leading-snug">Medical Records</span>
                     </a>
                 </div>
             </div>
 
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('adminHelpModal')">
+
+            <!-- Active Link Example -->
+            <a href="../admin-appointments.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md">
+                <i class="fas fa-calendar-days mr-2"></i> Appointments
+            </a>
+
+            <a href="#" onclick="toggleModal('adminHelpModal')"
+                class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
+
+        <!-- Logout -->
         <div class="pt-4">
-            <a href="../index.php" onclick="confirmLogout(event)" class="block text-sm text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
+            <a href="../index.php" onclick="confirmLogout(event)"
+                class="block text-sm text-gray-200 hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -187,77 +212,35 @@ include "../includes/sitemap/Help/support.php";
 
         <!-- Single Column for Records -->
         <div class="grid grid-cols-1 gap-6">
-            <!-- Container 1: Medical Records -->
-            <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Medical Records</h3>
-                <?php
-                $medicalRecords = getMedicalRecords($pdo); // Call function from record-handler.php
-                if (isset($error) && !empty($error)) {
-                    echo "<p class='text-red-500 text-sm'>Error: $error</p>";
-                } elseif (!empty($medicalRecords) && is_array($medicalRecords)) {
-                ?>
-                    <div class="table-container overflow-x-auto">
-                        <table class="min-w-full divide-y divide-slate-200">
-                            <thead class="bg-gray-300">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Record ID</th>
-                                    <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Medical Condition</th>
-                                    <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-slate-200">
-                                <?php foreach ($medicalRecords as $record): ?>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($record['record_id'] ?? '') ?></td>
-                                        <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($record['medical_condition'] ?? '') ?></td>
-                                        <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($record['record_date'] ?? '') ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php } else { ?>
-                    <p class="text-gray-500 text-sm">No medical records found.</p>
-                <?php } ?>
-            </div>
-
-            <!-- Container 2: All Veterinarians -->
-            <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Veterinarians</h3>
-                <?php
-                $veterinarians = getVeterinarians($pdo); // Call function from record-handler.php
-                if (isset($error) && !empty($error)) {
-                    echo "<p class='text-red-500 text-sm'>Error: $error</p>";
-                } elseif (!empty($veterinarians) && is_array($veterinarians)) {
-                ?>
-                    <div class="table-container overflow-x-auto">
-                        <table class="min-w-full divide-y divide-slate-200">
-                            <thead class="bg-gray-300">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Vet ID</th>
-                                    <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Name</th>
-                                    <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Contact</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-slate-200">
-                                <?php foreach ($veterinarians as $vet): ?>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($vet['vet_id'] ?? '') ?></td>
-                                        <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($vet['vet_name'] ?? '') ?></td>
-                                        <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($vet['vet_contact_number'] ?? '') ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php } else { ?>
-                    <p class="text-gray-500 text-sm">No veterinarians found.</p>
-                <?php } ?>
-            </div>
-
-            <!-- Container 3: All Pets -->
+            <!-- Table All Pets -->
             <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors mb-6">
                 <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Pets</h3>
+
+                <!-- Filter Dropdowns in Same Row -->
+                <div class="flex flex-row gap-6 mb-4">
+                    <form method="GET">
+                        <label for="species1" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
+                        <select name="species" id="species1"
+                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                            onchange="this.form.submit()">
+                            <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
+                            <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Dog</option>
+                            <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Cat</option>
+                        </select>
+                    </form>
+
+                    <form method="GET">
+                        <label for="species2" class="text-sm font-medium text-gray-700 mr-2">Filter by sex:</label>
+                        <select name="species" id="species2"
+                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                            onchange="this.form.submit()">
+                            <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
+                            <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Male</option>
+                            <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Female</option>
+                        </select>
+                    </form>
+                </div>
+
                 <?php
                 $pets = getPets($pdo); // Call function from record-handler.php
                 if (isset($error) && !empty($error)) {
@@ -294,42 +277,6 @@ include "../includes/sitemap/Help/support.php";
                     <p class="text-gray-500 text-sm">No pets found.</p>
                 <?php } ?>
             </div>
-        </div>
-
-        <!-- Container 4: All Clients -->
-        <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-            <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Clients</h3>
-            <?php
-            $clients = getClients($pdo); // Call function from record-handler.php
-            if (isset($error) && !empty($error)) {
-                echo "<p class='text-red-500 text-sm'>Error: $error</p>";
-            } elseif (!empty($clients) && is_array($clients)) {
-            ?>
-                <div class="table-container overflow-x-auto">
-                    <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-gray-300">
-                            <tr>
-                                <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Client ID</th>
-                                <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Name</th>
-                                <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Client Adress</th>
-                                <th class="px-4 py-3 text-left text-xs text-gray-700 uppercase tracking-wider">Client No.</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-slate-200">
-                            <?php foreach ($clients as $client): ?>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($client['client_id'] ?? '') ?></td>
-                                    <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($client['client_name'] ?? '') ?></td>
-                                    <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($client['client_address'] ?? '') ?></td>
-                                    <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($client['client_contact_number'] ?? '') ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php } else { ?>
-                <p class="text-gray-500 text-sm">No clients found.</p>
-            <?php } ?>
         </div>
     </div>
 
@@ -372,10 +319,6 @@ include "../includes/sitemap/Help/support.php";
     </div>
     </div>
 
-    <script src="../js/sidebarHandler.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../js/confirmLogout.js"></script>
-
     <script>
         // Close Add Modal
         document.getElementById('closeAddModal').addEventListener('click', function() {
@@ -407,6 +350,10 @@ include "../includes/sitemap/Help/support.php";
             recordsArrow.classList.toggle('rotate-180');
         });
     </script>
+
+    <script src="../../js/sidebarHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../js/confirmLogout.js"></script>
 </body>
 
 </html>

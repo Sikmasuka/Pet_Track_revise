@@ -66,56 +66,57 @@ ob_end_flush();
     <?php include('./includes/edit-profile.php') ?>
 
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-slate-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-slate-600">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-teal-800">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-300 hover:text-white duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-white hover:text-gray-200 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="dashboard.php" class="block text-sm text-white bg-slate-600 px-4 py-2 rounded-md hover:bg-slate-500 transition-colors">
+            <a href="dashboard.php" class="block text-sm text-white bg-teal-800 px-4 py-2 rounded-md hover:bg-teal-900 transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="clients.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="clients.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user mr-2"></i> Clients
             </a>
-            <a href="pets.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="pets.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-paw mr-2"></i> Pets
             </a>
-            <a href="medical_records.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="medical_records.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-file-medical mr-2"></i> Medical Records
             </a>
-            <a href="payment_methods.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="payment_methods.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-credit-card mr-2"></i> Payments
             </a>
-            <a href="appointments.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="appointments.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="archive.php" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="archive.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="#" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors" onclick="toggleModal('vetHelpModal')">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
         <div class="pt-4">
-            <a href="#" onclick="confirmLogout(event)" class="block text-md text-gray-300 hover:text-red-400 px-4 py-2 rounded-md transition-colors">
+            <a href="#" onclick="confirmLogout(event)" class="block text-md text-white hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
     </aside>
-    <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
-    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
 
+    <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+
+    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
             <div class="flex justify-between items-center mb-6">
@@ -233,7 +234,6 @@ ob_end_flush();
             </div>
         </main>
     </div>
-
 
     <script>
         // Monthly Income Bar Chart
