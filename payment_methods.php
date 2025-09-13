@@ -2,6 +2,7 @@
 // Start session and include database connection
 session_start();
 require_once 'db.php';
+
 // Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -39,16 +40,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 /**
- * Fetch all payments
- */
-$stmt = $pdo->query("SELECT p.*, m.method_name FROM Payments p JOIN Payment_Methods m ON p.method_id = m.method_id ORDER BY p.date DESC");
-$payments = $stmt->fetchAll();
-
-/**
  * Fetch all clients for dropdown
  */
 $stmt = $pdo->query("SELECT client_name FROM Client ORDER BY client_name ASC");
 $clients = $stmt->fetchAll();
+
+/**
+ * Fetch available years for filter
+ */
+$stmt = $pdo->query("SELECT DISTINCT YEAR(date) AS year FROM Payments ORDER BY year DESC");
+$years = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+/**
+ * Define months for filter
+ */
+$months = [
+    1 => 'January',
+    2 => 'February',
+    3 => 'March',
+    4 => 'April',
+    5 => 'May',
+    6 => 'June',
+    7 => 'July',
+    8 => 'August',
+    9 => 'September',
+    10 => 'October',
+    11 => 'November',
+    12 => 'December'
+];
+
+/**
+ * Fetch payments with applied filters
+ */
+$query = "SELECT p.*, m.method_name FROM Payments p JOIN Payment_Methods m ON p.method_id = m.method_id";
+$conditions = [];
+$params = [];
+if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])) {
+    $conditions[] = "YEAR(p.date) = ?";
+    $params[] = $_GET['year'];
+}
+if (isset($_GET['month']) && $_GET['month'] !== 'All' && is_numeric($_GET['month']) && $_GET['month'] >= 1 && $_GET['month'] <= 12) {
+    $conditions[] = "MONTH(p.date) = ?";
+    $params[] = $_GET['month'];
+}
+if (!empty($conditions)) {
+    $query .= " WHERE " . implode(" AND ", $conditions);
+}
+$query .= " ORDER BY p.date DESC";
+try {
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error_message = "Error fetching payments: " . $e->getMessage();
+    $payments = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -219,60 +265,39 @@ $clients = $stmt->fetchAll();
 
         <div class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Payment History Table -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">Payment History</h2>
+                <button onclick="showPaymentModal()" class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 text-sm sm:text-base transition-colors duration-200">
+                    <i class="fas fa-plus mr-2"></i>Record Payment
+                </button>
+            </div>
+            <!-- Filter Dropdowns in Same Form (Always Visible) -->
+            <form method="GET" class="flex flex-row gap-6 mb-4">
+                <div>
+                    <label for="yearFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Year:</label>
+                    <select name="year" id="yearFilter" class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="this.form.submit()">
+                        <option value="All" <?php echo (!isset($_GET['year']) || $_GET['year'] === 'All') ? 'selected' : ''; ?>>All</option>
+                        <?php foreach ($years as $year): ?>
+                            <option value="<?php echo $year; ?>" <?php echo (isset($_GET['year']) && $_GET['year'] == $year) ? 'selected' : ''; ?>>
+                                <?php echo $year; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div>
+                    <label for="monthFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Month:</label>
+                    <select name="month" id="monthFilter" class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="this.form.submit()">
+                        <option value="All" <?php echo (!isset($_GET['month']) || $_GET['month'] === 'All') ? 'selected' : ''; ?>>All</option>
+                        <?php foreach ($months as $num => $name): ?>
+                            <option value="<?php echo $num; ?>" <?php echo (isset($_GET['month']) && $_GET['month'] == $num) ? 'selected' : ''; ?>>
+                                <?php echo $name; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </form>
+
             <?php if (count($payments) > 0): ?>
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">Payment History</h2>
-                    <button onclick="showPaymentModal()" class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 text-sm sm:text-base transition-colors duration-200">
-                        <i class="fas fa-plus mr-2"></i>Record Payment
-                    </button>
-                </div>
-                <!-- Filter Dropdowns in Same Row -->
-                <div class="flex flex-row gap-6 mb-4">
-                    <form method="GET">
-                        <label for="yearFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Year:</label>
-                        <select name="year" id="yearFilter"
-                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                            onchange="this.form.submit()">
-                            <option value="All" <?= (!isset($_GET['year']) || $_GET['year'] === 'All') ? 'selected' : '' ?>>All</option>
-                            <?php
-                            $stmt = $pdo->query("SELECT DISTINCT YEAR(date) AS year FROM Payments ORDER BY year DESC");
-                            $years = $stmt->fetchAll();
-                            foreach ($years as $year): ?>
-                                <option value="<?= $year['year'] ?>" <?= (isset($_GET['year']) && $_GET['year'] == $year['year']) ? 'selected' : '' ?>>
-                                    <?= $year['year'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </form>
-                    <form method="GET">
-                        <label for="monthFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Month:</label>
-                        <select name="month" id="monthFilter"
-                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                            onchange="this.form.submit()">
-                            <option value="All" <?= (!isset($_GET['month']) || $_GET['month'] === 'All') ? 'selected' : '' ?>>All</option>
-                            <?php
-                            $months = [
-                                1 => 'January',
-                                2 => 'February',
-                                3 => 'March',
-                                4 => 'April',
-                                5 => 'May',
-                                6 => 'June',
-                                7 => 'July',
-                                8 => 'August',
-                                9 => 'September',
-                                10 => 'October',
-                                11 => 'November',
-                                12 => 'December'
-                            ];
-                            foreach ($months as $num => $name): ?>
-                                <option value="<?= $num ?>" <?= (isset($_GET['month']) && $_GET['month'] == $num) ? 'selected' : '' ?>>
-                                    <?= $name ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </form>
-                </div>
                 <div class="table-container">
                     <table class="min-w-full divide-y divide-slate-200">
                         <thead class="bg-gray-300 sticky top-0 z-2">
@@ -286,37 +311,17 @@ $clients = $stmt->fetchAll();
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-200">
-                            <?php
-                            // Apply filters to payment query
-                            $query = "SELECT p.*, m.method_name FROM Payments p JOIN Payment_Methods m ON p.method_id = m.method_id";
-                            $conditions = [];
-                            $params = [];
-                            if (isset($_GET['year']) && $_GET['year'] !== 'All') {
-                                $conditions[] = "YEAR(p.date) = ?";
-                                $params[] = $_GET['year'];
-                            }
-                            if (isset($_GET['month']) && $_GET['month'] !== 'All') {
-                                $conditions[] = "MONTH(p.date) = ?";
-                                $params[] = $_GET['month'];
-                            }
-                            if (!empty($conditions)) {
-                                $query .= " WHERE " . implode(" AND ", $conditions);
-                            }
-                            $query .= " ORDER BY p.date DESC";
-                            $stmt = $pdo->prepare($query);
-                            $stmt->execute($params);
-                            $payments = $stmt->fetchAll();
-                            foreach ($payments as $pay): ?>
+                            <?php foreach ($payments as $pay): ?>
                                 <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($pay['client_name']) ?></td>
-                                    <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($pay['method_name']) ?></td>
-                                    <td class="px-4 py-2 text-gray-700 font-medium">₱<?= number_format($pay['amount'], 2) ?></td>
-                                    <td class="px-4 py-2 text-gray-700 truncate-cell" title="<?= htmlspecialchars($pay['description']) ?>">
-                                        <?= htmlspecialchars($pay['description']) ?>
+                                    <td class="px-4 py-2 text-gray-700"><?php echo htmlspecialchars($pay['client_name']); ?></td>
+                                    <td class="px-4 py-2 text-gray-700"><?php echo htmlspecialchars($pay['method_name']); ?></td>
+                                    <td class="px-4 py-2 text-gray-700 font-medium">₱<?php echo number_format($pay['amount'], 2); ?></td>
+                                    <td class="px-4 py-2 text-gray-700 truncate-cell" title="<?php echo htmlspecialchars($pay['description']); ?>">
+                                        <?php echo htmlspecialchars($pay['description']); ?>
                                     </td>
-                                    <td class="px-4 py-2 text-gray-700"><?= date('M j, Y', strtotime($pay['date'])) ?></td>
+                                    <td class="px-4 py-2 text-gray-700"><?php echo date('M j, Y', strtotime($pay['date'])); ?></td>
                                     <td class="px-3 py-3 text-sm">
-                                        <button onclick="printReceipt('<?= htmlspecialchars($pay['client_name']) ?>', '<?= htmlspecialchars($pay['method_name']) ?>', '<?= $pay['amount'] ?>', '<?= htmlspecialchars($pay['description']) ?>', '<?= $pay['date'] ?>')"
+                                        <button onclick="printReceipt('<?php echo htmlspecialchars($pay['client_name']); ?>', '<?php echo htmlspecialchars($pay['method_name']); ?>', '<?php echo $pay['amount']; ?>', '<?php echo htmlspecialchars($pay['description']); ?>', '<?php echo $pay['date']; ?>')"
                                             class="text-indigo-400 hover:text-indigo-300 hover:underline">
                                             Print
                                         </button>
@@ -327,13 +332,17 @@ $clients = $stmt->fetchAll();
                     </table>
                 </div>
             <?php else: ?>
+                <?php
+                $display_message = "No payments recorded yet.";
+                if ((isset($_GET['year']) && $_GET['year'] !== 'All') || (isset($_GET['month']) && $_GET['month'] !== 'All')) {
+                    $selected_month = isset($_GET['month']) && $_GET['month'] !== 'All' ? $months[$_GET['month']] : '';
+                    $display_message = "No payments or transactions " . ($selected_month ? "this $selected_month" : "") . (isset($_GET['year']) && $_GET['year'] !== 'All' ? " in " . $_GET['year'] : "") . ".";
+                }
+                ?>
                 <div class="text-center py-8 rounded-lg mb-4 bg-slate-700/50">
                     <i class="fas fa-receipt text-slate-400 text-4xl mb-4"></i>
-                    <p class="text-slate-300 text-lg">No payments recorded yet.</p>
+                    <p class="text-slate-300 text-lg"><?php echo $display_message; ?></p>
                     <p class="text-slate-400 text-sm mt-2">Click "Record Payment" to add your first payment.</p>
-                    <button onclick="showPaymentModal()" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
-                        <i class="fas fa-plus mr-2"></i>Record Payment
-                    </button>
                 </div>
             <?php endif; ?>
         </div>
@@ -352,7 +361,7 @@ $clients = $stmt->fetchAll();
                         class="w-full p-2 text-sm border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         <option value="">Select Client</option>
                         <?php foreach ($clients as $client): ?>
-                            <option value="<?= htmlspecialchars($client['client_name']) ?>"><?= htmlspecialchars($client['client_name']) ?></option>
+                            <option value="<?php echo htmlspecialchars($client['client_name']); ?>"><?php echo htmlspecialchars($client['client_name']); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -365,7 +374,7 @@ $clients = $stmt->fetchAll();
                         $stmt = $pdo->query("SELECT * FROM Payment_Methods ORDER BY method_name ASC");
                         $methods = $stmt->fetchAll();
                         foreach ($methods as $method): ?>
-                            <option value="<?= (int)$method['method_id'] ?>"><?= htmlspecialchars($method['method_name']) ?></option>
+                            <option value="<?php echo (int)$method['method_id']; ?>"><?php echo htmlspecialchars($method['method_name']); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -513,7 +522,6 @@ $clients = $stmt->fetchAll();
                 frame.contentWindow.print();
             }, 500);
         }
-
 
         function toggleModal(modalId) {
             console.log("Toggling modal:", modalId);

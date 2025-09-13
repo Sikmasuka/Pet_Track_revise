@@ -122,23 +122,23 @@ include(__DIR__ . '/../../includes/sitemap/Help/support.php');
                 <div id="recordsMenu"
                     class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
 
-                    <a href="./records/pet-records.php"
+                    <a href="../records/pet-records.php"
                         class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-paw mr-2"></i> Pets
                     </a>
 
-                    <a href="./records/client-records.php"
-                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                    <a href="../records/client-records.php"
+                        class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-user mr-2"></i> Clients
                     </a>
 
-                    <a href="./records/medical-records.php"
+                    <a href="../records/medical-records.php"
                         class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-file-medical mr-2"></i>
                         <span class="whitespace-normal leading-snug">Medical Records</span>
                     </a>
 
-                    <a href="./records/admin-payments.php"
+                    <a href="../records/admin-payments.php"
                         class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
@@ -321,9 +321,9 @@ include(__DIR__ . '/../../includes/sitemap/Help/support.php');
         recordsBtn.addEventListener('click', () => {
             if (recordsMenu.classList.contains('max-h-0')) {
                 recordsMenu.classList.remove('max-h-0', 'opacity-0');
-                recordsMenu.classList.add('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-96', 'opacity-100');
             } else {
-                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.remove('max-h-96', 'opacity-100');
                 recordsMenu.classList.add('max-h-0', 'opacity-0');
             }
             recordsArrow.classList.toggle('rotate-180');

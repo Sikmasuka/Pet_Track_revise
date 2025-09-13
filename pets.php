@@ -4,7 +4,6 @@ session_start();
 require_once __DIR__ . "/db.php";
 include "includes/sitemap/Help/support.php";
 
-
 // Check if user is logged in by verifying vet_id session
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
@@ -18,7 +17,7 @@ $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
 
 // Fetch vet data for modal
-$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt = $pdo->prepare("SELECT * FROM Veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
 $vet = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -63,15 +62,35 @@ if (isset($_GET['edit_pet_id'])) {
 }
 
 /**
- * Fetch all pets joined with client names, ordered by pet name
+ * Fetch all pets joined with client names, ordered by pet name with filters
  */
-$stmt = $pdo->prepare("
+$query = "
     SELECT Pet.pet_id, Pet.pet_name, Pet.pet_sex, Pet.pet_weight, Pet.pet_breed, Pet.pet_birth_date, Pet.pet_species, Client.client_name 
     FROM Pet 
-    JOIN Client ON Pet.client_id = Client.client_id WHERE Client.status = 1
-    ORDER BY Pet.pet_name ASC
-");
-$stmt->execute();
+    JOIN Client ON Pet.client_id = Client.client_id 
+    WHERE Client.status = 1
+";
+$conditions = [];
+$params = [];
+
+if (isset($_GET['species']) && $_GET['species'] !== 'All') {
+    $conditions[] = "Pet.pet_species = ?";
+    $params[] = $_GET['species'];
+}
+
+if (isset($_GET['sex']) && $_GET['sex'] !== 'All') {
+    $conditions[] = "Pet.pet_sex = ?";
+    $params[] = $_GET['sex'];
+}
+
+if (!empty($conditions)) {
+    $query .= " AND " . implode(" AND ", $conditions);
+}
+
+$query .= " ORDER BY Pet.pet_name ASC";
+
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
 $pets = $stmt->fetchAll();
 ob_end_flush();
 ?>
@@ -119,11 +138,6 @@ ob_end_flush();
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
     <?php include('./includes/edit-profile.php'); ?>
-
-    <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
-        <i class="fas fa-bars"></i>
-    </button>
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
@@ -225,29 +239,24 @@ ob_end_flush();
             <!-- Pets Section -->
             <h2 class="text-lg sm:text-xl lg:text-xl font-semibold text-gray-800 mb-4">List of Pets</h2>
 
-            <div class="flex flex-row gap-6 mb-4">
-                <form method="GET">
-                    <label for="species1" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
-                    <select name="species" id="species1"
-                        class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        onchange="this.form.submit()">
-                        <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
-                        <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Dog</option>
-                        <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Cat</option>
+            <form method="GET" class="flex flex-row gap-6 mb-4">
+                <div>
+                    <label for="speciesFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
+                    <select name="species" id="speciesFilter" class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="this.form.submit()">
+                        <option value="All" <?php echo (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : ''; ?>>All</option>
+                        <option value="Dog" <?php echo (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : ''; ?>>Dog</option>
+                        <option value="Cat" <?php echo (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : ''; ?>>Cat</option>
                     </select>
-                </form>
-
-                <form method="GET">
-                    <label for="species2" class="text-sm font-medium text-gray-700 mr-2">Filter by sex:</label>
-                    <select name="species" id="species2"
-                        class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        onchange="this.form.submit()">
-                        <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
-                        <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Male</option>
-                        <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Female</option>
+                </div>
+                <div>
+                    <label for="sexFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Sex:</label>
+                    <select name="sex" id="sexFilter" class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="this.form.submit()">
+                        <option value="All" <?php echo (!isset($_GET['sex']) || $_GET['sex'] === 'All') ? 'selected' : ''; ?>>All</option>
+                        <option value="Male" <?php echo (isset($_GET['sex']) && $_GET['sex'] === 'Male') ? 'selected' : ''; ?>>Male</option>
+                        <option value="Female" <?php echo (isset($_GET['sex']) && $_GET['sex'] === 'Female') ? 'selected' : ''; ?>>Female</option>
                     </select>
-                </form>
-            </div>
+                </div>
+            </form>
 
             <?php if (count($pets) > 0): ?>
                 <div class="overflow-y-auto max-h-96">

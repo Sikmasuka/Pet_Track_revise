@@ -201,31 +201,24 @@ ob_end_flush();
                 </button>
             </div>
 
+            <!-- Search Bar -->
+            <form method="GET" class="mb-4">
+                <label for="search" class="text-sm font-medium text-gray-700 mr-2">Search Clients:</label>
+                <input type="text" name="search" id="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="border border-gray-300 rounded-lg px-4 py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Search by name, address, or contact..." onchange="this.form.submit()">
+            </form>
 
-            <!-- Filter Dropdowns in Same Row -->
-            <div class="flex flex-row gap-6 mb-4">
-                <form method="GET">
-                    <label for="species1" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
-                    <select name="species" id="species1"
-                        class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        onchange="this.form.submit()">
-                        <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
-                        <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Dog</option>
-                        <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Cat</option>
-                    </select>
-                </form>
-
-                <form method="GET">
-                    <label for="species2" class="text-sm font-medium text-gray-700 mr-2">Filter by Sex:</label>
-                    <select name="sex" id="species2"
-                        class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        onchange="this.form.submit()">
-                        <option value="All" <?= (!isset($_GET['sex']) || $_GET['sex'] === 'All') ? 'selected' : '' ?>>All</option>
-                        <option value="Male" <?= (isset($_GET['sex']) && $_GET['sex'] === 'Male') ? 'selected' : '' ?>>Male</option>
-                        <option value="Female" <?= (isset($_GET['sex']) && $_GET['sex'] === 'Female') ? 'selected' : '' ?>>Female</option>
-                    </select>
-                </form>
-            </div>
+            <?php
+            // Apply search filter to clients
+            $clients = $clients ?? [];
+            if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
+                $searchTerm = trim($_GET['search']);
+                $clients = array_filter($clients, function ($client) use ($searchTerm) {
+                    return stripos($client['client_name'], $searchTerm) !== false ||
+                        stripos($client['client_address'], $searchTerm) !== false ||
+                        stripos($client['client_contact_number'], $searchTerm) !== false;
+                });
+            }
+            ?>
 
             <?php if (count($clients) > 0): ?>
                 <div class="table-container">
@@ -254,7 +247,7 @@ ob_end_flush();
                     </table>
                 </div>
             <?php else: ?>
-                <p class="text-center text-gray-500 text-sm sm:text-base">No clients added yet.</p>
+                <p class="text-center text-gray-500 text-sm sm:text-base">No clients found.</p>
             <?php endif; ?>
         </main>
     </div>
