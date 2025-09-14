@@ -81,7 +81,6 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
 }
 if (isset($_GET['month']) && $_GET['month'] !== 'All' && is_numeric($_GET['month']) && $_GET['month'] >= 1 && $_GET['month'] <= 12) {
     $conditions[] = "MONTH(p.date) = ?";
-    $params[] = $_GET['month'];
 }
 if (!empty($conditions)) {
     $query .= " WHERE " . implode(" AND ", $conditions);

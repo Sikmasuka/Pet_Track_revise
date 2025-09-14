@@ -12,6 +12,17 @@ $stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
 $vet = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if (
+    isset($_SESSION['last_activity']) &&
+    (time() - $_SESSION['last_activity']) > $_SESSION['expire_time']
+) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php?expired=1");
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
 ob_end_flush();
 ?>
 

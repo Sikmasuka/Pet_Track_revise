@@ -17,6 +17,17 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 error_log("Debug: \$_SESSION in admin-dashboard.php: " . json_encode($_SESSION));
 error_log("Debug: \$currentAdmin in admin-dashboard.php: " . json_encode($currentAdmin));
 
+if (
+    isset($_SESSION['last_activity']) &&
+    (time() - $_SESSION['last_activity']) > $_SESSION['expire_time']
+) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php?expired=1");
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
 // Include edit-profile.php after defining $currentAdmin
 ob_end_flush();
 ?>
