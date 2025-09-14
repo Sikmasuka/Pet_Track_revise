@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2025 at 05:46 PM
+-- Generation Time: Sep 14, 2025 at 05:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`admin_id`, `admin_username`, `admin_name`, `admin_password`) VALUES
 (1, 'admin', 'admin', 'admin'),
-(2, 'vinjin', 'Jin Hobin', 'Vinjin123!');
+(2, 'vinjin', 'Jin Hobin', 'Vinjin123!'),
+(3, 'admin1', NULL, '$2y$10$vf7UcbAPvG6O5z2jvaEeGuiFy8KsjPW2ly6HMRd9X5LjM51uyibuS');
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,10 @@ INSERT INTO `appointments` (`id`, `owner_name`, `contact_number`, `appointment_d
 (47, 'tikay', '1231242131', '2025-08-30', '15:00:00', 'Surgery', 'Scheduled', '2025-08-24 05:40:33', NULL, 90),
 (48, 'James Lee', '09372841234', '2025-09-10', '14:30:00', 'Checkup', 'Scheduled', '2025-08-27 14:57:40', NULL, 90),
 (49, 'Mikaykay Abecia', '532324223123', '2025-09-10', '09:30:00', 'Grooming', 'Scheduled', '2025-08-27 15:01:44', NULL, 90),
-(50, 'Seongji Yeok', '093925166643', '2025-08-28', '14:30:00', 'Vaccination', 'Scheduled', '2025-08-27 15:37:48', NULL, 90);
+(50, 'Seongji Yeok', '093925166643', '2025-08-28', '14:30:00', 'Vaccination', 'Scheduled', '2025-08-27 15:37:48', NULL, 90),
+(51, 'Sheryl Lozano', '21312421312', '2025-09-18', '14:30:00', 'Grooming', 'Scheduled', '2025-09-08 01:57:16', NULL, 90),
+(52, 'Danreb Salvacion', '01234567891', '2025-09-18', '16:30:00', 'Grooming', 'Scheduled', '2025-09-11 03:58:26', NULL, 90),
+(53, 'tokneneng', '09392516664', '2025-09-18', '09:30:00', 'Vaccination', 'Scheduled', '2025-09-11 13:48:20', NULL, 90);
 
 -- --------------------------------------------------------
 
@@ -122,9 +126,11 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`client_id`, `client_name`, `client_address`, `client_contact_number`, `status`, `updated_at`) VALUES
-(36, 'janpaul4', 'barangay 6', '09392516664', 1, '2025-08-21 05:46:01'),
-(37, 'Odemil Uyan', 'Barangay 3, Balingasag, Misamis Oriental', '09392516664', 0, '2025-08-29 15:22:02'),
-(38, 'Maria Santos', 'Purok 3, Brgy. Mabini, Balingasag, Misamis Oriental', '09123456789', 1, '2025-08-29 15:02:04');
+(36, 'janpaul4', 'barangay 6', '09392516664', 1, '2025-09-07 10:27:52'),
+(37, 'Odemil Uyan', 'Barangay 3, Balingasag, Misamis Oriental', '09392516664', 1, '2025-08-30 15:50:36'),
+(40, 'Boknoy Esmale', 'Barangay 5, Balingasag, Misamis Oriental', '09392516664', 1, '2025-09-08 02:20:45'),
+(41, 'Maria Lopez', '123 Elm Street, Springfield', '09171234567', 1, NULL),
+(42, 'Roselyn Villanueva', 'Purok 2, Barangay Cogon, Balingasag, Misamis Oriental', '09176543210', 1, '2025-09-11 04:03:02');
 
 -- --------------------------------------------------------
 
@@ -239,7 +245,125 @@ INSERT INTO `logs` (`Log_ID`, `User_ID`, `Role`, `Action_Type`, `Table_Affected`
 (200, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Odemil Uyan\'', '2025-08-29 23:02:44'),
 (201, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Odemil Uyan\'', '2025-08-29 23:08:42'),
 (202, 4, NULL, 'restore', 'Admin', 'samuel restored client \'Odemil Uyan\' and associated pets and medical records', '2025-08-29 23:22:02'),
-(203, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Odemil Uyan\'', '2025-08-29 23:22:10');
+(203, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Odemil Uyan\'', '2025-08-29 23:22:10'),
+(204, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-08-30 23:50:22'),
+(205, NULL, NULL, 'restore', 'Admin', 'Unknown restored client \'Odemil Uyan\' and associated pets and medical records', '2025-08-30 23:50:36'),
+(206, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Maria Santos\'', '2025-08-30 23:50:43'),
+(207, NULL, NULL, 'delete', 'Admin', 'Unknown permanently deleted client \'Maria Santos\' and associated pets and medical records', '2025-08-30 23:50:47'),
+(208, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-08-31 09:35:37'),
+(209, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-08-31 13:15:27'),
+(210, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-08-31 20:56:51'),
+(211, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-08-31 21:19:51'),
+(212, 4, NULL, 'update', 'Admin', 'samuel updated medical record ID 23 for pet ID 35 (\'chokoy\')', '2025-08-31 21:20:28'),
+(213, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-08-31 21:27:07'),
+(214, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-08-31 22:15:05'),
+(215, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-08-31 22:48:19'),
+(216, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-01 16:02:45'),
+(217, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 16:03:46'),
+(218, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 16:16:09'),
+(219, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 16:19:42'),
+(220, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 16:47:20'),
+(221, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-01 21:15:56'),
+(222, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-01 21:16:29'),
+(223, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-01 21:18:24'),
+(224, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 21:18:47'),
+(225, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 21:19:07'),
+(226, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 21:20:05'),
+(227, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-01 21:44:25'),
+(228, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-01 21:45:14'),
+(229, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-01 21:53:45'),
+(230, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-02 22:25:37'),
+(231, 4, NULL, 'add', 'Admin', 'samuel added a new client \'Maria Santos\', pet \'Buddy\', and medical record', '2025-09-02 22:28:21'),
+(232, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Maria Santos\'', '2025-09-02 22:28:26'),
+(233, NULL, NULL, 'delete', 'Admin', 'Unknown permanently deleted client \'Maria Santos\' and associated pets and medical records', '2025-09-02 22:28:41'),
+(234, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-04 09:23:14'),
+(235, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-04 09:26:16'),
+(236, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-04 09:27:27'),
+(237, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-04 09:28:29'),
+(238, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-04 09:33:21'),
+(239, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-04 09:38:12'),
+(241, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-05 21:37:33'),
+(242, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-06 17:42:21'),
+(243, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-06 17:45:07'),
+(244, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 18:11:54'),
+(245, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 18:15:05'),
+(246, 4, NULL, 'delete', 'Admin', 'samuel archived client \'janpaul4\'', '2025-09-07 18:27:43'),
+(247, NULL, NULL, 'restore', 'Admin', 'Unknown restored client \'janpaul4\' and associated pets and medical records', '2025-09-07 18:27:52'),
+(248, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-07 21:58:54'),
+(249, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 22:01:03'),
+(250, 4, NULL, 'add', 'Admin', 'samuel added a new client \'Boknoy\', pet \'wawang\', and medical record', '2025-09-07 22:05:02'),
+(251, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 22:45:55'),
+(252, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 22:49:37'),
+(253, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-07 22:49:59'),
+(254, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 22:51:20'),
+(255, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-07 22:52:41'),
+(256, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 22:52:49'),
+(257, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-07 23:03:15'),
+(258, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and updated a medical record', '2025-09-07 23:19:27'),
+(259, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and updated a medical record', '2025-09-07 23:27:53'),
+(260, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Boknoy Esmael\'', '2025-09-07 23:30:21'),
+(261, NULL, NULL, 'restore', 'Admin', 'Unknown restored client \'Boknoy Esmael\' and associated pets and medical records', '2025-09-07 23:30:25'),
+(262, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and updated a medical record', '2025-09-07 23:36:28'),
+(263, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and updated a medical record', '2025-09-07 23:36:58'),
+(264, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and updated a medical record', '2025-09-07 23:37:43'),
+(265, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and updated/added a medical record', '2025-09-07 23:52:59'),
+(266, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmael\' and pet \'wawangloy\' and updated/added a medical record', '2025-09-08 00:14:10'),
+(267, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Boknoy Esmael\'', '2025-09-08 00:14:30'),
+(268, NULL, NULL, 'restore', 'Admin', 'Unknown restored client \'Boknoy Esmael\' and associated pets and medical records', '2025-09-08 00:14:38'),
+(269, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-08 00:29:49'),
+(270, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-08 09:52:56'),
+(271, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmale\' and pet \'wawangloy\' and updated/added a medical record', '2025-09-08 09:53:46'),
+(272, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmale\' and pet \'wawangloy\' and updated/added a medical record', '2025-09-08 09:54:03'),
+(273, 0, NULL, 'Appointment', 'Guest', 'Guest Sheryl Lozano booked an appointment on September 18, 2025 at 2:30 PM', '2025-09-08 09:57:16'),
+(274, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-08 09:58:36'),
+(275, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-08 09:58:47'),
+(276, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-08 10:15:52'),
+(277, 4, NULL, 'add', 'Admin', 'samuel added a new client \'Maria Lopez\', pet \'Max\', and medical record', '2025-09-08 10:19:07'),
+(278, 4, NULL, 'update', 'Admin', 'samuel updated client \'Maria Lopez\' and pet \'Max\' and updated/added a medical record', '2025-09-08 10:19:28'),
+(279, 4, NULL, 'update', 'Admin', 'samuel updated client \'Boknoy Esmale\' and pet \'wawangloy\' and updated/added a medical record', '2025-09-08 10:19:51'),
+(280, 4, NULL, 'delete', 'Admin', 'samuel archived client \'Boknoy Esmale\'', '2025-09-08 10:20:07'),
+(281, NULL, NULL, 'restore', 'Admin', 'Unknown restored client \'Boknoy Esmale\' and associated pets and medical records', '2025-09-08 10:20:45'),
+(282, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-09 08:52:42'),
+(283, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-09 09:20:28'),
+(284, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-09 09:52:51'),
+(285, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-09 10:35:51'),
+(286, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-10 21:22:20'),
+(287, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-10 22:12:43'),
+(288, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-10 22:25:40'),
+(289, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-10 22:33:32'),
+(290, 5, NULL, 'Login', 'Veterinarian', 'Dr. Odemil Uyan Successfully Logged in', '2025-09-10 22:44:56'),
+(291, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-10 22:54:47'),
+(292, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-10 22:55:02'),
+(293, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-11 10:09:53'),
+(294, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-11 10:11:58'),
+(295, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-11 11:46:49'),
+(296, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-11 11:50:29'),
+(297, 5, NULL, 'Login', 'Veterinarian', 'Dr. Odemil Uyan Successfully Logged in', '2025-09-11 11:51:22'),
+(298, 5, NULL, 'add', 'Admin', 'uyan_vet added a new client \'Roselyn Villanueva\', pet \'Mingming\', and medical record', '2025-09-11 11:54:18'),
+(299, 0, NULL, 'Appointment', 'Guest', 'Guest Danreb Salvacion booked an appointment on September 18, 2025 at 4:30 PM', '2025-09-11 11:58:26'),
+(300, 5, NULL, 'delete', 'Admin', 'uyan_vet archived client \'Roselyn Villanueva\'', '2025-09-11 12:02:30'),
+(301, NULL, NULL, 'restore', 'Admin', 'Unknown restored client \'Roselyn Villanueva\' and associated pets and medical records', '2025-09-11 12:03:02'),
+(302, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-11 12:18:23'),
+(303, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-11 21:38:08'),
+(304, 0, NULL, 'Appointment', 'Guest', 'Guest tokneneng booked an appointment on September 18, 2025 at 9:30 AM', '2025-09-11 21:48:20'),
+(305, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-11 22:22:12'),
+(306, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-12 09:10:14'),
+(307, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-12 10:26:01'),
+(308, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-12 10:26:29'),
+(309, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-12 21:41:32'),
+(310, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-12 21:41:46'),
+(311, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-13 21:33:47'),
+(312, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-13 22:07:48'),
+(313, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-13 22:11:14'),
+(314, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-13 22:13:37'),
+(315, 2, NULL, 'Login', 'Admin', 'vinjin Successfully Logged in', '2025-09-13 22:40:02'),
+(316, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo Successfully Logged in', '2025-09-13 22:43:03'),
+(317, 3, NULL, 'Login', 'Admin', 'admin1 logged in', '2025-09-14 20:45:14'),
+(318, 9, NULL, 'Login', 'Veterinarian', 'Dr. Test Vet logged in', '2025-09-14 20:45:31'),
+(319, 3, NULL, 'Login', 'Admin', 'admin1 logged in', '2025-09-14 20:48:09'),
+(320, 9, NULL, 'Login', 'Veterinarian', 'Dr. Test Vet logged in', '2025-09-14 20:50:38'),
+(321, 9, NULL, 'Login', 'Veterinarian', 'Dr. Test Vet logged in', '2025-09-14 20:56:06'),
+(322, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo logged in', '2025-09-14 21:21:29');
 
 -- --------------------------------------------------------
 
@@ -265,8 +389,11 @@ CREATE TABLE `medical_records` (
 --
 
 INSERT INTO `medical_records` (`record_id`, `pet_id`, `date`, `medical_condition`, `medical_diagnosis`, `medical_symptoms`, `medical_treatment`, `updated_at`, `status`, `record_date`) VALUES
-(23, 35, '2025-08-04', 'I dont know', 'I dont know too', 'Vomiting', 'Apply ointment.', NULL, 1, '2025-08-04'),
-(24, 36, '2025-08-04', 'Runny nose', 'Example', 'headache', 'Apply an anti nose bacterial ointment.', '2025-08-29 15:22:02', 0, '2025-08-04');
+(23, 35, '2025-08-31', 'I dont know', 'I dont know too', 'Vomiting', 'Apply ointments.', '2025-09-07 10:27:52', 1, '2025-08-04'),
+(24, 36, '2025-08-04', 'Runny nose', 'Example', 'headache', 'Apply an anti nose bacterial ointment.', '2025-08-30 15:50:36', 1, '2025-08-04'),
+(27, 39, '2025-09-08', 'nay sakit sa utok', 'wanay diagnos2', 'kalit rag singgit ang boang', 'walay tambal sa sakit sa utokss', '2025-09-08 02:20:45', 1, '2025-09-07'),
+(28, 40, '2025-09-08', 'Lethargy and loss of appetite', 'Suspected gastrointestinal infection', 'Vomiting, mild diarrhea, refusal to eat, low energy', 'Prescribed antibiotics and probiotics. Recommended soft diet for 5 days.', '2025-09-08 02:19:28', 1, '2025-09-08'),
+(29, 41, '2025-09-11', 'Eye discharge and sneezing', 'Upper respiratory infection (common in kittens)', 'Watery eyes, frequent sneezing, mild nasal discharge', 'Prescribed antibiotics, vitamin supplements, and advised warm, clean shelter', '2025-09-11 04:03:02', 1, '2025-09-11');
 
 -- --------------------------------------------------------
 
@@ -288,9 +415,11 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `client_name`, `method_id`, `amount`, `description`, `date`) VALUES
-(1, 'Danreb B. Salvacion', 1, 1500.00, 'I want to pay it with cash.', '2025-07-09 22:23:07'),
-(2, 'Jan Paul Michael M. Dela Cera', 1, 500.00, 'Payment for check ups.', '2025-07-13 21:36:04'),
-(3, 'Mr. Odemil Uyan', 1, 1500.00, 'For checkup payments.', '2025-08-07 00:16:50');
+(4, 'Odemil Uyan', 1, 1300.00, 'For check ups', '2025-09-10 21:57:53'),
+(5, 'Odemil Uyan', 1, 1300.00, 'For check ups', '2025-09-10 21:58:33'),
+(6, 'Boknoy Esmale', 2, 1500.00, 'Payment for grooming', '2025-09-10 22:27:03'),
+(7, 'Roselyn Villanueva', 1, 1500.00, 'Payments for grooming.', '2025-09-11 11:55:38'),
+(8, 'janpaul4', 1, 500.00, 'payments for checkups.', '2025-09-14 21:50:55');
 
 -- --------------------------------------------------------
 
@@ -310,8 +439,7 @@ CREATE TABLE `payment_methods` (
 INSERT INTO `payment_methods` (`method_id`, `method_name`) VALUES
 (1, 'Cash'),
 (2, 'GCash'),
-(3, 'Credit Card'),
-(4, 'Bank Transfer');
+(3, 'Credit Card');
 
 -- --------------------------------------------------------
 
@@ -337,9 +465,11 @@ CREATE TABLE `pet` (
 --
 
 INSERT INTO `pet` (`pet_id`, `pet_name`, `pet_sex`, `pet_weight`, `pet_breed`, `pet_birth_date`, `client_id`, `status`, `pet_species`, `updated_at`) VALUES
-(35, 'chokoy', 'Male', 15.00, 'bulldog', '2024-12-31', 36, 1, 'Dog', '2025-08-21 05:46:01'),
-(36, 'Gulaman', 'Male', 7.00, 'Aspin', '2018-08-01', 37, 0, 'Cat', '2025-08-29 15:22:02'),
-(37, 'Buddy', 'Male', 24.00, 'Golden Retriever', '2024-11-12', 38, 1, 'Dog', '2025-08-29 15:02:04');
+(35, 'chokoy', 'Male', 15.00, 'bulldog', '2024-12-31', 36, 1, 'Dog', '2025-09-07 10:27:52'),
+(36, 'Gulaman', 'Male', 7.00, 'Aspin', '2018-08-01', 37, 1, 'Cat', '2025-08-30 15:50:36'),
+(39, 'wawangloy', 'Male', 20.00, 'bulldog', '2024-12-12', 40, 1, 'Dog', '2025-09-08 02:20:45'),
+(40, 'Max', 'Male', 20.00, 'Golden Retriever Pet Weight', '2025-11-12', 41, 1, 'Dog', NULL),
+(41, 'Mingming', 'Female', 10.00, 'Puspin', '2023-11-12', 42, 1, 'Cat', '2025-09-11 04:03:02');
 
 -- --------------------------------------------------------
 
@@ -376,7 +506,11 @@ CREATE TABLE `veterinarian` (
 INSERT INTO `veterinarian` (`vet_id`, `vet_name`, `vet_contact_number`, `vet_username`, `vet_password`) VALUES
 (1, 'Jan Paul Michael M. Dela Cera', '01234567890', 'janpaul', '$2y$10$8bwkTCKQjkTGJEdKfc55F.aj7KSSPseB0Bl1QGdXP07ZYRcub4xiS'),
 (3, 'Mr. Osas', '09759420944', 'osas', '$2y$10$XzOK9PildBlvttODtOoY4ecxWYCnVbU3ldpwGrExT59KccUuLHWYK'),
-(4, 'Samuel Seo', '01234567890', 'samuel', '$2y$10$qfUYyNHBEorgQ4zkdu7lpeE4FOq4iS/.LUqfKYMAr18JF2sA.X9Z.');
+(4, 'Samuel Seo', '012345678901', 'samuel', '$2y$10$qfUYyNHBEorgQ4zkdu7lpeE4FOq4iS/.LUqfKYMAr18JF2sA.X9Z.'),
+(5, 'Dr. Odemil Uyan', '09182345678', 'uyan_vet', '$2y$10$M9On./FghnT9cmlby7dF7eQtZsKy4j3UVZzSpQp6027hyqSdF9tGu'),
+(6, 'Liezel Rodrigo', '09182345678', 'liezel_vet', '$2y$10$Q/Z.YkzYXQzPxycs5buSneEPa3nRahMcTjrXfTL7XIV8Mq/I9ofXW'),
+(8, 'Default Veterinarian', '09123456789', 'default_vet', '$2y$10$Q/WHc6yEyuWFLIDGAEjKWO.CGVPKovo2s2l0l/.awIBOskRSbppYO'),
+(9, 'Dr. Test Vet', NULL, 'vet1', '$2y$10$7PuUiTzHvmUHG8gaR6QjY.fgi7H5.A09qiKP4hHqfzE2gUwKF9DCe');
 
 --
 -- Indexes for dumped tables
@@ -463,13 +597,13 @@ ALTER TABLE `veterinarian`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `archive`
@@ -481,25 +615,25 @@ ALTER TABLE `archive`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `Log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `Log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
 
 --
 -- AUTO_INCREMENT for table `medical_records`
 --
 ALTER TABLE `medical_records`
-  MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -511,13 +645,13 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `veterinarian`
 --
 ALTER TABLE `veterinarian`
-  MODIFY `vet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `vet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
