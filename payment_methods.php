@@ -81,7 +81,9 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
 }
 if (isset($_GET['month']) && $_GET['month'] !== 'All' && is_numeric($_GET['month']) && $_GET['month'] >= 1 && $_GET['month'] <= 12) {
     $conditions[] = "MONTH(p.date) = ?";
+    $params[] = $_GET['month'];   // <-- Missing before
 }
+
 if (!empty($conditions)) {
     $query .= " WHERE " . implode(" AND ", $conditions);
 }
@@ -105,6 +107,8 @@ try {
     <title>Vet Clinic Payments</title>
     <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -338,10 +342,10 @@ try {
                     $display_message = "No payments or transactions " . ($selected_month ? "this $selected_month" : "") . (isset($_GET['year']) && $_GET['year'] !== 'All' ? " in " . $_GET['year'] : "") . ".";
                 }
                 ?>
-                <div class="text-center py-8 rounded-lg mb-4 bg-slate-700/50">
-                    <i class="fas fa-receipt text-slate-400 text-4xl mb-4"></i>
-                    <p class="text-slate-300 text-lg"><?php echo $display_message; ?></p>
-                    <p class="text-slate-400 text-sm mt-2">Click "Record Payment" to add your first payment.</p>
+                <div class="text-center py-8 rounded-lg mb-4 bg-emerald-100">
+                    <i class="fas fa-receipt text-slate-600 text-4xl mb-4"></i>
+                    <p class="text-lg"><?php echo $display_message; ?></p>
+                    <p class="text-sm mt-2">Click "Record Payment" to add your first payment.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -356,13 +360,16 @@ try {
             <form method="POST" class="p-4 overflow-y-auto">
                 <div class="mb-3">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Client</label>
-                    <select name="client_name" required
-                        class="w-full p-2 text-sm border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    <select id="clientSelect" name="client_name" required
+                        class="w-full p-2 text-sm border rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         <option value="">Select Client</option>
                         <?php foreach ($clients as $client): ?>
-                            <option value="<?php echo htmlspecialchars($client['client_name']); ?>"><?php echo htmlspecialchars($client['client_name']); ?></option>
+                            <option value="<?php echo htmlspecialchars($client['client_name']); ?>">
+                                <?php echo htmlspecialchars($client['client_name']); ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
+
                 </div>
                 <div class="mb-3">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Payment Method</label>
@@ -531,6 +538,17 @@ try {
                 console.error("Modal not found:", modalId);
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect("#clientSelect", {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Search or select client..."
+            });
+        });
     </script>
 
     <script src="./js/dashboard.js"></script>
