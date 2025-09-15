@@ -133,6 +133,13 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
         table {
             width: 100%;
             min-width: 400px;
+            table-layout: fixed;
+        }
+
+        .truncate-cell {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         #addModal,
@@ -383,7 +390,7 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                     <a href="../records/medical-records.php" class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-file-medical mr-2"></i> Medical Records
                     </a>
-                    <a href="../records/payment-records.php" class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                    <a href="../records/admin-payments.php" class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
                 </div>
@@ -483,11 +490,11 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                 <table class="min-w-full divide-y divide-slate-200">
                     <thead class="bg-gray-300 sticky top-0 z-2">
                         <tr class="border-b border-slate-200">
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Client</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Method</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Amount</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Description</th>
-                            <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Date</th>
+                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[25%]">Client</th>
+                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[15%]">Method</th>
+                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[15%]">Amount</th>
+                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[30%]">Description</th>
+                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[15%]">Date</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-slate-200">

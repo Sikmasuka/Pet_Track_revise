@@ -2,6 +2,16 @@
 session_start();
 require_once '../functions/admin-handler.php';
 include "../includes/sitemap/Help/support.php";
+
+// Fetch admin data
+if (!isset($currentAdmin)) {
+    $stmt = $pdo->prepare("SELECT * FROM admin WHERE admin_id = ?");
+    $stmt->execute([$_SESSION['admin_id']]);
+    $currentAdmin = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Define $adminName
+$adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 ?>
 
 <!DOCTYPE html>
@@ -81,6 +91,8 @@ include "../includes/sitemap/Help/support.php";
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include "../includes/sitemap/Help/support.php"; ?>
+    <?php include '../includes/edit-profile.php'; ?>
 
     <!-- Mobile Menu Button -->
     <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors">
@@ -147,7 +159,7 @@ include "../includes/sitemap/Help/support.php";
                         <span class="whitespace-normal leading-snug">Medical Records</span>
                     </a>
 
-                    <a href="./records/payment-records.php"
+                    <a href="./records/admin-payments.php"
                         class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
@@ -200,7 +212,7 @@ include "../includes/sitemap/Help/support.php";
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo $adminName; ?></p>
                                     <p class="text-xs text-gray-500">Veterinarian</p>
                                 </div>
                             </div>
@@ -474,8 +486,11 @@ include "../includes/sitemap/Help/support.php";
         });
     </script>
 
+    <script src="../js/dashboard.js"></script>
     <script src="../js/sidebarHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/edit-profile.js"></script>
+    <script src="../js/profile-dropdown.js"></script>
     <script src="../js/confirmLogout.js"></script>
 </body>
 

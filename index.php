@@ -76,7 +76,7 @@ require_once 'functions/authentication.php';
 
                 <!-- Error message -->
                 <?php if (isset($message) && $message): ?>
-                    <p class="rounded-sm w-full bg-red-100 p-2 text-red-600 text-xs text-center mb-4">
+                    <p id="errorMessage" class="rounded-sm w-full bg-red-100 p-2 text-red-600 text-xs text-center mb-4">
                         <?php echo htmlspecialchars($message); ?>
                     </p>
                 <?php endif; ?>
@@ -153,6 +153,17 @@ require_once 'functions/authentication.php';
                 });
             <?php endif; ?>
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorMsg = document.getElementById("errorMessage");
+            if (errorMsg) {
+                setTimeout(() => {
+                    errorMsg.style.transition = "opacity 0.5s ease";
+                    errorMsg.style.opacity = "0";
+                    setTimeout(() => errorMsg.remove(), 500);
+                }, 3000);
+            }
+        });
     </script>
 </body>
 

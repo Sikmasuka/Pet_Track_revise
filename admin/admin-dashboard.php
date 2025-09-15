@@ -278,7 +278,7 @@ ob_end_flush();
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="payment_methods.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+                    <a href="./records/admin-payments.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                     <div class="text-center mt-4">
