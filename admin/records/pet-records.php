@@ -1,7 +1,8 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../functions/auth.php";
 require_once '../record-handler.php';
 include(__DIR__ . '/../../includes/sitemap/Help/support.php');
+requireAdmin();
 
 // Fetch admin data
 if (!isset($currentAdmin)) {
@@ -144,6 +145,10 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                         class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
                         <i class="fas fa-file-medical mr-2 mt-1"></i>
                         <span class="whitespace-normal leading-snug">Medical Records</span>
+                    </a>
+                    <a href="../records/admin-payments.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
                 </div>
             </div>

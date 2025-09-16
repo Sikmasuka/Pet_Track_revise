@@ -2,6 +2,8 @@
 session_start();
 require_once '../record-handler.php';
 include(__DIR__ . '/../../includes/sitemap/Help/support.php');
+require_once __DIR__ . "/../../functions/auth.php";
+requireAdmin();
 ?>
 
 <!DOCTYPE html>

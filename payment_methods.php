@@ -9,12 +9,27 @@ if (!isset($_SESSION['vet_id'])) {
     exit;
 }
 
-// Fetch vet name for greeting
-$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id=?");
+// Define $vetName
+$vetName = htmlspecialchars($currentVet['vet_name'] ?? 'Unknown');
+
+// Fetch veterinarian data for modal (if not already set)
+if (!isset($currentVet)) {
+    $stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+    $stmt->execute([$_SESSION['vet_id']]);
+    $currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fetch vet data for modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch vet name and vet_username for logging
+$stmt = $pdo->prepare("SELECT vet_name, vet_username FROM Veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
-
+$username = $user ? htmlspecialchars($user['vet_username']) : "Unknown";
 // Initialize error message variable
 $error_message = '';
 

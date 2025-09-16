@@ -1,7 +1,9 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../functions/auth.php";
 require_once '../record-handler.php';
 include(__DIR__ . '/../../includes/sitemap/Help/support.php');
+
+requireAdmin();
 
 // Fetch admin data
 if (!isset($currentAdmin)) {

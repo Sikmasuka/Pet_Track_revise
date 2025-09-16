@@ -1,0 +1,26 @@
+# Prevent directory browsing globally
+
+Options -Indexes
+
+# Hide all folders from directory listing
+
+IndexIgnore \*
+
+# Prevent access to sensitive files globally
+
+<FilesMatch "\.(log|sql|bak|tmp|swp|old|orig)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+# Prevent access to common sensitive files
+
+<FilesMatch "(^#.\*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op])|~)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+# Custom error pages
+
+ErrorDocument 403 /Pet_Track_revise-3/index.php
+ErrorDocument 404 /Pet_Track_revise-3/index.php

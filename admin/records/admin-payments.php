@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once '../record-handler.php';
+require_once __DIR__ . "/../../functions/auth.php";
+requireAdmin();
+
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_id'])) {

@@ -1,14 +1,37 @@
 <?php
 require_once __DIR__ . "/functions/archive-handler.php";
 require_once __DIR__ . "/functions/dashboard-handler.php";
+require_once __DIR__ . "/functions/auth.php";
+requireVet();
 
+
+// Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
     header('Location: index.php');
     exit;
 }
 
-// Get vet name using the function from archive-handler.php
-$vetName = getVetName($pdo, $_SESSION['vet_id']);
+// Define $vetName
+$vetName = htmlspecialchars($currentVet['vet_name'] ?? 'Unknown');
+
+// Fetch veterinarian data for modal (if not already set)
+if (!isset($currentVet)) {
+    $stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+    $stmt->execute([$_SESSION['vet_id']]);
+    $currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fetch vet data for modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch vet name and vet_username for logging
+$stmt = $pdo->prepare("SELECT vet_name, vet_username FROM Veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$user = $stmt->fetch();
+$vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
+$username = $user ? htmlspecialchars($user['vet_username']) : "Unknown";
 ?>
 
 <!DOCTYPE html>

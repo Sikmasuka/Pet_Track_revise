@@ -10,17 +10,27 @@ if (!isset($_SESSION['vet_id'])) {
     exit;
 }
 
-// Fetch vet name for greeting
-$stmt = $pdo->prepare("SELECT vet_name FROM Veterinarian WHERE vet_id = ?");
+// Define $vetName
+$vetName = htmlspecialchars($currentVet['vet_name'] ?? 'Unknown');
+
+// Fetch veterinarian data for modal (if not already set)
+if (!isset($currentVet)) {
+    $stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+    $stmt->execute([$_SESSION['vet_id']]);
+    $currentVet = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fetch vet data for modal
+$stmt = $pdo->prepare("SELECT * FROM veterinarian WHERE vet_id = ?");
+$stmt->execute([$_SESSION['vet_id']]);
+$vet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch vet name and vet_username for logging
+$stmt = $pdo->prepare("SELECT vet_name, vet_username FROM Veterinarian WHERE vet_id = ?");
 $stmt->execute([$_SESSION['vet_id']]);
 $user = $stmt->fetch();
 $vetName = $user ? htmlspecialchars($user['vet_name']) : "Veterinarian not found";
-
-// Function to get the current user's role
-function getUserRole()
-{
-    return isset($_SESSION['role']) ? $_SESSION['role'] : 'Veterinarian';
-}
+$username = $user ? htmlspecialchars($user['vet_username']) : "Unknown";
 
 // Define $start_date and $end_date based on initial load or default
 $cur_year = date('Y'); // 2025
