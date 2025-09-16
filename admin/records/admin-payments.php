@@ -1,7 +1,28 @@
 <?php
 session_start();
 require_once '../record-handler.php';
+
+// Check if admin is logged in
+if (!isset($_SESSION['admin_id'])) {
+    header('Location: ../index.php');
+    exit;
+}
+
+// Include support.php after session check
 include(__DIR__ . '/../../includes/sitemap/Help/support.php');
+
+// Fetch admin data
+try {
+    $stmt = $pdo->prepare("SELECT admin_name FROM admin WHERE admin_id = ?");
+    $stmt->execute([$_SESSION['admin_id']]);
+    $currentAdmin = $stmt->fetch(PDO::FETCH_ASSOC);
+    $adminName = $currentAdmin ? htmlspecialchars($currentAdmin['admin_name']) : 'Admin';
+} catch (PDOException $e) {
+    $adminName = 'Admin';
+}
+
+// Initialize error message variable
+$error_message = '';
 
 // Fetch clinic details
 try {
@@ -37,6 +58,7 @@ try {
     $stmt->execute($params);
     $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
+    $error_message = "Error fetching payments: " . $e->getMessage();
     $payments = [];
 }
 
@@ -119,47 +141,13 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../../image/MainIcon.png" type="image/x-icon">
     <title>Manage Payments</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../Assets/Extension.js"></script>
+    <link rel="icon" href="../../image/MainIconWhite.png" type="image/x-icon">
     <style>
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            min-width: 400px;
-            table-layout: fixed;
-        }
-
-        .truncate-cell {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #addModal,
-        #modalContent {
-            max-width: 90vw;
-            max-height: 85vh;
-        }
-
-        @media (min-width: 640px) {
-            #modalContent {
-                max-width: 80vw;
-            }
-        }
-
-        @media (min-width: 768px) {
-            #modalContent {
-                max-width: 600px;
-            }
-        }
-
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -178,7 +166,80 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
             background: #475569;
         }
 
-        /* Print-specific styles */
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+            max-width: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            min-width: 800px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: #1e293b;
+        }
+
+        td {
+            font-size: 0.875rem;
+            color: #1e293b;
+        }
+
+        .col-client {
+            width: 20%;
+        }
+
+        .col-method {
+            width: 15%;
+        }
+
+        .col-amount {
+            width: 15%;
+        }
+
+        .col-description {
+            width: 30%;
+        }
+
+        .col-date {
+            width: 15%;
+        }
+
+        .col-actions {
+            width: 10%;
+        }
+
+        .truncate-cell {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mobile-menu-btn {
+            z-index: 1000;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Print-specific styles for report */
         .print-report {
             display: none;
             font-family: 'Helvetica', Arial, sans-serif;
@@ -345,35 +406,49 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                 margin: 1in;
             }
         }
+
+        /* Print-specific styles for receipt */
+        .receipt-print {
+            display: none;
+        }
+
+        @media print {
+            .receipt-print {
+                display: block !important;
+                visibility: visible;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+    <?php include '../../includes/edit-profile.php' ?>
+
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-slate-700 text-white p-3 rounded-md shadow-lg hover:bg-slate-600 transition-colors">
+    <button id="mobileMenuBtn" class="lg:hidden fixed top-4 left-4 z-50 bg-teal-700 text-white p-3 rounded-md shadow-lg hover:bg-teal-600 transition-colors mobile-menu-btn">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-emerald-900">
-        <div class="flex items-center justify-between">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-teal-800">
+        <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="../../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden text-gray-300 hover:text-white duration-200">
+            <button id="closeSidebarBtn" class="lg:hidden text-white hover:text-gray-200 duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="../admin-dashboard.php" class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
+            <a href="../admin-dashboard.php" class="block text-sm text-white px-4 py-2 rounded-md hover:bg-teal-900 transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="../admin.php" class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
+            <a href="../admin.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
             <div class="space-y-0.5">
-                <button id="recordsBtn" class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors">
+                <button id="recordsBtn" class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-teal-800 transition-colors">
                     <i class="fa-solid fa-file-lines"></i>
                     <span>Records</span>
                     <svg id="recordsArrow" class="w-4 h-4 ml-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -381,29 +456,29 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                     </svg>
                 </button>
                 <div id="recordsMenu" class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
-                    <a href="../records/pet-records.php" class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                    <a href="../records/pet-records.php" class="flex items-center text-sm text-gray-200 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-paw mr-2"></i> Pets
                     </a>
-                    <a href="../records/client-records.php" class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                    <a href="../records/client-records.php" class="flex items-center text-sm text-gray-200 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-user mr-2"></i> Clients
                     </a>
-                    <a href="../records/medical-records.php" class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                    <a href="../records/medical-records.php" class="flex items-center text-sm text-gray-200 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-file-medical mr-2"></i> Medical Records
                     </a>
-                    <a href="../records/admin-payments.php" class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                    <a href="../records/payment-records.php" class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
                 </div>
             </div>
-            <a href="../admin-appointments.php" class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md">
+            <a href="../admin-appointments.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
-            <a href="#" onclick="toggleModal('adminHelpModal')" class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
+            <a href="#" onclick="toggleModal('adminHelpModal')" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
         <div class="pt-4">
-            <a href="../index.php" onclick="confirmLogout(event)" class="block text-sm text-gray-200 hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
+            <a href="../index.php" onclick="confirmLogout(event)" class="block text-md text-white hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -412,8 +487,9 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
-    <!-- Main Dashboard Container -->
-    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+    <!-- Main Content -->
+    <div class="main-content ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
+        <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <div class="flex justify-between items-center">
                 <h1 class="text-xl lg:text-2xl font-bold">Manage Payments</h1>
@@ -428,8 +504,8 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?php echo htmlspecialchars($vetName); ?></p>
-                                    <p class="text-xs text-gray-500">Veterinarian</p>
+                                    <p class="text-sm font-semibold text-gray-800"><?php echo htmlspecialchars($adminName); ?></p>
+                                    <p class="text-xs text-gray-500">Administrator</p>
                                 </div>
                             </div>
                         </div>
@@ -442,26 +518,36 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                                 </div>
                             </a>
                             <hr class="my-1 border-slate-200">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px- COLLAPSE_TEXT
-                            <div>
-                                <div class=" font-medium">Logout
+                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                <i class="fas fa-sign-out-alt text-red-500"></i>
+                                <div>
+                                    <div class="font-medium">Logout</div>
+                                    <div class="text-xs text-red-600">Sign out of your account</div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="text-xs text-red-600">Sign out of your account</div>
                     </div>
-                    </a>
                 </div>
             </div>
-    </div>
-    </header>
+        </header>
 
-    <div class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
-        <?php if (count($payments) > 0): ?>
+        <!-- Main Content Section -->
+        <div class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
+            <!-- Display error message if any -->
+            <?php if (!empty($error_message)): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline"><?php echo htmlspecialchars($error_message); ?></span>
+                </div>
+            <?php endif; ?>
+
+            <!-- Payment History -->
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-4">Payment History</h2>
-                <button onclick="printReport()" class="bg-emerald-600 hover:bg-emerald-700 duration-200 text-white px-4 py-2 rounded-lg shadow">
-                    🖨️ Print Report
+                <button onclick="printReport()" class="bg-emerald-600 text-white px-3 py-2 rounded-md hover:bg-emerald-700 text-sm sm:text-base transition-colors duration-200">
+                    <i class="fas fa-print mr-2"></i>Print Report
                 </button>
             </div>
+            <!-- Filter Dropdowns -->
             <form method="GET" class="flex flex-row gap-6 mb-4">
                 <div>
                     <label for="yearFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Year:</label>
@@ -486,221 +572,355 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                     </select>
                 </div>
             </form>
-            <div class="table-container">
-                <table class="min-w-full divide-y divide-slate-200">
-                    <thead class="bg-gray-300 sticky top-0 z-2">
-                        <tr class="border-b border-slate-200">
-                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[25%]">Client</th>
-                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[15%]">Method</th>
-                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[15%]">Amount</th>
-                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[30%]">Description</th>
-                            <th class="px-4 py-2 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider w-[15%]">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-slate-200">
-                        <?php foreach ($payments as $pay): ?>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2 text-gray-700"><?php echo htmlspecialchars($pay['client_name']); ?></td>
-                                <td class="px-4 py-2 text-gray-700"><?php echo htmlspecialchars($pay['method_name']); ?></td>
-                                <td class="px-4 py-2 text-gray-700 font-medium">₱<?php echo number_format($pay['amount'], 2); ?></td>
-                                <td class="px-4 py-2 text-gray-700 truncate-cell" title="<?php echo htmlspecialchars($pay['description']); ?>">
-                                    <?php echo htmlspecialchars($pay['description']); ?>
-                                </td>
-                                <td class="px-4 py-2 text-gray-700"><?php echo date('M j, Y', strtotime($pay['date'])); ?></td>
+
+            <?php if (count($payments) > 0): ?>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-client">Client</th>
+                                <th class="col-method">Method</th>
+                                <th class="col-amount">Amount</th>
+                                <th class="col-description">Description</th>
+                                <th class="col-date">Date</th>
+                                <th class="col-actions">Actions</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php else: ?>
-            <div class="text-center py-8 rounded-lg mb-4 bg-slate-700/50">
-                <i class="fas fa-receipt text-slate-400 text-4xl mb-4"></i>
-                <p class="text-slate-300 text-lg">No payments recorded yet.</p>
-                <p class="text-slate-400 text-sm mt-2">Click "Record Payment" to add your first payment.</p>
-                <button onclick="showPaymentModal()" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
-                    <i class="fas fa-plus mr-2"></i>Record Payment
-                </button>
-            </div>
-        <?php endif; ?>
-    </div>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($payments as $pay): ?>
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="col-client truncate-cell"><?php echo htmlspecialchars($pay['client_name']); ?></td>
+                                    <td class="col-method truncate-cell"><?php echo htmlspecialchars($pay['method_name']); ?></td>
+                                    <td class="col-amount">₱<?php echo number_format($pay['amount'], 2); ?></td>
+                                    <td class="col-description truncate-cell" title="<?php echo htmlspecialchars($pay['description']); ?>">
+                                        <?php echo htmlspecialchars($pay['description']); ?>
+                                    </td>
+                                    <td class="col-date"><?php echo date('M j, Y', strtotime($pay['date'])); ?></td>
+                                    <td class="col-actions">
+                                        <button onclick="printReceipt('<?php echo htmlspecialchars($pay['client_name']); ?>', '<?php echo htmlspecialchars($pay['method_name']); ?>', '<?php echo $pay['amount']; ?>', '<?php echo htmlspecialchars($pay['description']); ?>', '<?php echo $pay['date']; ?>')"
+                                            class="text-indigo-400 hover:text-indigo-300 hover:underline text-sm">
+                                            Print
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <?php
+                $display_message = "No payments recorded yet.";
+                if ((isset($_GET['year']) && $_GET['year'] !== 'All') || (isset($_GET['month']) && $_GET['month'] !== 'All')) {
+                    $selected_month = isset($_GET['month']) && $_GET['month'] !== 'All' ? $months[$_GET['month']] : '';
+                    $display_message = "No payments or transactions " . ($selected_month ? "this $selected_month" : "") . (isset($_GET['year']) && $_GET['year'] !== 'All' ? " in " . $_GET['year'] : "") . ".";
+                }
+                ?>
+                <div class="text-center py-8 rounded-lg mb-4 bg-emerald-100">
+                    <i class="fas fa-receipt text-slate-600 text-4xl mb-4"></i>
+                    <p class="text-lg"><?php echo $display_message; ?></p>
+                </div>
+            <?php endif; ?>
+        </div>
 
-    <!-- Add Veterinarian Modal -->
-    <div id="addModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-        <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full overflow-hidden border border-slate-200">
-            <div class="bg-indigo-500 px-6 py-4">
-                <h3 id="petModalTitle" class="text-lg lg:text-xl font-bold text-center text-white">
-                    Add Veterinarian
-                </h3>
-            </div>
-            <div class="p-6">
-                <form method="POST" class="grid grid-cols-1 gap-4">
-                    <label for="vet_name" class="font-medium text-sm text-gray-800">Name</label>
-                    <input type="text" name="vet_name" id="vet_name" placeholder="Name" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                    <label for="vet_contact_number" class="font-medium text-sm text-gray-800">Contact Number</label>
-                    <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                    <label for="vet_username" class="font-medium text-sm text-gray-800">Username</label>
-                    <input type="text" name="vet_username" id="vet_username" placeholder="Username" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                    <label for="vet_password" class="font-medium text-sm text-gray-800">Password</label>
-                    <input type="password" name="vet_password" id="vet_password" placeholder="Password" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                    <div class="flex justify-between items-center mt-4 gap-3">
-                        <button type="submit" name="add_vet" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 text-sm transition-colors">
-                            Add Veterinarian
-                        </button>
-                        <button type="button" id="closeAddModal" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm transition-colors">
-                            Close
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Print Report Section -->
-    <div id="print-report" class="print-report">
-        <div class="header">
-            <div class="clinic-name"><?php echo htmlspecialchars($clinic['name']); ?></div>
-            <div class="clinic-details"><?php echo htmlspecialchars($clinic['address']); ?></div>
-            <div class="clinic-details"><?php echo htmlspecialchars($clinic['phone']); ?></div>
-            <hr>
-            <div class="report-title">Payment Report</div>
-            <div class="clinic-details">Generated on <?php echo date('F j, Y'); ?></div>
-        </div>
-        <div class="summary">
-            <p><strong>Summary for <?php echo htmlspecialchars($period); ?></strong></p>
-            <p>Total Payments: ₱<?php echo number_format($total_amount_all, 2); ?></p>
-            <p>Total Records: <?php echo count($all_payments); ?></p>
-        </div>
-        <?php if (empty($all_payments)): ?>
-            <div class="no-data">No payments found for the selected period.</div>
-        <?php else: ?>
-            <?php foreach ($monthly_payments as $year => $months_data): ?>
-                <?php foreach ($months_data as $month => $data): ?>
-                    <?php if (isset($_GET['year']) && $_GET['year'] !== 'All' && $year != $_GET['year']) continue; ?>
-                    <?php if (isset($_GET['month']) && $_GET['month'] !== 'All' && $month != $_GET['month']) continue; ?>
-                    <div class="month-section">
-                        <div class="month-title"><?php echo $months[$month] . ' ' . $year; ?></div>
-                        <div class="summary">
-                            <p>Total Payments: ₱<?php echo number_format($data['total'], 2); ?></p>
-                            <p>Total Records: <?php echo $data['count']; ?></p>
+        <!-- Add Veterinarian Modal -->
+        <div id="addModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+            <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden border border-slate-200">
+                <div class="bg-emerald-600 px-6 py-4">
+                    <h3 id="petModalTitle" class="text-lg font-bold text-center text-white">
+                        Add Veterinarian
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <form method="POST" class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label for="vet_name" class="font-medium text-sm text-gray-800">Name</label>
+                            <input type="text" name="vet_name" id="vet_name" placeholder="Name" required class="w-full p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Client</th>
-                                    <th>Payment Method</th>
-                                    <th class="amount">Amount (₱)</th>
-                                    <th>Description</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($data['payments'] as $pay): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($pay['client_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($pay['method_name']); ?></td>
-                                        <td class="amount"><?php echo number_format($pay['amount'], 2); ?></td>
-                                        <td><?php echo htmlspecialchars($pay['description'] ?: 'N/A'); ?></td>
-                                        <td><?php echo date('M j, Y', strtotime($pay['date'])); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                <tr class="total-row">
-                                    <td colspan="2">Total for <?php echo $months[$month]; ?></td>
-                                    <td class="amount"><?php echo number_format($data['total'], 2); ?></td>
-                                    <td colspan="2"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-            <div class="summary">
-                <p><strong>Grand Total</strong></p>
-                <p>Total Payments: ₱<?php echo number_format($total_amount_all, 2); ?></p>
+                        <div>
+                            <label for="vet_contact_number" class="font-medium text-sm text-gray-800">Contact Number</label>
+                            <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required class="w-full p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                        <div>
+                            <label for="vet_username" class="font-medium text-sm text-gray-800">Username</label>
+                            <input type="text" name="vet_username" id="vet_username" placeholder="Username" required class="w-full p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                        <div>
+                            <label for="vet_password" class="font-medium text-sm text-gray-800">Password</label>
+                            <input type="password" name="vet_password" id="vet_password" placeholder="Password" required class="w-full p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                        <div class="flex justify-between items-center mt-4 gap-3">
+                            <button type="submit" name="add_vet" class="bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 text-sm transition-colors">
+                                Add Veterinarian
+                            </button>
+                            <button type="button" id="closeAddModal" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm transition-colors">
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        <?php endif; ?>
-        <hr>
-        <div class="signature-section">
-            <p>Prepared by:</p>
-            <div class="signature-line"></div>
-            <p>Name: _____________________________</p>
-            <p>Signature: _________________________</p>
         </div>
-        <div class="footer">
-            Generated by <?php echo htmlspecialchars($clinic['name']); ?>. Thank you for your continued trust.
+
+        <!-- Print Report Section -->
+        <div id="print-report" class="print-report">
+            <div class="header">
+                <div class="clinic-name"><?php echo htmlspecialchars($clinic['name']); ?></div>
+                <div class="clinic-details"><?php echo htmlspecialchars($clinic['address']); ?></div>
+                <div class="clinic-details"><?php echo htmlspecialchars($clinic['phone']); ?></div>
+                <hr>
+                <div class="report-title">Payment Report</div>
+                <div class="clinic-details">Generated on <?php echo date('F j, Y'); ?></div>
+            </div>
+            <div class="summary">
+                <p><strong>Summary for <?php echo htmlspecialchars($period); ?></strong></p>
+                <p>Total Payments: ₱<?php echo number_format($total_amount_all, 2); ?></p>
+                <p>Total Records: <?php echo count($all_payments); ?></p>
+            </div>
+            <?php if (empty($all_payments)): ?>
+                <div class="no-data">No payments found for the selected period.</div>
+            <?php else: ?>
+                <?php foreach ($monthly_payments as $year => $months_data): ?>
+                    <?php foreach ($months_data as $month => $data): ?>
+                        <?php if (isset($_GET['year']) && $_GET['year'] !== 'All' && $year != $_GET['year']) continue; ?>
+                        <?php if (isset($_GET['month']) && $_GET['month'] !== 'All' && $month != $_GET['month']) continue; ?>
+                        <div class="month-section">
+                            <div class="month-title"><?php echo $months[$month] . ' ' . $year; ?></div>
+                            <div class="summary">
+                                <p>Total Payments: ₱<?php echo number_format($data['total'], 2); ?></p>
+                                <p>Total Records: <?php echo $data['count']; ?></p>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Client</th>
+                                        <th>Payment Method</th>
+                                        <th class="amount">Amount (₱)</th>
+                                        <th>Description</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($data['payments'] as $pay): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($pay['client_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($pay['method_name']); ?></td>
+                                            <td class="amount"><?php echo number_format($pay['amount'], 2); ?></td>
+                                            <td><?php echo htmlspecialchars($pay['description'] ?: 'N/A'); ?></td>
+                                            <td><?php echo date('M j, Y', strtotime($pay['date'])); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr class="total-row">
+                                        <td colspan="2">Total for <?php echo $months[$month]; ?></td>
+                                        <td class="amount"><?php echo number_format($data['total'], 2); ?></td>
+                                        <td colspan="2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+                <div class="summary">
+                    <p><strong>Grand Total</strong></p>
+                    <p>Total Payments: ₱<?php echo number_format($total_amount_all, 2); ?></p>
+                </div>
+            <?php endif; ?>
+            <hr>
+            <div class="signature-section">
+                <p>Prepared by:</p>
+                <div class="signature-line"></div>
+                <p>Name: _____________________________</p>
+                <p>Signature: _________________________</p>
+            </div>
+            <div class="footer">
+                Generated by <?php echo htmlspecialchars($clinic['name']); ?>. Thank you for your continued trust.
+            </div>
         </div>
-    </div>
 
-    <script>
-        function printReport() {
-            const images = document.querySelectorAll('img');
-            let loadedImages = 0;
-            const totalImages = images.length;
+        <!-- Print Receipt Section -->
+        <iframe id="receiptFrame" class="hidden receipt-print"></iframe>
 
-            if (totalImages === 0) {
-                triggerPrint();
-            } else {
-                images.forEach(img => {
-                    if (img.complete) {
-                        loadedImages++;
-                        if (loadedImages === totalImages) {
-                            triggerPrint();
+        <script>
+            function printReport() {
+                const images = document.querySelectorAll('img');
+                let loadedImages = 0;
+                const totalImages = images.length;
+
+                if (totalImages === 0) {
+                    triggerPrint();
+                } else {
+                    images.forEach(img => {
+                        if (img.complete) {
+                            loadedImages++;
+                            if (loadedImages === totalImages) {
+                                triggerPrint();
+                            }
+                        } else {
+                            img.onload = () => {
+                                loadedImages++;
+                                if (loadedImages === totalImages) {
+                                    triggerPrint();
+                                }
+                            };
+                            img.onerror = () => {
+                                loadedImages++;
+                                if (loadedImages === totalImages) {
+                                    triggerPrint();
+                                }
+                            };
                         }
-                    } else {
-                        img.onload = () => {
-                            loadedImages++;
-                            if (loadedImages === totalImages) {
-                                triggerPrint();
-                            }
-                        };
-                        img.onerror = () => {
-                            loadedImages++;
-                            if (loadedImages === totalImages) {
-                                triggerPrint();
-                            }
-                        };
-                    }
+                    });
+                }
+            }
+
+            function triggerPrint() {
+                const printSection = document.getElementById('print-report');
+                printSection.style.display = 'block';
+                void printSection.offsetHeight;
+                setTimeout(() => {
+                    window.print();
+                    printSection.style.display = 'none';
+                }, 100);
+            }
+
+            function printReceipt(clientName, methodName, amount, description, date) {
+                const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
+
+                const receiptHTML = `
+                    <html>
+                    <head>
+                        <title>Payment Receipt</title>
+                        <style>
+                            body { 
+                                font-family: Arial, sans-serif; 
+                                padding: 20px; 
+                                max-width: 400px; 
+                                margin: 0 auto; 
+                                text-align: center;
+                            }
+                            .header { margin-bottom: 20px; }
+                            .clinic-name { 
+                                font-size: 24px; 
+                                font-weight: bold; 
+                                margin-bottom: 5px; 
+                                color: #2ecc71;
+                            }
+                            .receipt-title { 
+                                font-size: 18px; 
+                                margin: 20px 0; 
+                                font-weight: bold;
+                            }
+                            .details { 
+                                margin-bottom: 20px; 
+                                text-align: left; 
+                                display: inline-block; 
+                            }
+                            .detail-row { display: flex; margin-bottom: 8px; }
+                            .detail-label { font-weight: bold; width: 120px; }
+                            .detail-value { flex: 1; }
+                            .thank-you { 
+                                text-align: center; 
+                                margin-top: 30px; 
+                                font-style: italic; 
+                            }
+                            .footer { 
+                                text-align: center; 
+                                margin-top: 40px; 
+                                font-size: 12px; 
+                                color: #666; 
+                            }
+                            hr { 
+                                border: 0; 
+                                border-top: 1px dashed #ccc; 
+                                margin: 20px 0; 
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <div class="clinic-name"><?php echo htmlspecialchars($clinic['name']); ?></div>
+                            <div><?php echo htmlspecialchars($clinic['address']); ?></div>
+                            <div>Phone: <?php echo htmlspecialchars($clinic['phone']); ?></div>
+                            <hr>
+                            <div class="receipt-title">PAYMENT RECEIPT</div>
+                        </div>
+                        <div class="details">
+                            <div class="detail-row">
+                                <div class="detail-label">Date:</div>
+                                <div class="detail-value">${formattedDate}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Client Name:</div>
+                                <div class="detail-value">${clientName}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Payment Method:</div>
+                                <div class="detail-value">${methodName}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Amount:</div>
+                                <div class="detail-value">₱${parseFloat(amount).toFixed(2)}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Description:</div>
+                                <div class="detail-value">${description || 'N/A'}</div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="thank-you">
+                            Thank you for your payment!
+                        </div>
+                        <div class="footer">
+                            This is an official receipt from <?php echo htmlspecialchars($clinic['name']); ?>
+                        </div>
+                    </body>
+                    </html>
+                `;
+
+                const frame = document.getElementById('receiptFrame');
+                frame.contentDocument.open();
+                frame.contentDocument.write(receiptHTML);
+                frame.contentDocument.close();
+                setTimeout(() => {
+                    frame.contentWindow.focus();
+                    frame.contentWindow.print();
+                }, 500);
             }
-        }
 
-        function triggerPrint() {
-            const printSection = document.getElementById('print-report');
-            printSection.style.display = 'block';
-            void printSection.offsetHeight;
-            setTimeout(() => {
-                window.print();
-                printSection.style.display = 'none';
-            }, 100);
-        }
-
-        const recordsBtn = document.getElementById('recordsBtn');
-        const recordsMenu = document.getElementById('recordsMenu');
-        const recordsArrow = document.getElementById('recordsArrow');
-        recordsBtn.addEventListener('click', () => {
-            if (recordsMenu.classList.contains('max-h-0')) {
-                recordsMenu.classList.remove('max-h-0', 'opacity-0');
-                recordsMenu.classList.add('max-h-96', 'opacity-100');
-            } else {
-                recordsMenu.classList.remove('max-h-96', 'opacity-100');
-                recordsMenu.classList.add('max-h-0', 'opacity-0');
-            }
-            recordsArrow.classList.toggle('rotate-180');
-        });
-
-        const submenuLinks = document.querySelectorAll('#recordsMenu a');
-        submenuLinks.forEach(link => {
-            link.addEventListener('click', (event) => {
-                event.stopPropagation();
+            const recordsBtn = document.getElementById('recordsBtn');
+            const recordsMenu = document.getElementById('recordsMenu');
+            const recordsArrow = document.getElementById('recordsArrow');
+            recordsBtn.addEventListener('click', () => {
+                if (recordsMenu.classList.contains('max-h-0')) {
+                    recordsMenu.classList.remove('max-h-0', 'opacity-0');
+                    recordsMenu.classList.add('max-h-96', 'opacity-100');
+                } else {
+                    recordsMenu.classList.remove('max-h-96', 'opacity-100');
+                    recordsMenu.classList.add('max-h-0', 'opacity-0');
+                }
+                recordsArrow.classList.toggle('rotate-180');
             });
-        });
 
-        window.addEventListener('afterprint', () => {
-            document.getElementById('print-report').style.display = 'none';
-        });
-    </script>
-    <script src="../../js/sidebarHandler.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../../js/confirmLogout.js"></script>
+            const submenuLinks = document.querySelectorAll('#recordsMenu a');
+            submenuLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+            });
+
+            window.addEventListener('afterprint', () => {
+                document.getElementById('print-report').style.display = 'none';
+                document.getElementById('receiptFrame').classList.add('hidden');
+            });
+        </script>
+        <script src="../../js/sidebarHandler.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../js/confirmLogout.js"></script>
 </body>
 
 </html>
