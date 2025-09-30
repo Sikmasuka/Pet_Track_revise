@@ -29,6 +29,9 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Tom select link sheeeeesh -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
     <!-- Load SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../Assets/Extension.js"></script>
@@ -239,6 +242,36 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 
                 <?php
                 $clients = getClients($pdo); // Call function from record-handler.php
+                // Apply search filter to clients
+                $clients = $clients ?? [];
+                if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
+                    $searchTerm = trim($_GET['search']);
+                    $clients = array_filter($clients, function ($client) use ($searchTerm) {
+                        return stripos($client['client_name'], $searchTerm) !== false ||
+                            stripos($client['client_address'], $searchTerm) !== false ||
+                            stripos($client['client_contact_number'], $searchTerm) !== false;
+                    });
+                }
+                ?>
+
+                <!-- Search Filter -->
+                <div class="flex items-center gap-2 mb-4">
+                    <label for="clientSelect" class="text-sm font-medium text-gray-700">
+                        Client:
+                    </label>
+                    <select id="clientSelect" name="client_name" required
+                        class="w-48 px-2 py-1 text-xs border border-slate-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <option value="">Select Client</option>
+                        <?php foreach ($clients as $client): ?>
+                            <option value="<?php echo htmlspecialchars($client['client_name']); ?>">
+                                <?php echo htmlspecialchars($client['client_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+
+                <?php
                 if (isset($error) && !empty($error)) {
                     echo "<p class='text-red-500 text-sm'>Error: $error</p>";
                 } elseif (!empty($clients) && is_array($clients)) {
@@ -340,6 +373,17 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                 recordsMenu.classList.add('max-h-0', 'opacity-0');
             }
             recordsArrow.classList.toggle('rotate-180');
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect("#clientSelect", {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Search or select client..."
+            });
         });
     </script>
 

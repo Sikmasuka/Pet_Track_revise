@@ -358,9 +358,9 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
         recordsBtn.addEventListener('click', () => {
             if (recordsMenu.classList.contains('max-h-0')) {
                 recordsMenu.classList.remove('max-h-0', 'opacity-0');
-                recordsMenu.classList.add('max-h-40', 'opacity-100');
+                recordsMenu.classList.add('max-h-96', 'opacity-100');
             } else {
-                recordsMenu.classList.remove('max-h-40', 'opacity-100');
+                recordsMenu.classList.remove('max-h-96', 'opacity-100');
                 recordsMenu.classList.add('max-h-0', 'opacity-0');
             }
             recordsArrow.classList.toggle('rotate-180');

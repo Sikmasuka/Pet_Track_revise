@@ -70,10 +70,147 @@ ob_end_flush();
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #a0aec0;
         }
+
+        /* Compact View Modal Styles */
+        .compact-modal {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border: 1px solid #e2e8f0;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .compact-header {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            padding: 1.25rem;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 1px solid #10b981;
+        }
+
+        .compact-content {
+            padding: 1.25rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .compact-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #0ea5e9;
+        }
+
+        .compact-section.pet {
+            border-left-color: #10b981;
+        }
+
+        .compact-section.medical {
+            border-left-color: #8b5cf6;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .section-title i {
+            color: #0ea5e9;
+            width: 16px;
+        }
+
+        .section-title.pet i {
+            color: #10b981;
+        }
+
+        .section-title.medical i {
+            color: #8b5cf6;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: between;
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            font-size: 0.8rem;
+            color: #1e293b;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 1rem;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .empty-state i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+        }
+
+        .compact-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #e5e7eb;
+            background: #f8fafc;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .close-btn-compact {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn-compact:hover {
+            background: #4f46e5;
+            transform: translateY(-1px);
+        }
+
+        /* Smooth scrollbar */
+        .compact-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .compact-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .compact-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
     </style>
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
+
     <?php include('./includes/edit-profile.php'); ?>
 
     <!-- Mobile Menu Button -->
@@ -136,6 +273,7 @@ ob_end_flush();
 
     <!-- Main Content -->
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center">
@@ -238,8 +376,13 @@ ob_end_flush();
                                     <td class="px-4 py-2 text-sm text-gray-600"><?= htmlspecialchars($client['client_address']) ?></td>
                                     <td class="px-4 py-2 text-sm text-gray-600"><?= htmlspecialchars($client['client_contact_number']) ?></td>
                                     <td class="px-4 py-2 text-sm">
-                                        <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-indigo-500 hover:text-indigo-400 hover:underline">Edit</a> |
-                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:text-red-400 hover:underline">Delete</a>
+                                        <a href="?view_client_id=<?= (int)$client['client_id'] ?>" class="text-green-500 hover:text-green-400 hover:underline">
+                                            <i class="fas fa-eye"></i>
+                                        </a> |
+                                        <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-indigo-500 hover:text-indigo-400 hover:underline"><i class="fas fa-edit"></i>
+                                        </a> |
+                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:text-red-400 hover:underline"><i class="fas fa-archive"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -254,98 +397,96 @@ ob_end_flush();
 
     <!-- Add/Edit Client, Pet & Medical Record Modal -->
     <div id="clientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-4xl max-h-[80vh] overflow-hidden flex flex-col border border-teal-800">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-2xl max-h-[85vh] overflow-hidden flex flex-col border border-teal-800">
             <div class="w-full bg-gradient-to-r from-emerald-600 to-teal-700 rounded-t-lg text-gray-800 border-b border-teal-800">
                 <h3 id="modalTitle" class="text-lg font-bold text-center py-2 text-white">Add New Client, Pet & Medical Record</h3>
             </div>
-            <form id="clientForm" method="POST" class="p-4 overflow-y-auto custom-scrollbar">
+            <form id="clientForm" method="POST" class="p-4 overflow-y-auto custom-scrollbar space-y-6">
                 <input type="hidden" name="client_id" id="client_id">
                 <input type="hidden" name="pet_id" id="pet_id">
                 <input type="hidden" name="record_id" id="record_id">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Client Information -->
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Client Information</h4>
-                        <div class="mb-3">
+                <!-- Client Information -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-700 mb-2">Client Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Client Name</label>
-                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <input type="text" name="client_name" id="clientName" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-xs text-gray-500 mb-1">Address</label>
-                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
-                        </div>
-                        <div class="mb-3">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Contact Number</label>
-                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" pattern="[0-9]{10,}" required>
+                            <input type="tel" name="client_contact_number" id="clientContactNumber" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" pattern="[0-9]{10,}" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs text-gray-500 mb-1">Address</label>
+                            <input type="text" name="client_address" id="clientAddress" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" required>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Pet Information -->
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Pet Information</h4>
-                        <div class="mb-3">
+                <!-- Pet Information -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-700 mb-2">Pet Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Pet Name</label>
-                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                         </div>
-                        <div class="mb-3">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Species
                                 <span id="speciesTooltip" class="text-xs text-gray-400 hidden">(Cannot be changed)</span>
                             </label>
-                            <select name="pet_species" id="petSpecies" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <select name="pet_species" id="petSpecies" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                                 <option value="">Select</option>
                                 <option value="Dog">Dog</option>
                                 <option value="Cat">Cat</option>
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Pet Sex
                                 <span id="sexTooltip" class="text-xs text-gray-400 hidden">(Cannot be changed)</span>
                             </label>
-                            <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                                 <option value="">Select</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Pet Breed</label>
-                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                         </div>
-                        <div class="mb-3">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Pet Weight (kg)</label>
-                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                         </div>
-                        <div class="mb-3">
+                        <div>
                             <label class="block text-xs text-gray-500 mb-1">Birth Date</label>
-                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                         </div>
                     </div>
                 </div>
 
                 <!-- Medical Record Information -->
-                <div class="mt-4">
+                <div>
                     <h4 class="text-sm font-bold text-gray-700 mb-2">Medical Record Information</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <div class="mb-3">
-                                <label class="block text-xs text-gray-500 mb-1">Condition</label>
-                                <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="block text-xs text-gray-500 mb-1">Diagnosis</label>
-                                <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
+                            <label class="block text-xs text-gray-500 mb-1">Condition</label>
+                            <textarea name="medical_condition" id="medicalCondition" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
                         </div>
                         <div>
-                            <div class="mb-3">
-                                <label class="block text-xs text-gray-500 mb-1">Symptoms</label>
-                                <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="block text-xs text-gray-500 mb-1">Treatment</label>
-                                <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-200 rounded-md text-sm bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
+                            <label class="block text-xs text-gray-500 mb-1">Diagnosis</label>
+                            <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Symptoms</label>
+                            <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Treatment</label>
+                            <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
                         </div>
                     </div>
                 </div>
@@ -357,6 +498,79 @@ ob_end_flush();
                 </div>
                 <input type="hidden" name="add_client" id="formAction" value="1">
             </form>
+        </div>
+    </div>
+
+
+    <!-- Alternative Neat Card-Style Client Modal -->
+    <div id="clientViewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
+        <div class="bg-white w-full max-w-xl rounded-lg shadow-xl overflow-hidden flex flex-col">
+
+            <!-- Header -->
+            <div class="bg-emerald-600 px-5 py-4 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-white">Client Profile</h3>
+                <button onclick="hideViewModal()" class="text-white hover:text-gray-200 transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 space-y-5 overflow-y-auto max-h-[70vh]">
+
+                <!-- Client Information Card -->
+                <div class="border rounded-lg p-4 shadow-sm bg-gray-50">
+                    <h4 class="flex items-center text-sm font-semibold text-emerald-700 mb-3">
+                        <i class="fas fa-user mr-2"></i> Client Information
+                    </h4>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                            <span class="block text-gray-500">Name</span>
+                            <span id="viewClientName" class="font-medium text-gray-800">-</span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-500">Contact</span>
+                            <span id="viewClientContact" class="font-medium text-gray-800">-</span>
+                        </div>
+                        <div class="col-span-2">
+                            <span class="block text-gray-500">Address</span>
+                            <span id="viewClientAddress" class="font-medium text-gray-800">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pet Information Card -->
+                <div class="border rounded-lg p-4 shadow-sm bg-gray-50">
+                    <h4 class="flex items-center text-sm font-semibold text-emerald-700 mb-3">
+                        <i class="fas fa-paw mr-2"></i> Pet Information
+                    </h4>
+                    <div id="petInfoContainer">
+                        <div id="noPetInfo" class="text-center text-gray-400 text-sm py-3 border rounded bg-white">
+                            <i class="fas fa-paw mr-1"></i> No pets registered
+                        </div>
+                        <div id="petInfoList" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- Medical Records Card -->
+                <div class="border rounded-lg p-4 shadow-sm bg-gray-50">
+                    <h4 class="flex items-center text-sm font-semibold text-emerald-700 mb-3">
+                        <i class="fas fa-file-medical mr-2"></i> Medical Records
+                    </h4>
+                    <div id="medicalInfoContainer">
+                        <div id="noMedicalInfo" class="text-center text-gray-400 text-sm py-3 border rounded bg-white">
+                            <i class="fas fa-file-medical mr-1"></i> No medical records
+                        </div>
+                        <div id="medicalInfoList" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-100 px-5 py-3 flex justify-end border-t">
+                <button onclick="hideViewModal()" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition">
+                    <i class="fas fa-times mr-1"></i> Close
+                </button>
+            </div>
         </div>
     </div>
 
@@ -404,13 +618,23 @@ ob_end_flush();
                 document.getElementById('medicalDiagnosis').setAttribute('required', '');
                 document.getElementById('medicalSymptoms').setAttribute('required', '');
                 document.getElementById('medicalTreatment').setAttribute('required', '');
-            }
-
-            if (action === 'edit') {
+            } else if (action === 'edit') {
                 modalTitle.textContent = 'Edit Client, Pet, and Medical Record';
                 formAction.name = 'update_client';
                 // Debugging: Log pet_id when opening edit modal
                 console.log('Opening edit modal with pet_id:', document.getElementById('pet_id').value);
+            } else if (action === 'view') {
+                modalTitle.textContent = 'View Client, Pet, and Medical Record';
+                formAction.name = ''; // No form action for view
+                // Make all fields read-only and disable them
+                const allInputs = form.querySelectorAll('input, select, textarea');
+                allInputs.forEach(input => {
+                    input.readOnly = true;
+                    input.disabled = true;
+                });
+                // Hide save button
+                const saveButton = form.querySelector('button[type="submit"]');
+                if (saveButton) saveButton.style.display = 'none';
             }
 
             modal.classList.remove('hidden');
@@ -418,6 +642,7 @@ ob_end_flush();
             // Clean URL after showing modal
             const url = new URL(window.location.href);
             url.searchParams.delete('edit_client_id');
+            url.searchParams.delete('view_client_id');
             window.history.replaceState({}, document.title, url);
         }
 
@@ -426,8 +651,232 @@ ob_end_flush();
             // Clean URL when closing modal
             const url = new URL(window.location.href);
             url.searchParams.delete('edit_client_id');
+            url.searchParams.delete('view_client_id');
             window.history.replaceState({}, document.title, url);
         }
+
+        // NEW: Function to show view modal
+        function showViewModal(clientId) {
+            console.log('Fetching client details for ID:', clientId);
+
+            // Show loading state
+            document.getElementById('viewClientName').textContent = 'Loading...';
+            document.getElementById('viewClientContact').textContent = 'Loading...';
+            document.getElementById('viewClientAddress').textContent = 'Loading...';
+
+            // Show the modal immediately with loading state
+            document.getElementById('clientViewModal').classList.remove('hidden');
+
+            // Fetch client data via AJAX
+            fetch(`?get_client_details=${clientId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Received data:', data);
+
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+
+                    if (!data.client) {
+                        throw new Error('Client data not found');
+                    }
+
+                    populateViewModal(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching client details:', error);
+                    showViewModalError(error.message);
+                });
+        }
+
+        // Function to populate view modal with data
+        function populateViewModal(data) {
+            try {
+                // Client Information
+                document.getElementById('viewClientName').textContent = data.client.client_name || 'Not provided';
+                document.getElementById('viewClientContact').textContent = data.client.client_contact_number || 'Not provided';
+                document.getElementById('viewClientAddress').textContent = data.client.client_address || 'Not provided';
+
+                // Pet Information
+                const petInfoList = document.getElementById('petInfoList');
+                const noPetInfo = document.getElementById('noPetInfo');
+
+                if (data.pets && data.pets.length > 0) {
+                    noPetInfo.style.display = 'none';
+                    petInfoList.innerHTML = data.pets.map(pet => `
+                <div class="bg-white rounded border border-gray-200 p-3">
+                    <div class="font-medium text-sm text-gray-800 mb-2">${escapeHtml(pet.pet_name || 'Unnamed Pet')}</div>
+                    <div class="space-y-1">
+                        <div class="info-row">
+                            <span class="info-label">Species</span>
+                            <span class="info-value">${escapeHtml(pet.pet_species || '-')}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Sex</span>
+                            <span class="info-value">${escapeHtml(pet.pet_sex || '-')}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Breed</span>
+                            <span class="info-value">${escapeHtml(pet.pet_breed || '-')}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Weight</span>
+                            <span class="info-value">${pet.pet_weight ? pet.pet_weight + ' kg' : '-'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Age</span>
+                            <span class="info-value">${calculateAge(pet.pet_birth_date) || '-'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+                } else {
+                    noPetInfo.style.display = 'block';
+                    petInfoList.innerHTML = '';
+                }
+
+                // Medical Records Information
+                const medicalInfoList = document.getElementById('medicalInfoList');
+                const noMedicalInfo = document.getElementById('noMedicalInfo');
+
+                if (data.medicalRecords && data.medicalRecords.length > 0) {
+                    noMedicalInfo.style.display = 'none';
+                    medicalInfoList.innerHTML = data.medicalRecords.map(record => `
+                <div class="bg-white rounded border border-gray-200 p-3">
+                    <div class="font-medium text-sm text-gray-800 mb-2">Record for ${escapeHtml(record.pet_name || 'Pet')}</div>
+                    <div class="space-y-1">
+                        <div class="info-row">
+                            <span class="info-label">Condition</span>
+                            <span class="info-value">${escapeHtml(record.medical_condition || '-')}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Diagnosis</span>
+                            <span class="info-value">${escapeHtml(record.medical_diagnosis || '-')}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Treatment</span>
+                            <span class="info-value">${escapeHtml(record.medical_treatment || '-')}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+                } else {
+                    noMedicalInfo.style.display = 'block';
+                    medicalInfoList.innerHTML = '';
+                }
+            } catch (error) {
+                console.error('Error populating view modal:', error);
+                showViewModalError('Error displaying client details');
+            }
+        }
+
+        // Function to show error in view modal
+        function showViewModalError(errorMessage) {
+            document.getElementById('viewClientName').textContent = 'Error loading data';
+            document.getElementById('viewClientContact').textContent = '-';
+            document.getElementById('viewClientAddress').textContent = '-';
+
+            const petInfoList = document.getElementById('petInfoList');
+            const noPetInfo = document.getElementById('noPetInfo');
+            const medicalInfoList = document.getElementById('medicalInfoList');
+            const noMedicalInfo = document.getElementById('noMedicalInfo');
+
+            if (noPetInfo) noPetInfo.style.display = 'none';
+            if (noMedicalInfo) noMedicalInfo.style.display = 'none';
+
+            if (petInfoList) {
+                petInfoList.innerHTML = `<div class="text-center text-red-500 text-sm py-2">
+            <i class="fas fa-exclamation-triangle mr-1"></i>Error loading pets
+        </div>`;
+            }
+
+            if (medicalInfoList) {
+                medicalInfoList.innerHTML = `<div class="text-center text-red-500 text-sm py-2">
+            <i class="fas fa-exclamation-triangle mr-1"></i>Error loading records
+        </div>`;
+            }
+        }
+
+        // Keep other helper functions the same (showViewModal, escapeHtml, calculateAge, hideViewModal)
+
+        // NEW: Helper function to escape HTML
+        function escapeHtml(unsafe) {
+            if (unsafe === null || unsafe === undefined) return '';
+            return unsafe
+                .toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // NEW: Helper function to calculate age from birth date
+        function calculateAge(birthDate) {
+            if (!birthDate) return '-';
+
+            try {
+                const birth = new Date(birthDate);
+                const now = new Date();
+                let years = now.getFullYear() - birth.getFullYear();
+                let months = now.getMonth() - birth.getMonth();
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                if (years === 0) {
+                    return `${months} month${months !== 1 ? 's' : ''}`;
+                } else {
+                    return `${years} year${years !== 1 ? 's' : ''} ${months} month${months !== 1 ? 's' : ''}`;
+                }
+            } catch (error) {
+                console.error('Error calculating age:', error);
+                return '-';
+            }
+        }
+
+        // NEW: Function to hide view modal
+        function hideViewModal() {
+            document.getElementById('clientViewModal').classList.add('hidden');
+            // Reset modal content for next time
+            document.getElementById('viewClientName').textContent = '-';
+            document.getElementById('viewClientContact').textContent = '-';
+            document.getElementById('viewClientAddress').textContent = '-';
+
+            const noPetInfo = document.getElementById('noPetInfo');
+            const noMedicalInfo = document.getElementById('noMedicalInfo');
+            const petInfoList = document.getElementById('petInfoList');
+            const medicalInfoList = document.getElementById('medicalInfoList');
+
+            if (noPetInfo) noPetInfo.style.display = 'block';
+            if (noMedicalInfo) noMedicalInfo.style.display = 'block';
+            if (petInfoList) petInfoList.innerHTML = '';
+            if (medicalInfoList) medicalInfoList.innerHTML = '';
+        }
+
+        // NEW: Update table view links to use the new modal
+        document.addEventListener('DOMContentLoaded', function() {
+            // Replace the existing view links to use the new modal
+            document.querySelectorAll('a[href*="view_client_id"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const urlParams = new URLSearchParams(this.href.split('?')[1]);
+                    const clientId = urlParams.get('view_client_id');
+                    if (clientId) {
+                        showViewModal(clientId);
+                    } else {
+                        console.error('No client ID found in view link');
+                    }
+                });
+            });
+        });
 
         function confirmDelete(clientId) {
             if (typeof Swal === 'undefined') {
@@ -565,6 +1014,10 @@ ob_end_flush();
         }
 
         document.getElementById('clientForm').addEventListener('submit', function(event) {
+            if (modalTitle.textContent.includes('View')) {
+                event.preventDefault(); // Prevent submit in view mode
+                return;
+            }
             const medicalFields = ['medicalCondition', 'medicalDiagnosis', 'medicalSymptoms', 'medicalTreatment'];
             const petFields = ['petName', 'petSpecies', 'petSex', 'petBreed', 'petWeight', 'petBirthDate'];
             const petId = document.getElementById('pet_id').value.trim();

@@ -1,7 +1,6 @@
 <?php
-session_start();
-require_once '../record-handler.php';
 require_once __DIR__ . "/../../functions/auth.php";
+require_once '../record-handler.php';
 requireAdmin();
 
 
@@ -450,6 +449,8 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
             <a href="../admin.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
+
+            <!-- records -->
             <div class="space-y-0.5">
                 <button id="recordsBtn" class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-teal-800 transition-colors">
                     <i class="fa-solid fa-file-lines"></i>

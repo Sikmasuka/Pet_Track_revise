@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        $message = 'Invalid username';
+        $message = 'Invalid username or password';
         return;
     }
 
@@ -87,6 +87,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         }
     } else {
         // Invalid password
-        $message = 'Incorrect password';
+        $message = 'Invalid username or password';
     }
+}
+
+// 🔴 ADD THIS PART BELOW
+if ($login_success) {
+    // Instead of header() redirect, show loader with smooth transition
+    echo '
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Redirecting...</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="flex flex-col items-center justify-center h-screen bg-white">
+        <!-- Your blinking icon -->
+        <img src="image/MainIcon.png" alt="Loading Icon" class="w-20 h-20 animate-pulse">
+        <p class="mt-4 text-teal-700 font-semibold text-lg">Logging you in...</p>
+
+        <script>
+            setTimeout(function() {
+                window.location.href = "' . $redirect_url . '";
+            }, 1500); // 1.5 sec loader
+        </script>
+    </body>
+    </html>
+    ';
+    exit;
 }

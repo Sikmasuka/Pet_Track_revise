@@ -310,6 +310,110 @@ $petToEdit = $editData['pet'];
 $medicalRecordToEdit = $editData['medical_record'];
 $error = $error ?? $editData['error'];
 
+
+// Handle Viewing the clients details
+function getDataToView($pdo)
+{
+    $clientToView = null;
+    $petToView = null;
+    $medicalToView = null;
+
+    if (isset($_GET['view_client_id']) && is_numeric($_GET['view_client_id'])) {
+        try {
+            //Get Client info
+            $stmt = $pdo->prepare("SELECT * FROM Client WHERE client_id = ? AND status = 1");
+            $stmt->execute([(int)$_GET['view_client_id']]);
+            $clientToView = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($clientToView) {
+                $stmt = $pdo->prepare("SELECT * FROM Pet WHERE client_id = ? AND status = 1");
+                $stmt->execute([(int)$_GET['view_client_id']]);
+                $petToView = $stmt->fetch(PDO::FETCH_ASSOC);
+                error_log("Pet to view for client_id {$_GET['view_client_id']}: " . json_encode($petToView));
+
+                if ($petToView) {
+                    $stmt = $pdo->prepare("SELECT * FROM Medical_Records WHERE pet_id = ? AND status = 1");
+                    $stmt->execute([$petToView['pet_id']]);
+                    $medicalToView = $stmt->fetch(PDO::FETCH_ASSOC);
+                    error_log("Medical record to view for pet_id {$petToView['pet_id']}: " . json_encode($medicalToView));
+                }
+            }
+        } catch (PDOException $e) {
+            $error = "Database error: " . $e->getMessage();
+            error_log("Database error in getDataToView: " . $e->getMessage());
+        }
+    }
+
+    return ([
+        'client' => $clientToView,
+        'pet' => $petToView,
+        'medical_record' => $medicalToView,
+        'error' => $error ?? null
+    ]);
+}
+
+// Get data for viewing
+$viewData = getDataToView($pdo);
+$clientToView = $viewData['client'];
+$petToView = $viewData['pet'];
+$medicalToView = $viewData['medical_record'];
+$error = $error ?? $viewData['error'];
+
+
+// Add this code to your existing clients-handler.php file
+
+// Handle AJAX request for client details
+if (isset($_GET['get_client_details'])) {
+    $clientId = (int)$_GET['get_client_details'];
+
+    try {
+        // Fetch client data - using correct table name 'Client' (capital C)
+        $stmt = $pdo->prepare("SELECT * FROM Client WHERE client_id = ? AND status = 1");
+        $stmt->execute([$clientId]);
+        $client = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$client) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Client not found']);
+            exit;
+        }
+
+        // Fetch pets for this client - using correct table name 'Pet' (capital P)
+        $stmt = $pdo->prepare("SELECT * FROM Pet WHERE client_id = ? AND status = 1");
+        $stmt->execute([$clientId]);
+        $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fetch medical records for this client's pets - using correct table names
+        $medicalRecords = [];
+        if ($pets && count($pets) > 0) {
+            $petIds = array_column($pets, 'pet_id');
+            $placeholders = str_repeat('?,', count($petIds) - 1) . '?';
+
+            $stmt = $pdo->prepare("SELECT mr.*, p.pet_name 
+                                  FROM Medical_Records mr 
+                                  JOIN Pet p ON mr.pet_id = p.pet_id 
+                                  WHERE mr.pet_id IN ($placeholders) AND mr.status = 1
+                                  ORDER BY mr.record_date DESC");
+            $stmt->execute($petIds);
+            $medicalRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'client' => $client,
+            'pets' => $pets,
+            'medicalRecords' => $medicalRecords
+        ]);
+        exit;
+    } catch (PDOException $e) {
+        error_log("AJAX Error: " . $e->getMessage());
+        header('Content-Type: application/json');
+        http_response_code(500);
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
 /**
  * Fetch all clients
  */

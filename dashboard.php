@@ -128,6 +128,8 @@ ob_end_flush();
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+
+
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
             <div class="flex justify-between items-center mb-6">
@@ -210,6 +212,12 @@ ob_end_flush();
 
         <!-- Main Content -->
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
+            <!-- Loader Overlay -->
+            <div id="loader" class="fixed inset-0 flex flex-col items-center justify-center bg-white z-[9999] hidden">
+                <img src="image/MainIcon.png" alt="Loading Icon" class="w-20 h-20 animate-pulse">
+                <p class="mt-4 text-teal-700 font-semibold text-lg">Loading...</p>
+            </div>
+
             <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-800 mb-6">Analytics Overview</h2>
             <div class="flex flex-col lg:flex-row gap-8">
                 <div class="flex-1 bg-white border border-slate-200 rounded-lg p-4 shadow-lg hover:border-indigo-400 transition-colors">

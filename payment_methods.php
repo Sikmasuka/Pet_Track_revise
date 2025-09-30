@@ -384,7 +384,6 @@ try {
                             </option>
                         <?php endforeach; ?>
                     </select>
-
                 </div>
                 <div class="mb-3">
                     <label class="block text-xs font-medium text-gray-700 mb-1">Payment Method</label>
