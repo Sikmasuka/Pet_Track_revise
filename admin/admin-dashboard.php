@@ -202,88 +202,158 @@ ob_end_flush();
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
-                <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                        <div class="px-4 py-3 border-b border-slate-200">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?php echo $adminName; ?></p>
-                                    <p class="text-xs text-gray-500">Admin</p>
-                                </div>
+
+                <!-- Right Side (Notifications + Profile) -->
+                <div class="flex items-center gap-2">
+                    <!-- Notification Bell -->
+                    <div class="relative inline-block text-left">
+                        <button id="notificationButton"
+                            class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors relative">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationCount"
+                                class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+                        </button>
+                        <div id="notificationDropdown"
+                            class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                            <div class="px-4 py-3 border-b border-slate-200">
+                                <p class="text-sm font-semibold text-gray-800">Notifications</p>
+                            </div>
+                            <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
+                                <!-- Notifications will be appended here -->
+                            </div>
+                            <div class="py-2 border-t border-slate-200">
+                                <a href="#" onclick="markAllAsRead(event)"
+                                    class="block text-center text-sm text-indigo-500 hover:text-indigo-600">Mark all as
+                                    read</a>
                             </div>
                         </div>
-                        <div class="py-1">
-                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
-                                <i class="fas fa-edit text-indigo-400"></i>
-                                <div>
-                                    <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-gray-500">Update your information</div>
+                    </div>
+
+                    <!-- Profile Dropdown -->
+                    <div class="relative inline-block text-left">
+                        <button id="profileButton"
+                            class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <div id="dropdownMenu"
+                            class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                            <div class="px-4 py-3 border-b border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800">
+                                            <?php echo isset($vetName) ? $vetName : $adminName; ?>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            <?php echo isset($vetName) ? 'Veterinarian' : 'Admin'; ?>
+                                        </p>
+                                    </div>
                                 </div>
-                            </a>
-                            <hr class="my-1 border-slate-200">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-500"></i>
-                                <div>
-                                    <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-600">Sign out of your account</div>
-                                </div>
-                            </a>
+                            </div>
+                            <div class="py-1">
+                                <a href="#" id="editProfileLink"
+                                    class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                                    <i class="fas fa-edit text-indigo-400"></i>
+                                    <div>
+                                        <div class="font-medium">Edit Profile</div>
+                                        <div class="text-xs text-gray-500">Update your information</div>
+                                    </div>
+                                </a>
+                                <hr class="my-1 border-slate-200">
+                                <a href="#" onclick="confirmLogout(event)"
+                                    class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                    <i class="fas fa-sign-out-alt text-red-500"></i>
+                                    <div>
+                                        <div class="font-medium">Logout</div>
+                                        <div class="text-xs text-red-600">Sign out of your account</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Metrics Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
-                <div class="bg-white p-4 rounded-md h-full relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="./records/client-records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
+                <div
+                    class="bg-white p-3 rounded-md h-full relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="./records/client-records.php"
+                        class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-xl text-indigo-500"></i> Clients</h3>
-                        <p class="text-xl"><?= $clientCount ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i
+                                class="fas fa-user mr-1 text-lg text-indigo-500"></i> Clients</h3>
+                        <p class="text-base"><?= $clientCount ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="./admin.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div
+                    class="bg-white p-3 rounded-md h-full relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="./admin.php"
+                        class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user-md mr-2 text-xl text-indigo-500"></i> Veterinarian</h3>
-                        <p class="text-xl"><?= $vetCount ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-base mb-1"><i
+                                class="fas fa-user-md mr-1 text-base text-indigo-500"></i> Vets</h3>
+                        <p class="text-sm"><?= $vetCount ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="./records/pet-records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div
+                    class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="./records/pet-records.php"
+                        class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-xl text-teal-500"></i> Pets</h3>
-                        <p class="text-xl"><?= $petCount ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i
+                                class="fas fa-paw mr-1 text-lg text-teal-500"></i> Pets</h3>
+                        <p class="text-base"><?= $petCount ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="./records/medical-records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div
+                    class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="./records/medical-records.php"
+                        class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-xl text-blue-500"></i> Medical Records</h3>
-                        <p class="text-xl"><?= $recordCount ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i
+                                class="fas fa-file-medical mr-1 text-lg text-blue-500"></i> Records</h3>
+                        <p class="text-base"><?= $recordCount ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="./records/admin-payments.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div
+                    class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="./records/admin-payments.php"
+                        class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
+                        <i class="fa-solid fa-money-bill-wave mr-1 text-lg text-indigo-500"></i>
+                    </a>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1">Payments</h3>
+                        <p class="text-base">₱<?= number_format($totalPayment, 2) ?></p>
+                    </div>
+                </div>
+
+                <!-- Appointments Today -->
+                <div
+                    class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="appointments.php"
+                        class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-xl text-indigo-500"></i> Total Payments</h3>
-                        <p class="text-xl">₱<?= number_format($totalPayment, 2) ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i
+                                class="fa-solid fa-calendar-check mr-1 text-lg text-green-500"></i> Today</h3>
+                        <p class="text-base"><?php echo isset($appointmentsToday) ? $appointmentsToday : 0; ?></p>
                     </div>
                 </div>
             </div>
@@ -566,6 +636,7 @@ ob_end_flush();
     <script src="../js/edit-profile.js"></script>
     <script src="../js/profile-dropdown.js"></script>
     <script src="../js/confirmLogout.js"></script>
+    <script src="../js/admin-notification-bell.js"></script>
 </body>
 
 </html>
