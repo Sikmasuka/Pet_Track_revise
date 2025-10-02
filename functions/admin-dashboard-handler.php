@@ -34,6 +34,16 @@ $stmtVet = $pdo->prepare("SELECT COUNT(*) FROM Veterinarian");
 $stmtVet->execute();
 $vetCount = $stmtVet->fetchColumn();
 
+$today = date('Y-m-d');
+
+$stmtAppointments = $pdo->prepare("
+    SELECT COUNT(*) 
+    FROM Appointments 
+    WHERE DATE(created_at) = :today
+");
+$stmtAppointments->execute(['today' => $today]);
+$appointmentsToday = $stmtAppointments->fetchColumn();
+
 // Fetch most common medical conditions
 $stmtConditions = $pdo->prepare("
     SELECT medical_condition, COUNT(*) AS condition_count

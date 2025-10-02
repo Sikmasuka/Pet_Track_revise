@@ -129,7 +129,6 @@ ob_end_flush();
 
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
 
-
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
             <div class="flex justify-between items-center mb-6">
@@ -142,8 +141,8 @@ ob_end_flush();
                             <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
                         </button>
                         <div id="notificationDropdown" class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                            <div class="px-4 py-3 border-b border-slate-200">
-                                <p class="text-sm font-semibold text-gray-800">Notifications</p>
+                            <div class="bg-blue-500 px-4 py-3 border-b border-blue-200">
+                                <p class="text-sm font-semibold text-white">Notifications</p>
                             </div>
                             <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
                                 <!-- Notifications will be appended here -->
@@ -192,6 +191,7 @@ ob_end_flush();
                 </div>
             </div>
 
+            <!-- Metrics Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4">
                 <div class="bg-white p-3 rounded-md h-full relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="clients.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
@@ -244,7 +244,6 @@ ob_end_flush();
                     </div>
                 </div>
             </div>
-
         </header>
 
         <!-- Main Content -->
