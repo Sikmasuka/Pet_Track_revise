@@ -38,13 +38,25 @@ $stmtRecords = $pdo->prepare("SELECT COUNT(*) FROM Medical_Records");
 $stmtRecords->execute();
 $recordCount = $stmtRecords->fetchColumn();
 
+$today = date('Y-m-d');
+
+$stmtAppointments = $pdo->prepare("
+    SELECT COUNT(*) 
+    FROM Appointments 
+    WHERE DATE(created_at) = :today
+");
+$stmtAppointments->execute(['today' => $today]);
+$appointmentsToday = $stmtAppointments->fetchColumn();
+
+
+
 // Fetch most common medical conditions
 $stmtConditions = $pdo->prepare("
-    SELECT medical_condition, COUNT(*) AS condition_count
-    FROM Medical_Records
-    GROUP BY medical_condition
-    ORDER BY condition_count DESC
-    LIMIT 5
+SELECT medical_condition, COUNT(*) AS condition_count
+FROM Medical_Records
+GROUP BY medical_condition
+ORDER BY condition_count DESC
+LIMIT 5
 ");
 $stmtConditions->execute();
 $conditions = $stmtConditions->fetchAll();
@@ -66,12 +78,12 @@ $totalPayment = $totalPayment ? number_format((float) $totalPayment, 2, '.', '')
 
 // Fetch monthly income (grouped by month)s
 $stmtMonthly = $pdo->prepare("
-    SELECT DATE_FORMAT(date, '%b') AS month,
-           MONTH(date) AS month_num,
-           SUM(amount) AS total
-    FROM Payments
-    GROUP BY month_num
-    ORDER BY month_num
+SELECT DATE_FORMAT(date, '%b') AS month,
+MONTH(date) AS month_num,
+SUM(amount) AS total
+FROM Payments
+GROUP BY month_num
+ORDER BY month_num
 ");
 $stmtMonthly->execute();
 $monthlyData = $stmtMonthly->fetchAll();

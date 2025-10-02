@@ -31,11 +31,15 @@ function restoreRecord($pdo, $id, $table)
             $client = $stmt->fetch(PDO::FETCH_ASSOC);
             $client_name = $client ? htmlspecialchars($client['client_name']) : 'Unknown';
 
-            // Fetch vet username for logging
-            $stmt = $pdo->prepare("SELECT vet_username FROM veterinarian WHERE vet_id = ?");
-            $stmt->execute([$_SESSION['vet_id']]);
-            $vet = $stmt->fetch(PDO::FETCH_ASSOC);
-            $username = $vet ? htmlspecialchars($vet['vet_username']) : 'Unknown';
+            // Fetch username for logging
+            $username = 'Unknown';
+            if (isset($_SESSION['vet_id'])) {
+                $stmt = $pdo->prepare("SELECT vet_username FROM veterinarian WHERE vet_id = ?");
+                $stmt->execute([$_SESSION['vet_id']]);
+                $vet = $stmt->fetch(PDO::FETCH_ASSOC);
+                $username = $vet ? htmlspecialchars($vet['vet_username']) : 'Unknown';
+            }
+
 
             // Begin transaction to ensure atomicity
             $pdo->beginTransaction();
@@ -65,11 +69,15 @@ function restoreRecord($pdo, $id, $table)
             $record = $stmt->fetch(PDO::FETCH_ASSOC);
             $pet_name = $record ? htmlspecialchars($record['pet_name']) : 'Unknown';
 
-            // Fetch vet username for logging
-            $stmt = $pdo->prepare("SELECT vet_username FROM veterinarian WHERE vet_id = ?");
-            $stmt->execute([$_SESSION['vet_id']]);
-            $vet = $stmt->fetch(PDO::FETCH_ASSOC);
-            $username = $vet ? htmlspecialchars($vet['vet_username']) : 'Unknown';
+            // Fetch username for logging
+            $username = 'Unknown';
+            if (isset($_SESSION['vet_id'])) {
+                $stmt = $pdo->prepare("SELECT vet_username FROM veterinarian WHERE vet_id = ?");
+                $stmt->execute([$_SESSION['vet_id']]);
+                $vet = $stmt->fetch(PDO::FETCH_ASSOC);
+                $username = $vet ? htmlspecialchars($vet['vet_username']) : 'Unknown';
+            }
+
 
             // Restore medical record
             $pdo->prepare("UPDATE Medical_Records SET status = 1, updated_at = NOW() WHERE record_id = ?")->execute([$id]);
@@ -100,11 +108,14 @@ function deleteFromArchive($pdo, $id, $table)
             $client = $stmt->fetch(PDO::FETCH_ASSOC);
             $client_name = $client ? htmlspecialchars($client['client_name']) : 'Unknown';
 
-            // Fetch vet username for logging
-            $stmt = $pdo->prepare("SELECT vet_username FROM veterinarian WHERE vet_id = ?");
-            $stmt->execute([$_SESSION['vet_id']]);
-            $vet = $stmt->fetch(PDO::FETCH_ASSOC);
-            $username = $vet ? htmlspecialchars($vet['vet_username']) : 'Unknown';
+            // Fetch username for logging
+            $username = 'Unknown';
+            if (isset($_SESSION['vet_id'])) {
+                $stmt = $pdo->prepare("SELECT vet_username FROM veterinarian WHERE vet_id = ?");
+                $stmt->execute([$_SESSION['vet_id']]);
+                $vet = $stmt->fetch(PDO::FETCH_ASSOC);
+                $username = $vet ? htmlspecialchars($vet['vet_username']) : 'Unknown';
+            }
 
             // Begin transaction
             $pdo->beginTransaction();

@@ -133,81 +133,118 @@ ob_end_flush();
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
-                <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                        <div class="px-4 py-3 border-b border-slate-200">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
-                                    <p class="text-xs text-gray-500">Veterinarian</p>
-                                </div>
+                <h1 class="text-xl lg:text-2xl font-bold">Welcome To Dashboard!</h1>
+                <div class="flex items-center gap-2">
+                    <!-- Notification Bell -->
+                    <div class="relative inline-block text-left">
+                        <button id="notificationButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors relative">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+                        </button>
+                        <div id="notificationDropdown" class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                            <div class="px-4 py-3 border-b border-slate-200">
+                                <p class="text-sm font-semibold text-gray-800">Notifications</p>
+                            </div>
+                            <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
+                                <!-- Notifications will be appended here -->
+                            </div>
+                            <div class="py-2 border-t border-slate-200">
+                                <a href="#" onclick="markAllAsRead(event)" class="block text-center text-sm text-indigo-500 hover:text-indigo-600">Mark all as read</a>
                             </div>
                         </div>
-                        <div class="py-1">
-                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
-                                <i class="fas fa-edit text-indigo-400"></i>
-                                <div>
-                                    <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-gray-500">Update your information</div>
+                    </div>
+                    <!-- Profile Dropdown -->
+                    <div class="relative inline-block text-left">
+                        <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                            <div class="px-4 py-3 border-b border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800"><?php echo $vetName; ?></p>
+                                        <p class="text-xs text-gray-500">Veterinarian</p>
+                                    </div>
                                 </div>
-                            </a>
-                            <hr class="my-1 border-slate-200">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-500"></i>
-                                <div>
-                                    <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-600">Sign out of your account</div>
-                                </div>
-                            </a>
+                            </div>
+                            <div class="py-1">
+                                <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                                    <i class="fas fa-edit text-indigo-400"></i>
+                                    <div>
+                                        <div class="font-medium">Edit Profile</div>
+                                        <div class="text-xs text-gray-500">Update your information</div>
+                                    </div>
+                                </a>
+                                <hr class="my-1 border-slate-200">
+                                <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                    <i class="fas fa-sign-out-alt text-red-500"></i>
+                                    <div>
+                                        <div class="font-medium">Logout</div>
+                                        <div class="text-xs text-red-600">Sign out of your account</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-                <div class="bg-white p-4 rounded-md h-full relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="clients.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4">
+                <div class="bg-white p-3 rounded-md h-full relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="clients.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-user mr-2 text-xl text-indigo-500"></i> Clients</h3>
-                        <p class="text-xl"><?php echo isset($clientCount) ? $clientCount : 0; ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i class="fas fa-user mr-1 text-lg text-indigo-500"></i> Clients</h3>
+                        <p class="text-base"><?php echo isset($clientCount) ? $clientCount : 0; ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="pets.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="pets.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-paw mr-2 text-xl text-teal-500"></i> Pets</h3>
-                        <p class="text-xl"><?php echo isset($petCount) ? $petCount : 0; ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i class="fas fa-paw mr-1 text-lg text-teal-500"></i> Pets</h3>
+                        <p class="text-base"><?php echo isset($petCount) ? $petCount : 0; ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="medical_records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="medical_records.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fas fa-file-medical mr-2 text-xl text-blue-500"></i> Medical Records</h3>
-                        <p class="text-xl"><?php echo isset($recordCount) ? $recordCount : 0; ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i class="fas fa-file-medical mr-1 text-lg text-blue-500"></i> Records</h3>
+                        <p class="text-base"><?php echo isset($recordCount) ? $recordCount : 0; ?></p>
                     </div>
                 </div>
-                <div class="bg-white p-5 rounded-md relative shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors">
-                    <a href="payment_methods.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors">
+
+                <div class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="payment_methods.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                    <div class="text-center mt-4">
-                        <h3 class="font-bold text-xl mb-1"><i class="fa-solid fa-money-bill-wave mr-2 text-xl text-indigo-500"></i> Total Payments</h3>
-                        <p class="text-xl">₱<?php echo isset($totalPayment) ? number_format($totalPayment, 2) : '0.00'; ?></p>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i class="fa-solid fa-money-bill-wave mr-1 text-lg text-indigo-500"></i> Payments</h3>
+                        <p class="text-base">₱<?php echo isset($totalPayment) ? number_format($totalPayment, 2) : '0.00'; ?></p>
+                    </div>
+                </div>
+
+                <!-- Appointments Today -->
+                <div class="bg-white p-3 rounded-md relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
+                    <a href="appointments.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <div class="text-center mt-2">
+                        <h3 class="font-semibold text-lg mb-1"><i class="fa-solid fa-calendar-check mr-1 text-lg text-green-500"></i> Today</h3>
+                        <p class="text-base"><?php echo isset($appointmentsToday) ? $appointmentsToday : 0; ?></p>
                     </div>
                 </div>
             </div>
+
         </header>
 
         <!-- Main Content -->
@@ -426,6 +463,123 @@ ob_end_flush();
         document.addEventListener('DOMContentLoaded', () => {
             fetchRecentActivities(1);
         });
+
+        // Notification Handling
+        document.addEventListener('DOMContentLoaded', () => {
+            const notificationButton = document.getElementById('notificationButton');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+
+            notificationButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notificationDropdown.classList.toggle('opacity-0');
+                notificationDropdown.classList.toggle('scale-95');
+                notificationDropdown.classList.toggle('pointer-events-none');
+                if (!notificationDropdown.classList.contains('opacity-0')) {
+                    fetchNotifications();
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!notificationButton.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                }
+            });
+
+            // Initial count fetch
+            fetchNotificationCount();
+
+            // Poll for notification count every 10 seconds
+            setInterval(fetchNotificationCount, 10000);
+        });
+
+        async function fetchNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            notificationList.innerHTML = '<div class="px-4 py-2 text-sm text-center text-gray-500">Loading...</div>';
+
+            try {
+                const response = await fetch('./functions/get-recent-activities.php?page=1');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                const activities = data.activities || [];
+
+                const filteredActivities = activities.filter(activity => {
+                    const desc = (activity.Description || '').toLowerCase();
+                    return desc.includes('appointment') || desc.includes('deleted') || desc.includes('created') || desc.includes('added');
+                });
+
+                let lastViewed = parseInt(localStorage.getItem('lastViewedNotificationTimestamp') || '0', 10);
+                const newActivities = filteredActivities.filter(activity => new Date(activity.Timestamp).getTime() > lastViewed);
+
+                notificationList.innerHTML = '';
+                if (filteredActivities.length === 0) {
+                    notificationList.innerHTML = '<div class="px-4 py-2 text-sm text-center text-gray-500">No notifications</div>';
+                } else {
+                    filteredActivities.forEach(activity => {
+                        const timestamp = new Date(activity.Timestamp);
+                        const formattedDate = isNaN(timestamp.getTime()) ? 'Unknown' : timestamp.toLocaleString();
+                        const item = `
+                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-info-circle text-indigo-400"></i>
+                                <div>
+                                    <div class="font-medium">${activity.name || 'System'} - ${activity.Description || 'No description'}</div>
+                                    <div class="text-xs text-gray-500">${formattedDate}</div>
+                                </div>
+                            </a>
+                        `;
+                        notificationList.insertAdjacentHTML('beforeend', item);
+                    });
+                }
+
+                // Mark as read by updating the timestamp to the latest activity's timestamp
+                if (filteredActivities.length > 0) {
+                    const latestTimestamp = new Date(filteredActivities[0].Timestamp).getTime();
+                    localStorage.setItem('lastViewedNotificationTimestamp', latestTimestamp);
+                    updateNotificationCount(0);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                notificationList.innerHTML = '<div class="px-4 py-2 text-sm text-center text-red-500">Failed to load notifications</div>';
+            }
+        }
+
+        async function fetchNotificationCount() {
+            try {
+                const response = await fetch('./functions/get-recent-activities.php?page=1');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                const activities = data.activities || [];
+
+                const filtered = activities.filter(activity => {
+                    const desc = (activity.Description || '').toLowerCase();
+                    return desc.includes('appointment') || desc.includes('deleted') || desc.includes('created') || desc.includes('added');
+                });
+
+                let lastViewed = parseInt(localStorage.getItem('lastViewedNotificationTimestamp') || '0', 10);
+                const newCount = filtered.filter(activity => new Date(activity.Timestamp).getTime() > lastViewed).length;
+
+                updateNotificationCount(newCount);
+            } catch (error) {
+                console.error('Fetch count error:', error);
+            }
+        }
+
+        function updateNotificationCount(count) {
+            const span = document.getElementById('notificationCount');
+            if (count > 0) {
+                span.textContent = count;
+                span.classList.remove('hidden');
+            } else {
+                span.classList.add('hidden');
+            }
+        }
+
+        function markAllAsRead(e) {
+            e.preventDefault();
+            localStorage.setItem('lastViewedNotificationTimestamp', Date.now());
+            updateNotificationCount(0);
+            const notificationList = document.getElementById('notificationList');
+            notificationList.innerHTML = '<div class="px-4 py-2 text-sm text-center text-gray-500">All notifications marked as read</div>';
+        }
     </script>
 
     <script src="./js/dashboard.js"></script>

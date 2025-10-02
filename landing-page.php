@@ -223,6 +223,24 @@
         #takenTimeSlots:empty {
             display: none;
         }
+
+        /* Additional responsive styles */
+        .nav-links.mobile-open {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 64px;
+            left: 0;
+            width: 100%;
+            background-color: #169976;
+            padding: 1rem;
+            z-index: 40;
+        }
+
+        .nav-links.mobile-open a {
+            padding: 0.75rem 0;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -235,8 +253,11 @@
                 <p class="text-white font-bold text-xl">PetTrack</p>
             </div>
 
-            <div class="flex items-center gap-10">
-                <nav class="nav-links flex items-center gap-6">
+            <div class="flex items-center gap-4">
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <nav class="nav-links hidden md:flex items-center gap-6">
                     <a class="text-white font-semibold relative group" href="#">
                         <span class="group-hover:opacity-80 transition-opacity duration-200">Home</span>
                         <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
@@ -289,7 +310,7 @@
             </div>
 
             <!-- Our Story -->
-            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
                 <div class="space-y-4">
                     <h3 class="text-2xl font-bold text-gray-800">Our Story</h3>
                     <p class="text-gray-600 leading-relaxed">Founded in 2018, PetTrack began with a simple mission: to make pet care management as seamless and stress-free as possible for pet owners. What started as a small team of pet lovers and tech enthusiasts has grown into a comprehensive platform trusted by thousands of pet owners nationwide.</p>
@@ -301,7 +322,7 @@
             </div>
 
             <!-- Mission & Vision -->
-            <div class="grid md:grid-cols-2 gap-8 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                 <div class="mission-vision-card bg-white p-8 rounded-xl text-center">
                     <div class="w-12 h-12 bg-[#1DCD9F] rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-bullseye text-white text-xl"></i>
@@ -321,7 +342,7 @@
             <!-- Why Choose Us -->
             <div class="mb-16">
                 <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">Why Choose PetTrack?</h3>
-                <div class="grid md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="why-choose-card text-center">
                         <div class="w-14 h-14 bg-[#1DCD9F] rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-shield-alt text-white text-xl"></i>
@@ -369,7 +390,7 @@
             <!-- Team -->
             <div>
                 <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">Our Team</h3>
-                <div class="grid md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="team-card text-center">
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ccircle fill='%23169976' cx='60' cy='60' r='60'/%3E%3Ccircle fill='%23ffffff' cx='60' cy='45' r='20'/%3E%3Cpath fill='%23ffffff' d='M40,95 Q60,75 80,95 Z'/%3E%3C/svg%3E" alt="Team member" class="w-20 h-20 rounded-full mx-auto mb-4">
                         <h4 class="text-lg font-semibold text-gray-800 mb-2">Sarah Johnson</h4>
@@ -403,7 +424,7 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="service-card bg-white rounded-xl p-6 text-center shadow-lg">
                     <div class="w-16 h-16 bg-[#1DCD9F] rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-paw text-white text-2xl"></i>
@@ -446,22 +467,34 @@
 
     <!-- Appointment Modal -->
     <div id="appointmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
-        <div class="bg-white w-full max-w-md mx-4 h-[90vh] rounded-xl shadow-lg flex flex-col" tabindex="-1">
+        <div class="bg-white w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-4 h-[90vh] lg:h-[85vh] rounded-xl shadow-lg flex flex-col" tabindex="-1">
+
+            <!-- Header -->
             <div class="bg-[#169976] px-6 py-4 rounded-t-xl sticky top-0 z-10 flex justify-between items-center">
                 <h2 id="modalTitle" class="text-xl font-semibold text-white text-center">Book an Appointment</h2>
                 <button type="button" onclick="closeModal()" class="text-white hover:text-gray-200 focus:outline-none" aria-label="Close modal">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
+
+            <!-- Form -->
             <form id="appointmentForm" method="POST" action="./functions/appointment-handler.php" class="p-6 space-y-4 overflow-y-auto flex-1">
-                <div>
-                    <label for="owner" class="block text-sm font-medium text-gray-700">Owner Name</label>
-                    <input type="text" id="owner" name="owner_name" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
+
+                <!-- Owner & Contact in one row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="owner" class="block text-sm font-medium text-gray-700">Owner Name</label>
+                        <input type="text" id="owner" name="owner_name" required
+                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
+                    </div>
+                    <div>
+                        <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="text" id="contact" name="contact_number" required
+                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
+                    </div>
                 </div>
-                <div>
-                    <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
-                    <input type="text" id="contact" name="contact_number" required class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
-                </div>
+
+                <!-- Calendar -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Date</label>
                     <div id="calendarContainer" class="mt-2 p-2 bg-gray-100 rounded-md border border-gray-300">
@@ -475,30 +508,45 @@
                     </div>
                     <p class="text-sm text-gray-500 mt-1">Please select your preferred date.</p>
                 </div>
-                <div>
-                    <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
-                    <input type="time" id="time" name="appointment_time" required class="mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]" min="08:00" max="18:00" step="1800" />
-                    <p id="timeAvailability" class="text-sm mt-1 hidden">
-                        <span class="indicator"></span>
-                        <span id="timeStatus"></span>
-                    </p>
-                    <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8:00 AM and 6:00 PM.</p>
-                    <div id="takenTimeSlots" class="text-sm mt-1"></div>
-                    <p class="text-sm text-gray-500 mt-1">Please select a time between 8:00 AM and 6:00 PM. Each appointment is 1 hour and 30 minutes.</p>
+
+                <!-- Time & Reason in one row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <!-- Time -->
+                    <div>
+                        <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
+                        <input type="time" id="time" name="appointment_time" required
+                            class="mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]"
+                            min="08:00" max="18:00" step="1800" />
+                        <p id="timeAvailability" class="text-sm mt-1 hidden">
+                            <span class="indicator"></span>
+                            <span id="timeStatus"></span>
+                        </p>
+                        <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8:00 AM and 6:00 PM.</p>
+                        <div id="takenTimeSlots" class="text-sm mt-1"></div>
+                        <p class="text-sm text-gray-500 mt-1">Please select a time between 8:00 AM and 6:00 PM. Each appointment is 1 hour and 30 minutes.</p>
+                    </div>
+
+                    <!-- Reason -->
+                    <div>
+                        <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Visit</label>
+                        <select id="reason" name="reason" required onchange="toggleOtherReason(this)"
+                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
+                            <option value="">-- Select Reason --</option>
+                            <option value="Checkup">Check-up</option>
+                            <option value="Vaccination">Vaccination</option>
+                            <option value="Grooming">Grooming</option>
+                            <option value="Surgery">Surgery</option>
+                            <option value="Emergency">Emergency</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="other_reason" name="other_reason" placeholder="Please specify"
+                            style="display:none; margin-top:5px;"
+                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
+                    </div>
                 </div>
-                <div>
-                    <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Visit</label>
-                    <select id="reason" name="reason" required onchange="toggleOtherReason(this)" class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
-                        <option value="">-- Select Reason --</option>
-                        <option value="Checkup">Check-up</option>
-                        <option value="Vaccination">Vaccination</option>
-                        <option value="Grooming">Grooming</option>
-                        <option value="Surgery">Surgery</option>
-                        <option value="Emergency">Emergency</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <input type="text" id="other_reason" name="other_reason" placeholder="Please specify" style="display:none; margin-top:5px;" class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
-                </div>
+
+                <!-- Buttons -->
                 <div class="flex justify-end space-x-3 pt-4">
                     <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
                     <button type="submit" id="submitButton" class="px-4 py-2 bg-[#169976] text-white rounded hover:bg-[#18b98e]">Submit</button>
@@ -506,6 +554,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- Footer -->
     <footer class="bg-[#169976] py-8 text-white">
@@ -796,6 +845,13 @@
                     submitButton.classList.add("bg-[#169976]", "hover:bg-[#18b98e]");
                 });
         }
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const navLinks = document.querySelector('.nav-links');
+        mobileMenuButton.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-open');
+        });
     </script>
 
     <script src="./js/landing-page.js"></script>
