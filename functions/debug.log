@@ -12541,3 +12541,53 @@ Count for 2025-10-09: 1
 Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
 Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
 Events found: 2
+Time: 2025-10-02 18:21:56 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-10-02 18:21:56 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-10-02 18:22:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-10-02 18:22:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-10-02 18:22:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-10-02 18:22:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Events found: 0
+Time: 2025-10-02 18:23:18 - Start: 2025-10-16, End: 2025-10-16, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-16&end=2025-10-16
+Events found: 0
+Script executed at 2025-10-02 18:23:19
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => sheryl boang
+    [contact_number] => 12312412512
+    [appointment_date] => 2025-10-16
+    [appointment_time] => 14:30:00
+    [reason] => Checkup
+)
+
+Appointment logged: Guest sheryl boang booked an appointment on October 16, 2025 at 2:30 PM
+Time: 2025-10-02 18:25:09 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-16: 1
+Event: sheryl boang on 2025-10-16 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Time: 2025-10-02 18:25:09 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-16: 1
+Event: sheryl boang on 2025-10-16 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Time: 2025-10-02 18:25:57 - Start: 2025-10-16, End: 2025-10-16, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-16&end=2025-10-16
+Count for 2025-10-16: 1
+Event: sheryl boang on 2025-10-16 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Script executed at 2025-10-02 18:26:10
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => mikay boang
+    [contact_number] => 123124125122
+    [appointment_date] => 2025-10-16
+    [appointment_time] => 09:00:00
+    [reason] => Surgery
+)
+
+Appointment logged: Guest mikay boang booked an appointment on October 16, 2025 at 9:00 AM
