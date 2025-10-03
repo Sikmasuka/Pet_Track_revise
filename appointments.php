@@ -2,7 +2,6 @@
 session_start();
 require_once __DIR__ . "/db.php"; // Adjust path to your PDO connection file
 require_once __DIR__ . "/functions/logs.php"; // Include the logs.php file
-include "includes/sitemap/Help/support.php";
 
 // Check if user is logged in
 if (!isset($_SESSION['vet_id'])) {
@@ -258,7 +257,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
             <a href="archive.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="./includes/sitemap/vet-help.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
@@ -272,7 +271,12 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
     <!-- Main content -->
-    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+    <div class="relative ml-0 lg:ml-52 p-4 pt-16 lg:pt-4 min-h-screen">
+
+        <div id="loadingScreen" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+            <img src="image/MainIcon.png" alt="Loading Icon" class="w-20 h-20 animate-pulse">
+            <p class="mt-4 text-teal-700 font-semibold text-lg">Loading...</p>
+        </div>
 
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
@@ -557,6 +561,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
     <script src="./js/confirmLogout.js"></script>
     <script src="./js/edit-profile.js"></script>
     <script src="./js/notification-bell.js"></script>
+    <script src="./js/customize-loader.js"></script>
 </body>
 
 </html>
