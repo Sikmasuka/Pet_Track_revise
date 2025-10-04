@@ -213,7 +213,6 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                             class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
                             <div class="bg-blue-500 px-4 py-3 border-b border-slate-200">
                                 <p class="text-sm font-semibold text-white">Notifications</p>
-                                >>>>>>> revise-analytics
                             </div>
                             <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
                                 <!-- Notifications will be appended here -->
@@ -277,42 +276,56 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 
         <!-- Add Veterinarian Modal -->
         <div id="addModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-            <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full overflow-hidden border border-slate-200">
+            <div id="modalContent" class="bg-white rounded-lg shadow-lg w-full max-w-lg overflow-hidden border border-slate-200 flex flex-col">
                 <!-- Modal Header -->
                 <div class="bg-indigo-500 px-4 py-3">
                     <h3 id="petModalTitle" class="text-lg lg:text-xl font-bold text-center text-white">
                         Add Veterinarian
                     </h3>
                 </div>
-
                 <!-- Modal Body -->
-                <div class="p-4">
+                <div class="p-4 flex-1 overflow-y-auto">
                     <form method="POST" id="addVetForm" class="grid grid-cols-1 gap-3">
                         <label for="vet_name" class="font-medium text-sm text-gray-800">Name</label>
-                        <input type="text" name="vet_name" id="vet_name" placeholder="Name" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-
+                        <input type="text" name="vet_name" id="vet_name" placeholder="Name" required
+                            class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <label for="vet_contact_number" class="font-medium text-sm text-gray-800">Contact Number</label>
-                        <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-
+                        <input type="text" name="vet_contact_number" id="vet_contact_number" placeholder="Contact Number" required
+                            class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <label for="vet_username" class="font-medium text-sm text-gray-800">Username</label>
-                        <input type="text" name="vet_username" id="vet_username" placeholder="Username" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-
+                        <input type="text" name="vet_username" id="vet_username" placeholder="Username" required
+                            class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <label for="vet_password" class="font-medium text-sm text-gray-800">Password</label>
-                        <input type="password" name="vet_password" id="vet_password" placeholder="(e.g., MyPass@2025)" required class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                        <div class="strenght-password"></div>
-
-                        <div class="flex justify-between items-center mt-3 gap-3">
-                            <button type="submit" name="add_vet" class="bg-indigo-500 text-white px-4 py-2 text-sm rounded-md hover:bg-indigo-600 transition-colors">
-                                Add Veterinarian
-                            </button>
-                            <button type="button" id="closeAddModal" class="bg-red-500 text-white px-4 py-2 text-sm rounded-md hover:bg-red-600 transition-colors">
-                                Close
+                        <div class="relative">
+                            <input type="password" name="vet_password" id="vet_password" placeholder="(e.g., MyPass@2025)" required
+                                class="p-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 w-full">
+                            <button type="button" id="toggleVetPassword"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hidden">
+                                <i class="fas fa-eye"></i>
                             </button>
                         </div>
+                        <!-- Password strength bar -->
+                        <div class="w-full h-2 bg-gray-200 rounded mt-2 overflow-hidden">
+                            <div id="passwordStrengthBar" class="h-2 rounded transition-all duration-300"></div>
+                        </div>
+                        <p id="passwordStrengthText" class="text-xs mt-1"></p>
+                        <p id="addPasswordError" class="text-red-500 text-xs"></p>
                     </form>
+                </div>
+                <!-- Modal Footer -->
+                <div class="flex justify-end items-center gap-3 p-4 border-t border-gray-200">
+                    <button type="submit" form="addVetForm" name="add_vet"
+                        class="bg-indigo-500 text-white px-4 py-2 text-sm rounded-md hover:bg-indigo-600 transition-colors">
+                        Add Veterinarian
+                    </button>
+                    <button type="button" id="closeAddModal"
+                        class="bg-red-500 text-white px-4 py-2 text-sm rounded-md hover:bg-red-600 transition-colors">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
+
 
         <!-- Table -->
         <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg table-container border border-slate-200">
@@ -371,13 +384,25 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 
                 <!-- Modal Body -->
                 <div class="p-4">
-                    <form method="POST" class="grid grid-cols-1 gap-3">
+                    <form method="POST" id="editVetForm" class="grid grid-cols-1 gap-3">
                         <input type="hidden" name="vet_id" id="edit_vet_id">
 
                         <input type="text" name="vet_name" id="edit_vet_name" placeholder="Name" required class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <input type="text" name="vet_contact_number" id="edit_vet_contact_number" placeholder="Contact Number" required class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
                         <input type="text" name="vet_username" id="edit_vet_username" placeholder="Username" required class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                        <input type="password" name="vet_password" id="edit_vet_password" placeholder="Add password to change it" class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        <label for="edit_vet_password" class="font-medium text-sm text-gray-800">Password (leave blank to keep current)</label>
+                        <div class="relative">
+                            <input type="password" name="vet_password" id="edit_vet_password" placeholder="Add password to change it" class="p-2 border border-slate-200 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            <button type="button" id="toggleEditVetPassword" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hidden">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <!-- Password strength bar for edit -->
+                        <div class="w-full h-2 bg-gray-200 rounded mt-2 overflow-hidden">
+                            <div id="editPasswordStrengthBar" class="h-2 rounded transition-all duration-300"></div>
+                        </div>
+                        <p id="editPasswordStrengthText" class="text-xs mt-1"></p>
+                        <p id="editPasswordError" class="text-red-500 text-xs"></p>
 
                         <div class="flex justify-between gap-3 mt-3">
                             <button type="submit" name="update_vet" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 w-full text-sm transition-colors">
@@ -457,15 +482,46 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
         document.getElementById("addVetForm").addEventListener("submit", function(e) {
             const password = document.getElementById("vet_password").value;
             const errors = validateVetPassword(password);
+            const addPasswordError = document.getElementById("addPasswordError");
 
             if (errors.length > 0) {
                 e.preventDefault(); // stop form submission
+                addPasswordError.innerHTML = errors.join("<br>");
+                document.getElementById("vet_password").classList.add("border-red-500");
                 Swal.fire({
                     icon: "error",
                     title: "Weak Password",
                     html: errors.join("<br>"),
                     confirmButtonColor: "#d33"
                 });
+            } else {
+                addPasswordError.innerHTML = "";
+                document.getElementById("vet_password").classList.remove("border-red-500");
+            }
+        });
+
+        // Intercept Edit Vet Form submit (optional password change)
+        document.getElementById("editVetForm").addEventListener("submit", function(e) {
+            const password = document.getElementById("edit_vet_password").value;
+            const editPasswordError = document.getElementById("editPasswordError");
+
+            // Only validate if password is provided (for change)
+            if (password.length > 0) {
+                const errors = validateVetPassword(password);
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    editPasswordError.innerHTML = errors.join("<br>");
+                    document.getElementById("edit_vet_password").classList.add("border-red-500");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Weak Password",
+                        html: errors.join("<br>"),
+                        confirmButtonColor: "#d33"
+                    });
+                } else {
+                    editPasswordError.innerHTML = "";
+                    document.getElementById("edit_vet_password").classList.remove("border-red-500");
+                }
             }
         });
 
@@ -520,6 +576,147 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                 event.stopPropagation(); // Prevent click from bubbling up to recordsBtn
             });
         });
+
+        // Password strength calculator
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+
+            // Length check
+            if (password.length > 0) strength += 10;
+            if (password.length >= 8) strength += 20;
+            if (password.length >= 12) strength += 20;
+
+            // Character diversity
+            if (/[A-Z]/.test(password)) strength += 15;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+
+            // Cap at 100
+            strength = Math.min(strength, 100);
+
+            // Determine color and text
+            let color, text;
+            if (strength < 30) {
+                color = "red"; // weak
+                text = "Weak";
+            } else if (strength < 70) {
+                color = "orange"; // medium
+                text = "Medium";
+            } else {
+                color = "green"; // strong
+                text = "Strong";
+            }
+
+            return {
+                percentage: strength,
+                color: color,
+                text: text
+            };
+        }
+
+        // Update strength bar and text for Add Modal
+        const vetPasswordInput = document.getElementById("vet_password");
+        const strengthBar = document.getElementById("passwordStrengthBar");
+        const strengthText = document.getElementById("passwordStrengthText");
+        const addPasswordError = document.getElementById("addPasswordError");
+
+        if (vetPasswordInput && strengthBar && strengthText) {
+            vetPasswordInput.addEventListener("input", function() {
+                const strength = calculatePasswordStrength(this.value);
+
+                // Update bar
+                strengthBar.style.width = strength.percentage + "%";
+                strengthBar.style.backgroundColor = strength.color;
+
+                // Update text
+                strengthText.textContent = this.value.length > 0 ? `Strength: ${strength.text}` : "";
+                strengthText.style.color = strength.color;
+
+                // Clear error if typing
+                if (addPasswordError.innerHTML !== "") {
+                    addPasswordError.innerHTML = "";
+                    this.classList.remove("border-red-500");
+                }
+            });
+        }
+
+        // Update strength bar and text for Edit Modal
+        const editVetPasswordInput = document.getElementById("edit_vet_password");
+        const editStrengthBar = document.getElementById("editPasswordStrengthBar");
+        const editStrengthText = document.getElementById("editPasswordStrengthText");
+        const editPasswordError = document.getElementById("editPasswordError");
+
+        if (editVetPasswordInput && editStrengthBar && editStrengthText) {
+            editVetPasswordInput.addEventListener("input", function() {
+                const strength = calculatePasswordStrength(this.value);
+
+                // Update bar
+                editStrengthBar.style.width = strength.percentage + "%";
+                editStrengthBar.style.backgroundColor = strength.color;
+
+                // Update text
+                editStrengthText.textContent = this.value.length > 0 ? `Strength: ${strength.text}` : "";
+                editStrengthText.style.color = strength.color;
+
+                // Clear error if typing
+                if (editPasswordError.innerHTML !== "") {
+                    editPasswordError.innerHTML = "";
+                    this.classList.remove("border-red-500");
+                }
+            });
+        }
+
+        // Password Toggle for Add Modal
+        const toggleVetPassword = document.getElementById("toggleVetPassword");
+        const vetPasswordIcon = toggleVetPassword.querySelector("i");
+
+        function toggleVetButtonVisibility() {
+            if (vetPasswordInput.value.length > 0) {
+                toggleVetPassword.classList.remove("hidden");
+            } else {
+                toggleVetPassword.classList.add("hidden");
+            }
+        }
+        toggleVetButtonVisibility();
+        vetPasswordInput.addEventListener("input", toggleVetButtonVisibility);
+
+        toggleVetPassword.addEventListener("click", function() {
+            if (vetPasswordInput.type === "password") {
+                vetPasswordInput.type = "text";
+                vetPasswordIcon.classList.remove("fa-eye");
+                vetPasswordIcon.classList.add("fa-eye-slash");
+            } else {
+                vetPasswordInput.type = "password";
+                vetPasswordIcon.classList.remove("fa-eye-slash");
+                vetPasswordIcon.classList.add("fa-eye");
+            }
+        });
+
+        // Password Toggle for Edit Modal
+        const toggleEditVetPassword = document.getElementById("toggleEditVetPassword");
+        const editVetPasswordIcon = toggleEditVetPassword.querySelector("i");
+
+        function toggleEditVetButtonVisibility() {
+            if (editVetPasswordInput.value.length > 0) {
+                toggleEditVetPassword.classList.remove("hidden");
+            } else {
+                toggleEditVetPassword.classList.add("hidden");
+            }
+        }
+        toggleEditVetButtonVisibility();
+        editVetPasswordInput.addEventListener("input", toggleEditVetButtonVisibility);
+
+        toggleEditVetPassword.addEventListener("click", function() {
+            if (editVetPasswordInput.type === "password") {
+                editVetPasswordInput.type = "text";
+                editVetPasswordIcon.classList.remove("fa-eye");
+                editVetPasswordIcon.classList.add("fa-eye-slash");
+            } else {
+                editVetPasswordInput.type = "password";
+                editVetPasswordIcon.classList.remove("fa-eye-slash");
+                editVetPasswordIcon.classList.add("fa-eye");
+            }
+        });
     </script>
 
     <script src="../js/dashboard.js"></script>
@@ -529,6 +726,7 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
     <script src="../js/profile-dropdown.js"></script>
     <script src="../js/confirmLogout.js"></script>
     <script src="../js/admin-notification-bell.js"></script>
+    <script src="../js/auth.js"></script>
 </body>
 
 </html>

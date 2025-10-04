@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const passwordError = document.getElementById("passwordError");
   const passwordIcon = togglePassword.querySelector("i");
 
-  // Show/Hide the eye button  visibility
+  // Show/Hide the eye button visibility
   function toggleButtonVisibility() {
     if (passwordInput.value.length > 0) {
       togglePassword.classList.remove("hidden");
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
         passwordInput.classList.add("border-red-500");
       } else {
         passwordError.innerHTML = ""; //Clears error message
-        passwordInput.classlist.remove("border-red-500");
+        passwordInput.classList.remove("border-red-500");
       }
     });
   }

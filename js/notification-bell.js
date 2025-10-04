@@ -40,7 +40,7 @@ async function fetchNotifications() {
 
   try {
     const response = await fetch(
-      "../../functions/get-recent-activities.php?page=1"
+      "/Pet_Track_revise-3/functions/get-recent-activities.php?page=1"
     );
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
@@ -75,18 +75,18 @@ async function fetchNotifications() {
           ? "Unknown"
           : timestamp.toLocaleString();
         const item = `
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 transition-colors">
-                        <i class="fas fa-info-circle text-indigo-400"></i>
-                        <div>
-                            <div class="font-medium">${
-                              activity.name || "System"
-                            } - ${
+                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-info-circle text-indigo-400"></i>
+                                <div>
+                                    <div class="font-medium">${
+                                      activity.name || "System"
+                                    } - ${
           activity.Description || "No description"
         }</div>
-                            <div class="text-xs text-gray-500">${formattedDate}</div>
-                        </div>
-                    </a>
-                `;
+                                    <div class="text-xs text-gray-500">${formattedDate}</div>
+                                </div>
+                            </a>
+                        `;
         notificationList.insertAdjacentHTML("beforeend", item);
       });
     }
@@ -109,7 +109,7 @@ async function fetchNotifications() {
 async function fetchNotificationCount() {
   try {
     const response = await fetch(
-      "../../functions/get-recent-activities.php?page=1"
+      "/Pet_Track_revise-3/functions/get-recent-activities.php?page=1"
     );
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();

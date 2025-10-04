@@ -39,10 +39,9 @@ async function fetchNotifications() {
     '<div class="px-4 py-2 text-sm text-center text-gray-500">Loading...</div>';
 
   try {
-    const baseUrl = window.location.origin + "/Pet_Track_revise-3";
-    const url = `${baseUrl}/admin/admin-get-recent-activities.php?page=1`;
-    console.log("Fetching URL:", url);
-    const response = await fetch(url);
+    const response = await fetch(
+      "/Pet_Track_revise-3/admin/admin-get-recent-activities.php?page=1"
+    );
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
     const activities = data.activities || [];
@@ -109,9 +108,8 @@ async function fetchNotifications() {
 
 async function fetchNotificationCount() {
   try {
-    const baseUrl = window.location.origin + "/Pet_Track_revise-3";
     const response = await fetch(
-      `${baseUrl}/admin/admin-get-recent-activities.php?page=1`
+      "/Pet_Track_revise-3/admin/admin-get-recent-activities.php?page=1"
     );
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();

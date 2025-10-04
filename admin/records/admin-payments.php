@@ -429,58 +429,89 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
     </button>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-teal-800">
-        <div class="flex items-center justify-between mb-6">
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-[200px] bg-gradient-to-b from-emerald-600 via-teal-700 to-emerald-800 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 flex flex-col border-r border-emerald-900">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between">
             <h2 class="text-xl lg:text-2xl font-semibold flex items-center gap-2">
                 <img src="../../image/MainIconWhite.png" alt="Dashboard" class="w-6 lg:w-8">
                 <span class="md:inline">Dashboard</span>
             </h2>
-            <button id="closeSidebarBtn" class="lg:hidden text-white hover:text-gray-200 duration-200">
+            <button id="closeSidebarBtn"
+                class="lg:hidden text-gray-300 hover:text-white duration-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+
+        <!-- Navigation -->
         <nav class="flex-grow mt-8 lg:mt-12 space-y-0.5">
-            <a href="../admin-dashboard.php" class="block text-sm text-white px-4 py-2 rounded-md hover:bg-teal-900 transition-colors">
+            <a href="../admin-dashboard.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
             </a>
-            <a href="../admin.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
+            <a href="../admin.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-user-md mr-2"></i> Veterinarians
             </a>
 
-            <!-- records -->
+            <!-- Records Dropdown -->
             <div class="space-y-0.5">
-                <button id="recordsBtn" class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-teal-800 transition-colors">
+                <button id="recordsBtn"
+                    class="w-full flex items-center justify-start gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors">
                     <i class="fa-solid fa-file-lines"></i>
                     <span>Records</span>
-                    <svg id="recordsArrow" class="w-4 h-4 ml-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg id="recordsArrow"
+                        class="w-4 h-4 ml-1 transition-transform duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div id="recordsMenu" class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
-                    <a href="../records/pet-records.php" class="flex items-center text-sm text-gray-200 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+
+                <!-- Submenu -->
+                <div id="recordsMenu"
+                    class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
+
+                    <a href="../records/pet-records.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-paw mr-2"></i> Pets
                     </a>
-                    <a href="../records/client-records.php" class="flex items-center text-sm text-gray-200 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+
+                    <a href="../records/client-records.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-user mr-2"></i> Clients
                     </a>
-                    <a href="../records/medical-records.php" class="flex items-center text-sm text-gray-200 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
-                        <i class="fas fa-file-medical mr-2"></i> Medical Records
+
+                    <a href="../records/medical-records.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-file-medical mr-2"></i>
+                        <span class="whitespace-normal leading-snug">Medical Records</span>
                     </a>
-                    <a href="../records/payment-records.php" class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-teal-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+
+                    <a href="../records/admin-payments.php"
+                        class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
                     </a>
                 </div>
             </div>
-            <a href="../admin-appointments.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
+
+
+            <!-- Active Link Example -->
+            <a href="../admin-appointments.php"
+                class="block text-sm text-white hover:bg-emerald-700 px-4 py-2 rounded-md">
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
+
             <a href="../includes/sitemap/admin-help.php"
                 class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
+
+        <!-- Logout -->
         <div class="pt-4">
-            <a href="../index.php" onclick="confirmLogout(event)" class="block text-md text-white hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
+            <a href="../index.php" onclick="confirmLogout(event)"
+                class="block text-sm text-gray-200 hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
@@ -491,42 +522,83 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
 
     <!-- Main Content -->
     <div class="main-content ml-0 lg:ml-52 p-4 pt-12 lg:pt-4">
-        <!-- Header -->
+
+        <!-- Headre -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
-            <div class="flex justify-between items-center">
+
+            <!-- Top Section with Dropdown -->
+            <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl lg:text-2xl font-bold">Manage Payments</h1>
-                <div class="relative inline-block text-left">
-                    <button id="profileButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <div id="dropdownMenu" class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                        <div class="px-4 py-3 border-b border-slate-200">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-800"><?php echo htmlspecialchars($adminName); ?></p>
-                                    <p class="text-xs text-gray-500">Administrator</p>
-                                </div>
+
+                <!-- Right Side (Notifications + Profile) -->
+                <div class="flex items-center gap-2">
+                    <!-- Notification Bell -->
+                    <div class="relative inline-block text-left">
+                        <button id="notificationButton"
+                            class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors relative">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationCount"
+                                class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+                        </button>
+                        <div id="notificationDropdown"
+                            class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                            <div class="bg-blue-500 px-4 py-3 border-b border-slate-200">
+                                <p class="text-sm font-semibold text-white">Notifications</p>
+                            </div>
+                            <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
+                                <!-- Notifications will be appended here -->
+                            </div>
+                            <div class="py-2 border-t border-slate-200">
+                                <a href="#" onclick="markAllAsRead(event)"
+                                    class="block text-center text-sm text-indigo-500 hover:text-indigo-600">Mark all as
+                                    read</a>
                             </div>
                         </div>
-                        <div class="py-1">
-                            <a href="#" id="editProfileLink" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
-                                <i class="fas fa-edit text-indigo-400"></i>
-                                <div>
-                                    <div class="font-medium">Edit Profile</div>
-                                    <div class="text-xs text-gray-500">Update your information</div>
+                    </div>
+
+                    <!-- Profile Dropdown -->
+                    <div class="relative inline-block text-left">
+                        <button id="profileButton"
+                            class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <div id="dropdownMenu"
+                            class="origin-top-right absolute right-0 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
+                            <div class="px-4 py-3 border-b border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-indigo-500 bg-gray-100 text-indigo-400 text-xl">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800">
+                                            <?php echo isset($vetName) ? $vetName : $adminName; ?>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            <?php echo isset($vetName) ? 'Veterinarian' : 'Admin'; ?>
+                                        </p>
+                                    </div>
                                 </div>
-                            </a>
-                            <hr class="my-1 border-slate-200">
-                            <a href="#" onclick="confirmLogout(event)" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
-                                <i class="fas fa-sign-out-alt text-red-500"></i>
-                                <div>
-                                    <div class="font-medium">Logout</div>
-                                    <div class="text-xs text-red-600">Sign out of your account</div>
-                                </div>
-                            </a>
+                            </div>
+                            <div class="py-1">
+                                <a href="#" id="editProfileLink"
+                                    class="flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition-colors duration-150">
+                                    <i class="fas fa-edit text-indigo-400"></i>
+                                    <div>
+                                        <div class="font-medium">Edit Profile</div>
+                                        <div class="text-xs text-gray-500">Update your information</div>
+                                    </div>
+                                </a>
+                                <hr class="my-1 border-slate-200">
+                                <a href="#" onclick="confirmLogout(event)"
+                                    class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-gray-100 transition-colors duration-150">
+                                    <i class="fas fa-sign-out-alt text-red-500"></i>
+                                    <div>
+                                        <div class="font-medium">Logout</div>
+                                        <div class="text-xs text-red-600">Sign out of your account</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -923,6 +995,7 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
         <script src="../../js/sidebarHandler.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="../../js/confirmLogout.js"></script>
+        <script src="../../js/admin-notification-bell.js"></script>
 </body>
 
 </html>

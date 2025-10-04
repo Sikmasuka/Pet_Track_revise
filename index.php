@@ -107,10 +107,6 @@ require_once 'functions/authentication.php';
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <!-- Password strength bar -->
-                        <div class="w-full h-2 bg-gray-200 rounded mt-2 overflow-hidden">
-                            <div class="password-strength-bar h-2 rounded transition-all duration-300"></div>
-                        </div>
                         <p id="passwordError" class="text-red-500 text-xs mt-1"></p>
                     </div>
 

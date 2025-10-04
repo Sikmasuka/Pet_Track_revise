@@ -357,7 +357,7 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../js/confirmLogout.js"></script>
     <script src="../../js/edit-profile.js"></script>
-    <script src="../../js/admin-notification-bell.js"></script>
+    <script src="../../js/admin-notification-bell.js"></script>.
 </body>
 
 </html>
