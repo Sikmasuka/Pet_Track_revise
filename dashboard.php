@@ -136,9 +136,11 @@ ob_end_flush();
 
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
+
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl lg:text-2xl font-bold">Welcome To Dashboard!</h1>
                 <div class="flex items-center gap-2">
+
                     <!-- Notification Bell -->
                     <div class="relative inline-block text-left">
                         <button id="notificationButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors relative">

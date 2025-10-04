@@ -94,7 +94,6 @@ ob_end_flush();
 </head>
 
 <body class="bg-slate-100 min-h-screen text-gray-800">
-    <?php include "../includes/sitemap/Help/support.php"; ?>
     <?php include '../includes/edit-profile.php'; ?>
 
     <!-- Mobile Menu Button -->
@@ -176,7 +175,7 @@ ob_end_flush();
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
 
-            <a href="#" onclick="toggleModal('adminHelpModal')"
+            <a href="../includes/sitemap/admin-help.php"
                 class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
@@ -197,8 +196,10 @@ ob_end_flush();
 
     <!-- Main Dashboard Container -->
     <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+
         <!-- Header with Welcome and Metrics -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
+
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl lg:text-2xl font-bold">Dashboard</h1>
@@ -215,8 +216,8 @@ ob_end_flush();
                         </button>
                         <div id="notificationDropdown"
                             class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                            <div class="px-4 py-3 border-b border-slate-200">
-                                <p class="text-sm font-semibold text-gray-800">Notifications</p>
+                            <div class="bg-blue-500 px-4 py-3 border-b border-slate-200">
+                                <p class="text-sm font-semibold text-white">Notifications</p>
                             </div>
                             <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
                                 <!-- Notifications will be appended here -->

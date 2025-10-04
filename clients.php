@@ -293,6 +293,7 @@ ob_end_flush();
         </div>
 
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
+
             <!-- Top Section with Dropdown -->
             <div class="flex justify-between items-center">
                 <!-- Page Title -->
@@ -303,6 +304,7 @@ ob_end_flush();
 
                 <!-- Right Side (Notifications + Profile) -->
                 <div class="flex items-center gap-2">
+
                     <!-- Notification Bell -->
                     <div class="relative inline-block text-left">
                         <button id="notificationButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors relative">
@@ -310,8 +312,8 @@ ob_end_flush();
                             <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
                         </button>
                         <div id="notificationDropdown" class="origin-top-right absolute right-0 mt-2 w-80 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out z-50 border border-slate-200">
-                            <div class="px-4 py-3 border-b border-slate-200">
-                                <p class="text-sm font-semibold text-gray-800">Notifications</p>
+                            <div class="bg-blue-500 px-4 py-3 border-b border-blue-200">
+                                <p class="text-sm font-semibold text-white">Notifications</p>
                             </div>
                             <div id="notificationList" class="py-1 max-h-96 overflow-y-auto">
                                 <!-- Notifications will be appended here -->
