@@ -12541,6 +12541,7 @@ Count for 2025-10-09: 1
 Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
 Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
 Events found: 2
+<<<<<<< HEAD
 Time: 2025-10-02 18:21:56 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
 Events found: 0
 Time: 2025-10-02 18:21:56 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
@@ -12562,10 +12563,825 @@ Form data: Array
     [owner_name] => sheryl boang
     [contact_number] => 12312412512
     [appointment_date] => 2025-10-16
+Time: 2025-10-03 14:15:36 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 14:15:36 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 15:13:39 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 15:13:39 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 21:21:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 21:21:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 22:04:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 22:04:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:17:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:17:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:17:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:17:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:17:56 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:17:56 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:08 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:08 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:10 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:10 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:23 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:23 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:25 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:18:25 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:24:01 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:24:01 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:24:07 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:24:07 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:17 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:17 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:34 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:34 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:38 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:38 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:40 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:40 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:42 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:42 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:48 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:48 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:50 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:32:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:38 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:38 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:40 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:40 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:45 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:45 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:47 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:47 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:33:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:41 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:41 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:46 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:47 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:58 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:58 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:59 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:59 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:59 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:37:59 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:38:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:38:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:38:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:38:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:39:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:39:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:39:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:39:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:43:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:43:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:43:54 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-03 23:43:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:02:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:02:49 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:02:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:02:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:03:15 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:03:15 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:04:11 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:04:11 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:04:31 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:04:31 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:09:13 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 00:09:13 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:40 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:40 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:46 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:46 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:53 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:43:55 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:44:15 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:44:15 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:44:23 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 20:44:23 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:20:45 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:20:45 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:21:16 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:21:16 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:48:19 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:48:19 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:48:21 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:48:21 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:48:39 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:48:39 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:56:48 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 21:56:48 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 22:02:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 22:02:00 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Events found: 2
+Time: 2025-10-04 22:06:56 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Events found: 0
+Script executed at 2025-10-04 22:07:00
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Maricar T. Bahala
+    [contact_number] => 12345678910
+    [appointment_date] => 2025-10-10
+>>>>>>> revise-analytics
     [appointment_time] => 14:30:00
     [reason] => Checkup
 )
 
+<<<<<<< HEAD
 Appointment logged: Guest sheryl boang booked an appointment on October 16, 2025 at 2:30 PM
 Time: 2025-10-02 18:25:09 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
 Count for 2025-10-16: 1
@@ -12591,3 +13407,6 @@ Form data: Array
 )
 
 Appointment logged: Guest mikay boang booked an appointment on October 16, 2025 at 9:00 AM
+=======
+Appointment logged: Guest Maricar T. Bahala booked an appointment on October 10, 2025 at 2:30 PM
+>>>>>>> revise-analytics

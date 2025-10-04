@@ -3,7 +3,6 @@ ob_start(); // Start output buffering
 require_once __DIR__ . "/functions/auth.php";
 require_once __DIR__ . "/functions/dashboard-handler.php";
 require_once __DIR__ . "/functions/logs.php";
-include "includes/sitemap/Help/support.php";
 
 requireVet();
 
@@ -114,7 +113,7 @@ ob_end_flush();
             <a href="archive.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fa-solid fa-box-archive mr-2"></i> Archive
             </a>
-            <a href="#" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors" onclick="toggleModal('vetHelpModal')">
+            <a href="./includes/sitemap/vet-help.php" class="block text-sm text-white hover:bg-teal-800 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>
@@ -127,13 +126,21 @@ ob_end_flush();
 
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
-    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+    <!-- Main Content -->
+    <div class="relative ml-0 lg:ml-52 p-4 pt-16 lg:pt-4 min-h-screen">
+
+        <div id="loadingScreen" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+            <img src="image/MainIcon.png" alt="Loading Icon" class="w-20 h-20 animate-pulse">
+            <p class="mt-4 text-teal-700 font-semibold text-lg">Loading...</p>
+        </div>
 
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
+
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl lg:text-2xl font-bold">Welcome To Dashboard!</h1>
                 <div class="flex items-center gap-2">
+
                     <!-- Notification Bell -->
                     <div class="relative inline-block text-left">
                         <button id="notificationButton" class="flex items-center justify-center w-10 h-10 bg-gray-100 border border-gray-200 rounded-full hover:bg-gray-200 text-gray-800 text-lg transition-colors relative">
@@ -586,6 +593,7 @@ ob_end_flush();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/confirmLogout.js"></script>
     <script src="./js/edit-profile.js"></script>
+    <script src="./js/customize-loader.js"></script>
 </body>
 
 </html>

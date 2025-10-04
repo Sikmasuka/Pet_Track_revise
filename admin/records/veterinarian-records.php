@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once '../record-handler.php';
-include(__DIR__ . '/../../includes/sitemap/Help/support.php');
 require_once __DIR__ . "/../../functions/auth.php";
 requireAdmin();
 ?>
@@ -125,7 +124,8 @@ requireAdmin();
                 </div>
             </div>
 
-            <a href="#" class="block text-sm text-gray-300 hover:bg-slate-600 px-4 py-2 rounded-md hover:text-white transition-colors" onclick="toggleModal('adminHelpModal')">
+            <a href="../includes/sitemap/admin-help.php"
+                class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
         </nav>

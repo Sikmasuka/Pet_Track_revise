@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/../../functions/auth.php";
 require_once '../record-handler.php';
-include(__DIR__ . '/../../includes/sitemap/Help/support.php');
 
 requireAdmin();
 
@@ -168,7 +167,7 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                 <i class="fas fa-calendar-days mr-2"></i> Appointments
             </a>
 
-            <a href="#" onclick="toggleModal('adminHelpModal')"
+            <a href="../includes/sitemap/admin-help.php"
                 class="block text-sm text-gray-200 hover:bg-emerald-600 px-4 py-2 rounded-md hover:text-white transition-colors">
                 <i class="fas fa-question-circle mr-2"></i> Help/Support
             </a>
