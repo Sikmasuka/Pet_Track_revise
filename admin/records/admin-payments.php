@@ -986,6 +986,13 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
                 recordsArrow.classList.toggle('rotate-180');
             });
 
+            // Open records dropdown if on records page
+            if (window.location.pathname.includes('/records/')) {
+                recordsMenu.classList.remove('max-h-0', 'opacity-0');
+                recordsMenu.classList.add('max-h-96', 'opacity-100');
+                recordsArrow.classList.add('rotate-180');
+            }
+
             const submenuLinks = document.querySelectorAll('#recordsMenu a');
             submenuLinks.forEach(link => {
                 link.addEventListener('click', (event) => {

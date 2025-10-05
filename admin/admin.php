@@ -583,6 +583,13 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
             });
         });
 
+        // Open records dropdown if on records page
+        if (window.location.pathname.includes('/records/')) {
+            recordsMenu.classList.remove('max-h-0', 'opacity-0');
+            recordsMenu.classList.add('max-h-96', 'opacity-100');
+            recordsArrow.classList.add('rotate-180');
+        }
+
         // Password strength calculator
         function calculatePasswordStrength(password) {
             let strength = 0;
