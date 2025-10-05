@@ -302,8 +302,14 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
     <!-- Overlay for mobile menu -->
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 lg:left-52 flex flex-col items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+        <img src="../image/MainIcon.png" alt="Loading Icon" class="w-20 h-20 animate-pulse">
+        <p class="mt-4 text-teal-700 font-semibold text-lg">Loading...</p>
+    </div>
+
     <!-- Main content -->
-    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+    <div class="relative ml-0 lg:ml-52 p-4 pt-16 lg:pt-4 min-h-screen">
 
         <!-- Header -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-6 lg:mb-8 p-4 lg:p-6 border border-slate-200">
@@ -651,6 +657,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
     <script src="../js/confirmLogout.js"></script>
     <script src="../js/edit-profile.js"></script>
     <script src="../js/admin-notification-bell.js"></script>
+    <script src="../js/customize-loader.js"></script>
 </body>
 
 </html>

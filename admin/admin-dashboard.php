@@ -194,8 +194,13 @@ ob_end_flush();
     <div id="overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
 
 
-    <!-- Main Dashboard Container -->
-    <div class="ml-0 lg:ml-52 p-4 pt-16 lg:pt-4">
+    <!-- Main Content -->
+    <div class="relative ml-0 lg:ml-52 p-4 pt-16 lg:pt-4 min-h-screen">
+
+        <div id="loadingScreen" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+            <img src="../image/MainIcon.png" alt="Loading Icon" class="w-20 h-20 animate-pulse">
+            <p class="mt-4 text-teal-700 font-semibold text-lg">Loading...</p>
+        </div>
 
         <!-- Header with Welcome and Metrics -->
         <header class="bg-white shadow-lg rounded-lg text-gray-800 py-4 mb-8 p-4 lg:p-6 border border-slate-200">
@@ -638,6 +643,7 @@ ob_end_flush();
     <script src="../js/profile-dropdown.js"></script>
     <script src="../js/confirmLogout.js"></script>
     <script src="../js/admin-notification-bell.js"></script>
+    <script src="../js/customize-loader.js"></script>
 </body>
 
 </html>
