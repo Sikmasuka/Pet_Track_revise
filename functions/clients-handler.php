@@ -367,23 +367,29 @@ if (isset($_GET['get_client_details'])) {
     $clientId = (int)$_GET['get_client_details'];
 
     try {
-        // Fetch client data - using correct table name 'Client' (capital C)
+        // Log request
+        error_log("Processing get_client_details for client_id: $clientId");
+
+        // Fetch client data
         $stmt = $pdo->prepare("SELECT * FROM Client WHERE client_id = ? AND status = 1");
         $stmt->execute([$clientId]);
         $client = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$client) {
+            error_log("Client not found for client_id: $clientId");
             header('Content-Type: application/json');
+            http_response_code(404);
             echo json_encode(['error' => 'Client not found']);
             exit;
         }
 
-        // Fetch pets for this client - using correct table name 'Pet' (capital P)
+        // Fetch pets for this client
         $stmt = $pdo->prepare("SELECT * FROM Pet WHERE client_id = ? AND status = 1");
         $stmt->execute([$clientId]);
         $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        error_log("Fetched " . count($pets) . " pets for client_id: $clientId");
 
-        // Fetch medical records for this client's pets - using correct table names
+        // Fetch medical records for this client's pets
         $medicalRecords = [];
         if ($pets && count($pets) > 0) {
             $petIds = array_column($pets, 'pet_id');
@@ -396,17 +402,45 @@ if (isset($_GET['get_client_details'])) {
                                   ORDER BY mr.record_date DESC");
             $stmt->execute($petIds);
             $medicalRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            error_log("Fetched " . count($medicalRecords) . " medical records for client_id: $clientId");
+        }
+
+        // Geocode the address if available
+        $lat = null;
+        $lon = null;
+        if (!empty($client['client_address'])) {
+            $address = $client['client_address'];
+            $url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" . urlencode($address);
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'PetTrackApp/1.0 (your.email@example.com)');  // Replace with your app name and email
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200) {
+                $geoData = json_decode($response, true);
+                if (!empty($geoData)) {
+                    $lat = $geoData[0]['lat'];
+                    $lon = $geoData[0]['lon'];
+                }
+            } else {
+                error_log("Geocoding failed with HTTP code: $httpCode for address: $address");
+            }
         }
 
         header('Content-Type: application/json');
         echo json_encode([
             'client' => $client,
             'pets' => $pets,
-            'medicalRecords' => $medicalRecords
-        ]);
+            'medicalRecords' => $medicalRecords,
+            'lat' => $lat,
+            'lon' => $lon
+        ], JSON_NUMERIC_CHECK);
         exit;
     } catch (PDOException $e) {
-        error_log("AJAX Error: " . $e->getMessage());
+        error_log("Database error for client_id $clientId: " . $e->getMessage());
         header('Content-Type: application/json');
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);

@@ -274,31 +274,6 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
             <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors mb-6">
                 <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Pets</h3>
 
-                <!-- Filter Dropdowns in Same Row -->
-                <div class="flex flex-row gap-6 mb-4">
-                    <form method="GET">
-                        <label for="species1" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
-                        <select name="species" id="species1"
-                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                            onchange="this.form.submit()">
-                            <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
-                            <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Dog</option>
-                            <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Cat</option>
-                        </select>
-                    </form>
-
-                    <form method="GET">
-                        <label for="species2" class="text-sm font-medium text-gray-700 mr-2">Filter by sex:</label>
-                        <select name="species" id="species2"
-                            class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                            onchange="this.form.submit()">
-                            <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : '' ?>>All</option>
-                            <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : '' ?>>Male</option>
-                            <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : '' ?>>Female</option>
-                        </select>
-                    </form>
-                </div>
-
                 <?php
                 $pets = getPets($pdo); // Call function from record-handler.php
                 if (isset($error) && !empty($error)) {

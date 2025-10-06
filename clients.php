@@ -34,6 +34,10 @@ ob_end_flush();
     <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .mobile-menu-hidden {
@@ -83,6 +87,14 @@ ob_end_flush();
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #a0aec0;
+        }
+
+        /* Leaflet Map Styles */
+        #clientMap {
+            height: 200px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
 
         /* Compact View Modal Styles */
@@ -219,6 +231,11 @@ ob_end_flush();
         .compact-content::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 2px;
+        }
+
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -387,23 +404,10 @@ ob_end_flush();
             </div>
 
             <!-- Search Bar -->
-            <form method="GET" class="mb-4">
+            <div class="mb-4">
                 <label for="search" class="text-sm font-medium text-gray-700 mr-2">Search Clients:</label>
-                <input type="text" name="search" id="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="border border-gray-300 rounded-lg px-4 py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Search by name, address, or contact..." onchange="this.form.submit()">
-            </form>
-
-            <?php
-            // Apply search filter to clients
-            $clients = $clients ?? [];
-            if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
-                $searchTerm = trim($_GET['search']);
-                $clients = array_filter($clients, function ($client) use ($searchTerm) {
-                    return stripos($client['client_name'], $searchTerm) !== false ||
-                        stripos($client['client_address'], $searchTerm) !== false ||
-                        stripos($client['client_contact_number'], $searchTerm) !== false;
-                });
-            }
-            ?>
+                <input type="text" name="search" id="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="border border-gray-300 rounded-lg px-4 py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Search by name, address, or contact...">
+            </div>
 
             <?php if (count($clients) > 0): ?>
                 <div class="table-container">
@@ -423,12 +427,14 @@ ob_end_flush();
                                     <td class="px-4 py-2 text-sm text-gray-600"><?= htmlspecialchars($client['client_address']) ?></td>
                                     <td class="px-4 py-2 text-sm text-gray-600"><?= htmlspecialchars($client['client_contact_number']) ?></td>
                                     <td class="px-4 py-2 text-sm">
-                                        <a href="?view_client_id=<?= (int)$client['client_id'] ?>" class="text-green-500 hover:text-green-400 hover:underline">
+                                        <button onclick="showViewModal(<?= (int)$client['client_id'] ?>)" class="text-green-500 hover:text-green-400 hover:underline">
                                             <i class="fas fa-eye"></i>
+                                        </button> |
+                                        <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-indigo-500 hover:text-indigo-400 hover:underline">
+                                            <i class="fas fa-edit"></i>
                                         </a> |
-                                        <a href="?edit_client_id=<?= (int)$client['client_id'] ?>" class="text-indigo-500 hover:text-indigo-400 hover:underline"><i class="fas fa-edit"></i>
-                                        </a> |
-                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:text-red-400 hover:underline"><i class="fas fa-archive"></i>
+                                        <a href="#" onclick="confirmDelete(<?= (int)$client['client_id'] ?>)" class="text-red-500 hover:text-red-400 hover:underline">
+                                            <i class="fas fa-archive"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -436,6 +442,7 @@ ob_end_flush();
                         </tbody>
                     </table>
                 </div>
+                <p id="noResults" class="text-center text-gray-500 text-sm sm:text-base" style="display: none;">No clients found matching your search.</p>
             <?php else: ?>
                 <p class="text-center text-gray-500 text-sm sm:text-base">No clients found.</p>
             <?php endif; ?>
@@ -587,6 +594,8 @@ ob_end_flush();
                             <span class="block text-gray-500">Address</span>
                             <span id="viewClientAddress" class="font-medium text-gray-800">-</span>
                         </div>
+                        <!-- Map Container -->
+                        <div id="clientMap" class="h-48 mt-4 rounded-lg border border-gray-200" style="min-height: 192px;"></div> <!-- Height can be adjusted; 48rem tailwind unit = ~192px -->
                     </div>
                 </div>
 
@@ -627,6 +636,9 @@ ob_end_flush();
     </div>
 
     <script>
+        // Global variable to store the map instance
+        let clientMap = null;
+
         function showClientModal(action) {
             const modal = document.getElementById('clientModal');
             const form = document.getElementById('clientForm');
@@ -707,37 +719,49 @@ ob_end_flush();
             window.history.replaceState({}, document.title, url);
         }
 
-        // NEW: Function to show view modal
+        // Function to show view modal
         function showViewModal(clientId) {
-            console.log('Fetching client details for ID:', clientId);
+            console.log('showViewModal called with ID:', clientId);
 
-            // Show loading state
+            // Clean URL immediately to prevent other handlers from triggering
+            const url = new URL(window.location.href);
+            url.searchParams.delete('view_client_id');
+            url.searchParams.delete('edit_client_id');
+            window.history.replaceState({}, document.title, url);
+
+            const modal = document.getElementById('clientViewModal');
+
+            // Show modal immediately
+            modal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+
+            // Set loading state
             document.getElementById('viewClientName').textContent = 'Loading...';
             document.getElementById('viewClientContact').textContent = 'Loading...';
             document.getElementById('viewClientAddress').textContent = 'Loading...';
 
-            // Show the modal immediately with loading state
-            document.getElementById('clientViewModal').classList.remove('hidden');
+            // Clear previous content
+            const petInfoList = document.getElementById('petInfoList');
+            const medicalInfoList = document.getElementById('medicalInfoList');
+            const noPetInfo = document.getElementById('noPetInfo');
+            const noMedicalInfo = document.getElementById('noMedicalInfo');
+            const mapContainer = document.getElementById('clientMap');
 
-            // Fetch client data via AJAX
+            if (petInfoList) petInfoList.innerHTML = '';
+            if (medicalInfoList) medicalInfoList.innerHTML = '';
+            if (noPetInfo) noPetInfo.style.display = 'block';
+            if (noMedicalInfo) noMedicalInfo.style.display = 'block';
+            if (mapContainer) mapContainer.innerHTML = '<p class="text-center text-gray-500 py-4">Loading map...</p>';
+
+            // Fetch client data
             fetch(`?get_client_details=${clientId}`)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Received data:', data);
-
-                    if (data.error) {
-                        throw new Error(data.error);
-                    }
-
-                    if (!data.client) {
-                        throw new Error('Client data not found');
-                    }
-
+                    if (data.error) throw new Error(data.error);
+                    if (!data.client) throw new Error('Client data not found');
                     populateViewModal(data);
                 })
                 .catch(error => {
@@ -749,10 +773,12 @@ ob_end_flush();
         // Function to populate view modal with data
         function populateViewModal(data) {
             try {
+                const clientAddress = data.client.client_address || 'Not provided';
+
                 // Client Information
                 document.getElementById('viewClientName').textContent = data.client.client_name || 'Not provided';
                 document.getElementById('viewClientContact').textContent = data.client.client_contact_number || 'Not provided';
-                document.getElementById('viewClientAddress').textContent = data.client.client_address || 'Not provided';
+                document.getElementById('viewClientAddress').textContent = clientAddress;
 
                 // Pet Information
                 const petInfoList = document.getElementById('petInfoList');
@@ -761,32 +787,32 @@ ob_end_flush();
                 if (data.pets && data.pets.length > 0) {
                     noPetInfo.style.display = 'none';
                     petInfoList.innerHTML = data.pets.map(pet => `
-                <div class="bg-white rounded border border-gray-200 p-3">
-                    <div class="font-medium text-sm text-gray-800 mb-2">${escapeHtml(pet.pet_name || 'Unnamed Pet')}</div>
-                    <div class="space-y-1">
-                        <div class="info-row">
-                            <span class="info-label">Species</span>
-                            <span class="info-value">${escapeHtml(pet.pet_species || '-')}</span>
+                        <div class="bg-white rounded border border-gray-200 p-3">
+                            <div class="font-medium text-sm text-gray-800 mb-2">${escapeHtml(pet.pet_name || 'Unnamed Pet')}</div>
+                            <div class="space-y-1">
+                                <div class="info-row">
+                                    <span class="info-label">Species</span>
+                                    <span class="info-value">${escapeHtml(pet.pet_species || '-')}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Sex</span>
+                                    <span class="info-value">${escapeHtml(pet.pet_sex || '-')}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Breed</span>
+                                    <span class="info-value">${escapeHtml(pet.pet_breed || '-')}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Weight</span>
+                                    <span class="info-value">${pet.pet_weight ? pet.pet_weight + ' kg' : '-'}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Age</span>
+                                    <span class="info-value">${calculateAge(pet.pet_birth_date) || '-'}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Sex</span>
-                            <span class="info-value">${escapeHtml(pet.pet_sex || '-')}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Breed</span>
-                            <span class="info-value">${escapeHtml(pet.pet_breed || '-')}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Weight</span>
-                            <span class="info-value">${pet.pet_weight ? pet.pet_weight + ' kg' : '-'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Age</span>
-                            <span class="info-value">${calculateAge(pet.pet_birth_date) || '-'}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                    `).join('');
                 } else {
                     noPetInfo.style.display = 'block';
                     petInfoList.innerHTML = '';
@@ -799,32 +825,82 @@ ob_end_flush();
                 if (data.medicalRecords && data.medicalRecords.length > 0) {
                     noMedicalInfo.style.display = 'none';
                     medicalInfoList.innerHTML = data.medicalRecords.map(record => `
-                <div class="bg-white rounded border border-gray-200 p-3">
-                    <div class="font-medium text-sm text-gray-800 mb-2">Record for ${escapeHtml(record.pet_name || 'Pet')}</div>
-                    <div class="space-y-1">
-                        <div class="info-row">
-                            <span class="info-label">Condition</span>
-                            <span class="info-value">${escapeHtml(record.medical_condition || '-')}</span>
+                        <div class="bg-white rounded border border-gray-200 p-3">
+                            <div class="font-medium text-sm text-gray-800 mb-2">Record for ${escapeHtml(record.pet_name || 'Pet')}</div>
+                            <div class="space-y-1">
+                                <div class="info-row">
+                                    <span class="info-label">Condition</span>
+                                    <span class="info-value">${escapeHtml(record.medical_condition || '-')}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Diagnosis</span>
+                                    <span class="info-value">${escapeHtml(record.medical_diagnosis || '-')}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Treatment</span>
+                                    <span class="info-value">${escapeHtml(record.medical_treatment || '-')}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Diagnosis</span>
-                            <span class="info-value">${escapeHtml(record.medical_diagnosis || '-')}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Treatment</span>
-                            <span class="info-value">${escapeHtml(record.medical_treatment || '-')}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                    `).join('');
                 } else {
                     noMedicalInfo.style.display = 'block';
                     medicalInfoList.innerHTML = '';
                 }
+
+                // Initialize Map with Client Address
+                initializeClientMap(clientAddress);
+
             } catch (error) {
                 console.error('Error populating view modal:', error);
                 showViewModalError('Error displaying client details');
             }
+        }
+
+        // Simplified Function to initialize the map with client address using Leaflet.js
+        function initializeClientMap(address) {
+            const mapContainer = document.getElementById('clientMap');
+
+            if (!mapContainer || !address || address === 'Not provided') {
+                mapContainer.innerHTML = '<p class="text-center text-gray-500 py-4">No map available</p>';
+                return;
+            }
+
+            // Simple geocode fetch
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`, {
+                    headers: {
+                        'User-Agent': 'PetTrackApp/1.0 (your.email@example.com)' // Replace with your app name and email
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Geocoding failed with status ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(geoData => {
+                    if (geoData && geoData.length > 0) {
+                        const lat = parseFloat(geoData[0].lat);
+                        const lon = parseFloat(geoData[0].lon);
+
+                        // Initialize simple Leaflet map
+                        clientMap = L.map('clientMap').setView([lat, lon], 13);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; OpenStreetMap'
+                        }).addTo(clientMap);
+
+                        // Add simple marker
+                        L.marker([lat, lon]).addTo(clientMap)
+                            .bindPopup(address)
+                            .openPopup();
+                    } else {
+                        mapContainer.innerHTML = '<p class="text-center text-gray-500 py-4">Location not found</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Map loading error:', error);
+                    mapContainer.innerHTML = '<p class="text-center text-red-500 py-4">Map error: ' + error.message + '</p>';
+                });
         }
 
         // Function to show error in view modal
@@ -837,26 +913,60 @@ ob_end_flush();
             const noPetInfo = document.getElementById('noPetInfo');
             const medicalInfoList = document.getElementById('medicalInfoList');
             const noMedicalInfo = document.getElementById('noMedicalInfo');
+            const mapContainer = document.getElementById('clientMap');
 
             if (noPetInfo) noPetInfo.style.display = 'none';
             if (noMedicalInfo) noMedicalInfo.style.display = 'none';
 
             if (petInfoList) {
                 petInfoList.innerHTML = `<div class="text-center text-red-500 text-sm py-2">
-            <i class="fas fa-exclamation-triangle mr-1"></i>Error loading pets
-        </div>`;
+                    <i class="fas fa-exclamation-triangle mr-1"></i>Error loading pets: ${escapeHtml(errorMessage)}
+                </div>`;
             }
 
             if (medicalInfoList) {
                 medicalInfoList.innerHTML = `<div class="text-center text-red-500 text-sm py-2">
-            <i class="fas fa-exclamation-triangle mr-1"></i>Error loading records
-        </div>`;
+                    <i class="fas fa-exclamation-triangle mr-1"></i>Error loading records: ${escapeHtml(errorMessage)}
+                </div>`;
+            }
+
+            if (mapContainer) {
+                mapContainer.innerHTML = '<p class="text-center text-red-500 py-4">Error loading map</p>';
             }
         }
 
-        // Keep other helper functions the same (showViewModal, escapeHtml, calculateAge, hideViewModal)
+        // Function to hide view modal
+        function hideViewModal() {
+            console.log('Hiding view modal');
+            const modal = document.getElementById('clientViewModal');
+            modal.classList.add('hidden');
+            document.body.classList.remove('modal-open');
 
-        // NEW: Helper function to escape HTML
+            // Destroy the map instance if it exists
+            if (clientMap) {
+                clientMap.remove();
+                clientMap = null;
+            }
+
+            // Reset content
+            document.getElementById('viewClientName').textContent = '-';
+            document.getElementById('viewClientContact').textContent = '-';
+            document.getElementById('viewClientAddress').textContent = '-';
+
+            const noPetInfo = document.getElementById('noPetInfo');
+            const noMedicalInfo = document.getElementById('noMedicalInfo');
+            const petInfoList = document.getElementById('petInfoList');
+            const medicalInfoList = document.getElementById('medicalInfoList');
+            const mapContainer = document.getElementById('clientMap');
+
+            if (noPetInfo) noPetInfo.style.display = 'block';
+            if (noMedicalInfo) noMedicalInfo.style.display = 'block';
+            if (petInfoList) petInfoList.innerHTML = '';
+            if (medicalInfoList) medicalInfoList.innerHTML = '';
+            if (mapContainer) mapContainer.innerHTML = '';
+        }
+
+        // Helper function to escape HTML
         function escapeHtml(unsafe) {
             if (unsafe === null || unsafe === undefined) return '';
             return unsafe
@@ -868,7 +978,7 @@ ob_end_flush();
                 .replace(/'/g, "&#039;");
         }
 
-        // NEW: Helper function to calculate age from birth date
+        // Helper function to calculate age from birth date
         function calculateAge(birthDate) {
             if (!birthDate) return '-';
 
@@ -894,40 +1004,18 @@ ob_end_flush();
             }
         }
 
-        // NEW: Function to hide view modal
-        function hideViewModal() {
-            document.getElementById('clientViewModal').classList.add('hidden');
-            // Reset modal content for next time
-            document.getElementById('viewClientName').textContent = '-';
-            document.getElementById('viewClientContact').textContent = '-';
-            document.getElementById('viewClientAddress').textContent = '-';
-
-            const noPetInfo = document.getElementById('noPetInfo');
-            const noMedicalInfo = document.getElementById('noMedicalInfo');
-            const petInfoList = document.getElementById('petInfoList');
-            const medicalInfoList = document.getElementById('medicalInfoList');
-
-            if (noPetInfo) noPetInfo.style.display = 'block';
-            if (noMedicalInfo) noMedicalInfo.style.display = 'block';
-            if (petInfoList) petInfoList.innerHTML = '';
-            if (medicalInfoList) medicalInfoList.innerHTML = '';
-        }
-
-        // NEW: Update table view links to use the new modal
+        // Handle URL parameters on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Replace the existing view links to use the new modal
-            document.querySelectorAll('a[href*="view_client_id"]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const urlParams = new URLSearchParams(this.href.split('?')[1]);
-                    const clientId = urlParams.get('view_client_id');
-                    if (clientId) {
-                        showViewModal(clientId);
-                    } else {
-                        console.error('No client ID found in view link');
-                    }
-                });
-            });
+            const urlParams = new URLSearchParams(window.location.search);
+            const viewClientId = urlParams.get('view_client_id');
+
+            if (viewClientId) {
+                console.log('Found view_client_id in URL on page load:', viewClientId);
+                // Small timeout to ensure DOM is fully ready
+                setTimeout(() => {
+                    showViewModal(viewClientId);
+                }, 100);
+            }
         });
 
         function confirmDelete(clientId) {
@@ -1115,6 +1203,41 @@ ob_end_flush();
                         });
                         return;
                     }
+                }
+            }
+        });
+
+        // Client-side filtering for search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase().trim();
+                    const rows = document.querySelectorAll('tbody tr');
+                    let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        const name = row.cells[0].textContent.toLowerCase();
+                        const address = row.cells[1].textContent.toLowerCase();
+                        const contact = row.cells[2].textContent.toLowerCase();
+
+                        if (name.includes(searchTerm) || address.includes(searchTerm) || contact.includes(searchTerm)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    const noResults = document.getElementById('noResults');
+                    if (noResults) {
+                        noResults.style.display = (visibleCount === 0) ? 'block' : 'none';
+                    }
+                });
+
+                // Trigger filtering on page load if search value is present (from URL)
+                if (searchInput.value) {
+                    searchInput.dispatchEvent(new Event('input'));
                 }
             }
         });
