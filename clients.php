@@ -7,14 +7,19 @@ $stmt->execute([$_SESSION['vet_id']]);
 $vet = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Fetch unique medical conditions for autocomplete suggestions
-$stmtConditions = $pdo->prepare("
-    SELECT DISTINCT LOWER(TRIM(medical_condition)) AS condition_name
-    FROM Medical_Records
-    WHERE medical_condition IS NOT NULL AND medical_condition != ''
-    ORDER BY condition_name
-");
+$stmtConditions = $pdo->prepare("SELECT medical_condition FROM Medical_Records WHERE medical_condition IS NOT NULL AND medical_condition != ''");
 $stmtConditions->execute();
-$uniqueConditions = $stmtConditions->fetchAll(PDO::FETCH_COLUMN);
+$allConditions = $stmtConditions->fetchAll(PDO::FETCH_COLUMN);
+
+$uniqueConditions = [];
+foreach ($allConditions as $cond) {
+    $split = array_map('trim', explode(',', $cond));
+    foreach ($split as $s) {
+        if ($s) $uniqueConditions[strtolower($s)] = true;
+    }
+}
+$uniqueConditions = array_keys($uniqueConditions);
+sort($uniqueConditions);
 
 // Optional: Add defaults if DB is empty
 if (empty($uniqueConditions)) {
@@ -34,12 +39,31 @@ ob_end_flush();
     <script src="Assets/Extension.js"></script>
     <link rel="stylesheet" href="Assets/FontAwsome/css/all.min.css">
     <link rel="icon" href="image/MainIcon.png" type="image/x-icon">
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .condition-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.75rem;
+            line-height: 1.25rem;
+        }
+
+        .condition-tag span {
+            margin-left: 0.25rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .condition-tag span:hover {
+            color: #064e3b;
+        }
+
         .mobile-menu-hidden {
             transform: translateX(-100%);
         }
@@ -89,15 +113,6 @@ ob_end_flush();
             background: #a0aec0;
         }
 
-        /* Leaflet Map Styles */
-        #clientMap {
-            height: 200px;
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Compact View Modal Styles */
         .compact-modal {
             background: white;
             border-radius: 12px;
@@ -527,25 +542,29 @@ ob_end_flush();
                     <h4 class="text-sm font-bold text-gray-700 mb-2">Medical Record Information</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs text-gray-500 mb-1">Condition</label>
-                            <input type="text" name="medical_condition" id="medicalCondition" list="conditionSuggestions" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                            <label class="block text-xs text-gray-500 mb-1">Conditions (comma-separated)</label>
+                            <div id="conditionsContainer" class="flex flex-wrap items-center w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent min-h-[38px] gap-1">
+                                <!-- Tags will be dynamically added here -->
+                                <input type="text" id="conditionInput" list="conditionSuggestions" class="flex-1 outline-none bg-transparent min-w-[150px]" placeholder="Type a condition...">
+                            </div>
                             <datalist id="conditionSuggestions">
                                 <?php foreach ($uniqueConditions as $cond): ?>
                                     <option value="<?= htmlspecialchars(ucwords($cond)) ?>">
                                     <?php endforeach; ?>
                             </datalist>
+                            <input type="hidden" name="medical_condition" id="medicalConditionHidden" required>
                         </div>
                         <div>
                             <label class="block text-xs text-gray-500 mb-1">Diagnosis</label>
-                            <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
+                            <textarea name="medical_diagnosis" id="medicalDiagnosis" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" required></textarea>
                         </div>
                         <div>
                             <label class="block text-xs text-gray-500 mb-1">Symptoms</label>
-                            <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
+                            <textarea name="medical_symptoms" id="medicalSymptoms" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" required></textarea>
                         </div>
                         <div>
                             <label class="block text-xs text-gray-500 mb-1">Treatment</label>
-                            <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"></textarea>
+                            <textarea name="medical_treatment" id="medicalTreatment" class="w-full p-2 border border-slate-300 rounded-md text-sm bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -594,8 +613,6 @@ ob_end_flush();
                             <span class="block text-gray-500">Address</span>
                             <span id="viewClientAddress" class="font-medium text-gray-800">-</span>
                         </div>
-                        <!-- Map Container -->
-                        <div id="clientMap" class="h-48 mt-4 rounded-lg border border-gray-200" style="min-height: 192px;"></div> <!-- Height can be adjusted; 48rem tailwind unit = ~192px -->
                     </div>
                 </div>
 
@@ -636,9 +653,6 @@ ob_end_flush();
     </div>
 
     <script>
-        // Global variable to store the map instance
-        let clientMap = null;
-
         function showClientModal(action) {
             const modal = document.getElementById('clientModal');
             const form = document.getElementById('clientForm');
@@ -647,46 +661,49 @@ ob_end_flush();
             const speciesTooltip = document.getElementById('speciesTooltip');
             const sexTooltip = document.getElementById('sexTooltip');
 
-            // Reset form but preserve existing values for edit mode
-            form.querySelector('input[name="update_client"]')?.remove();
-            // Enable dropdowns and hide tooltips by default
-            document.getElementById('petSpecies').disabled = false;
-            document.getElementById('petSex').disabled = false;
-            speciesTooltip.classList.add('hidden');
-            sexTooltip.classList.add('hidden');
+            // Check if required elements exist
+            if (!modal || !form || !modalTitle || !formAction) {
+                console.error('Required modal elements not found');
+                return;
+            }
 
-            // Clear required attributes for all fields initially
-            document.getElementById('petName').removeAttribute('required');
-            document.getElementById('petSpecies').removeAttribute('required');
-            document.getElementById('petSex').removeAttribute('required');
-            document.getElementById('petBreed').removeAttribute('required');
-            document.getElementById('petWeight').removeAttribute('required');
-            document.getElementById('petBirthDate').removeAttribute('required');
-            document.getElementById('medicalCondition').removeAttribute('required');
-            document.getElementById('medicalDiagnosis').removeAttribute('required');
-            document.getElementById('medicalSymptoms').removeAttribute('required');
-            document.getElementById('medicalTreatment').removeAttribute('required');
+            // Reset form but preserve existing values for edit mode
+            const updateInput = form.querySelector('input[name="update_client"]');
+            if (updateInput) updateInput.remove();
+
+            // Enable dropdowns and hide tooltips by default
+            const petSpecies = document.getElementById('petSpecies');
+            const petSex = document.getElementById('petSex');
+            if (petSpecies) petSpecies.disabled = false;
+            if (petSex) petSex.disabled = false;
+            if (speciesTooltip) speciesTooltip.classList.add('hidden');
+            if (sexTooltip) sexTooltip.classList.add('hidden');
+
+            // List of fields to clear required attributes
+            const fields = [
+                'petName', 'petSpecies', 'petSex', 'petBreed',
+                'petWeight', 'petBirthDate', 'medicalCondition',
+                'medicalDiagnosis', 'medicalSymptoms', 'medicalTreatment'
+            ];
+
+            // Clear required attributes for all fields if they exist
+            fields.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.removeAttribute('required');
+            });
 
             if (action === 'add') {
                 form.reset(); // Clear form for adding new client
                 formAction.name = 'add_client';
                 modalTitle.textContent = 'Add New Client, Pet, and Medical Record';
                 // Set required attributes for add mode
-                document.getElementById('petName').setAttribute('required', '');
-                document.getElementById('petSpecies').setAttribute('required', '');
-                document.getElementById('petSex').setAttribute('required', '');
-                document.getElementById('petBreed').setAttribute('required', '');
-                document.getElementById('petWeight').setAttribute('required', '');
-                document.getElementById('petBirthDate').setAttribute('required', '');
-                document.getElementById('medicalCondition').setAttribute('required', '');
-                document.getElementById('medicalDiagnosis').setAttribute('required', '');
-                document.getElementById('medicalSymptoms').setAttribute('required', '');
-                document.getElementById('medicalTreatment').setAttribute('required', '');
+                fields.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) element.setAttribute('required', '');
+                });
             } else if (action === 'edit') {
                 modalTitle.textContent = 'Edit Client, Pet, and Medical Record';
                 formAction.name = 'update_client';
-                // Debugging: Log pet_id when opening edit modal
-                console.log('Opening edit modal with pet_id:', document.getElementById('pet_id').value);
             } else if (action === 'view') {
                 modalTitle.textContent = 'View Client, Pet, and Medical Record';
                 formAction.name = ''; // No form action for view
@@ -745,13 +762,11 @@ ob_end_flush();
             const medicalInfoList = document.getElementById('medicalInfoList');
             const noPetInfo = document.getElementById('noPetInfo');
             const noMedicalInfo = document.getElementById('noMedicalInfo');
-            const mapContainer = document.getElementById('clientMap');
 
             if (petInfoList) petInfoList.innerHTML = '';
             if (medicalInfoList) medicalInfoList.innerHTML = '';
             if (noPetInfo) noPetInfo.style.display = 'block';
             if (noMedicalInfo) noMedicalInfo.style.display = 'block';
-            if (mapContainer) mapContainer.innerHTML = '<p class="text-center text-gray-500 py-4">Loading map...</p>';
 
             // Fetch client data
             fetch(`?get_client_details=${clientId}`)
@@ -848,59 +863,10 @@ ob_end_flush();
                     medicalInfoList.innerHTML = '';
                 }
 
-                // Initialize Map with Client Address
-                initializeClientMap(clientAddress);
-
             } catch (error) {
                 console.error('Error populating view modal:', error);
                 showViewModalError('Error displaying client details');
             }
-        }
-
-        // Simplified Function to initialize the map with client address using Leaflet.js
-        function initializeClientMap(address) {
-            const mapContainer = document.getElementById('clientMap');
-
-            if (!mapContainer || !address || address === 'Not provided') {
-                mapContainer.innerHTML = '<p class="text-center text-gray-500 py-4">No map available</p>';
-                return;
-            }
-
-            // Simple geocode fetch
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`, {
-                    headers: {
-                        'User-Agent': 'PetTrackApp/1.0 (your.email@example.com)' // Replace with your app name and email
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Geocoding failed with status ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(geoData => {
-                    if (geoData && geoData.length > 0) {
-                        const lat = parseFloat(geoData[0].lat);
-                        const lon = parseFloat(geoData[0].lon);
-
-                        // Initialize simple Leaflet map
-                        clientMap = L.map('clientMap').setView([lat, lon], 13);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '&copy; OpenStreetMap'
-                        }).addTo(clientMap);
-
-                        // Add simple marker
-                        L.marker([lat, lon]).addTo(clientMap)
-                            .bindPopup(address)
-                            .openPopup();
-                    } else {
-                        mapContainer.innerHTML = '<p class="text-center text-gray-500 py-4">Location not found</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Map loading error:', error);
-                    mapContainer.innerHTML = '<p class="text-center text-red-500 py-4">Map error: ' + error.message + '</p>';
-                });
         }
 
         // Function to show error in view modal
@@ -913,7 +879,6 @@ ob_end_flush();
             const noPetInfo = document.getElementById('noPetInfo');
             const medicalInfoList = document.getElementById('medicalInfoList');
             const noMedicalInfo = document.getElementById('noMedicalInfo');
-            const mapContainer = document.getElementById('clientMap');
 
             if (noPetInfo) noPetInfo.style.display = 'none';
             if (noMedicalInfo) noMedicalInfo.style.display = 'none';
@@ -930,9 +895,6 @@ ob_end_flush();
                 </div>`;
             }
 
-            if (mapContainer) {
-                mapContainer.innerHTML = '<p class="text-center text-red-500 py-4">Error loading map</p>';
-            }
         }
 
         // Function to hide view modal
@@ -941,12 +903,6 @@ ob_end_flush();
             const modal = document.getElementById('clientViewModal');
             modal.classList.add('hidden');
             document.body.classList.remove('modal-open');
-
-            // Destroy the map instance if it exists
-            if (clientMap) {
-                clientMap.remove();
-                clientMap = null;
-            }
 
             // Reset content
             document.getElementById('viewClientName').textContent = '-';
@@ -957,13 +913,11 @@ ob_end_flush();
             const noMedicalInfo = document.getElementById('noMedicalInfo');
             const petInfoList = document.getElementById('petInfoList');
             const medicalInfoList = document.getElementById('medicalInfoList');
-            const mapContainer = document.getElementById('clientMap');
 
             if (noPetInfo) noPetInfo.style.display = 'block';
             if (noMedicalInfo) noMedicalInfo.style.display = 'block';
             if (petInfoList) petInfoList.innerHTML = '';
             if (medicalInfoList) medicalInfoList.innerHTML = '';
-            if (mapContainer) mapContainer.innerHTML = '';
         }
 
         // Helper function to escape HTML
@@ -1123,7 +1077,7 @@ ob_end_flush();
                 // Set medical record values if exists
                 <?php if ($medicalRecordToEdit): ?>
                     document.getElementById('record_id').value = <?= json_encode($medicalRecordToEdit['record_id'] ?? '') ?>;
-                    document.getElementById('medicalCondition').value = <?= json_encode($medicalRecordToEdit['medical_condition'] ?? '') ?>;
+                    document.getElementById('medicalConditionHidden').value = <?= json_encode($medicalRecordToEdit['medical_condition'] ?? '') ?>;
                     document.getElementById('medicalDiagnosis').value = <?= json_encode($medicalRecordToEdit['medical_diagnosis'] ?? '') ?>;
                     document.getElementById('medicalSymptoms').value = <?= json_encode($medicalRecordToEdit['medical_symptoms'] ?? '') ?>;
                     document.getElementById('medicalTreatment').value = <?= json_encode($medicalRecordToEdit['medical_treatment'] ?? '') ?>;
@@ -1135,7 +1089,7 @@ ob_end_flush();
                 <?php else: ?>
                     // Clear medical record fields if no record exists
                     document.getElementById('record_id').value = '';
-                    document.getElementById('medicalCondition').value = '';
+                    document.getElementById('medicalConditionHidden').value = '';
                     document.getElementById('medicalDiagnosis').value = '';
                     document.getElementById('medicalSymptoms').value = '';
                     document.getElementById('medicalTreatment').value = '';
@@ -1158,7 +1112,7 @@ ob_end_flush();
                 event.preventDefault(); // Prevent submit in view mode
                 return;
             }
-            const medicalFields = ['medicalCondition', 'medicalDiagnosis', 'medicalSymptoms', 'medicalTreatment'];
+            const medicalFields = ['medicalConditionHidden', 'medicalDiagnosis', 'medicalSymptoms', 'medicalTreatment'];
             const petFields = ['petName', 'petSpecies', 'petSex', 'petBreed', 'petWeight', 'petBirthDate'];
             const petId = document.getElementById('pet_id').value.trim();
             const hasPetData = petFields.some(id => document.getElementById(id).value.trim());
@@ -1239,6 +1193,110 @@ ob_end_flush();
                 if (searchInput.value) {
                     searchInput.dispatchEvent(new Event('input'));
                 }
+            }
+        });
+
+        // Handle multiple conditions with tag-like input
+        document.addEventListener('DOMContentLoaded', function() {
+            const conditionsContainer = document.getElementById('conditionsContainer');
+            const conditionInput = document.getElementById('conditionInput');
+            const medicalConditionHidden = document.getElementById('medicalConditionHidden');
+            const conditionSuggestions = document.getElementById('conditionSuggestions');
+            let conditions = [];
+
+            // Function to update hidden input with concatenated conditions
+            function updateHiddenInput() {
+                medicalConditionHidden.value = conditions.join(', ');
+            }
+
+            // Function to render tags
+            function renderTags() {
+                // Clear existing tags (except input)
+                conditionsContainer.querySelectorAll('.condition-tag').forEach(tag => tag.remove());
+
+                // Add tags before the input
+                conditions.forEach((condition, index) => {
+                    const tag = document.createElement('span');
+                    tag.className = 'condition-tag bg-emerald-100 text-emerald-800 text-xs font-medium px-2 py-1 rounded mr-1 mb-1 flex items-center';
+                    tag.innerHTML = `
+                ${escapeHtml(condition)}
+                <span class="ml-1 cursor-pointer text-emerald-600 hover:text-emerald-800" data-index="${index}">&times;</span>
+            `;
+                    conditionsContainer.insertBefore(tag, conditionInput);
+                });
+
+                updateHiddenInput();
+            }
+
+            // Handle input events
+            conditionInput.addEventListener('input', function(e) {
+                const value = this.value.trim();
+
+                // If a comma is entered, add the condition and reset input
+                if (value.includes(',')) {
+                    const newConditions = value.split(',').map(c => c.trim()).filter(c => c);
+                    newConditions.forEach(condition => {
+                        if (condition && !conditions.includes(condition)) {
+                            conditions.push(condition);
+                        }
+                    });
+                    this.value = '';
+                    renderTags();
+                }
+            });
+
+            // Handle Enter key to add condition
+            conditionInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ',') {
+                    e.preventDefault();
+                    const value = this.value.trim();
+                    if (value && !conditions.includes(value)) {
+                        conditions.push(value);
+                        this.value = '';
+                        renderTags();
+                    }
+                }
+            });
+
+            // Handle tag removal
+            conditionsContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('cursor-pointer')) {
+                    const index = parseInt(e.target.dataset.index);
+                    conditions.splice(index, 1);
+                    renderTags();
+                }
+            });
+
+            // Handle datalist selection
+            conditionInput.addEventListener('change', function() {
+                const value = this.value.trim();
+                if (value && !conditions.includes(value)) {
+                    // Check if the selected value is in the datalist
+                    const options = Array.from(conditionSuggestions.options).map(opt => opt.value);
+                    if (options.includes(value)) {
+                        conditions.push(value);
+                        this.value = '';
+                        renderTags();
+                    }
+                }
+            });
+
+            // Populate conditions in edit mode
+            <?php if ($medicalRecordToEdit && !empty($medicalRecordToEdit['medical_condition'])): ?>
+                conditions = <?= json_encode(array_map('trim', explode(',', $medicalRecordToEdit['medical_condition']))) ?>;
+                renderTags();
+            <?php endif; ?>
+
+            // Helper function to escape HTML (already defined in your code)
+            function escapeHtml(unsafe) {
+                if (unsafe === null || unsafe === undefined) return '';
+                return unsafe
+                    .toString()
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
             }
         });
     </script>

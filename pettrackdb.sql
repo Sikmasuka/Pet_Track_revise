@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2025 at 06:11 PM
+-- Generation Time: Oct 07, 2025 at 12:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,7 +77,9 @@ INSERT INTO `appointments` (`id`, `owner_name`, `contact_number`, `appointment_d
 (53, 'tokneneng', '09392516664', '2025-09-18', '09:30:00', 'Vaccination', 'Scheduled', '2025-09-11 13:48:20', NULL, 90),
 (54, 'Mario Santos', '12345678901', '2025-10-08', '09:00:00', 'Grooming', 'Scheduled', '2025-10-01 13:33:21', NULL, 90),
 (55, 'Danreb Salvacionss', 'Dongkits', '2025-10-09', '14:30:00', 'Checkup', 'Scheduled', '2025-10-02 05:26:30', NULL, 90),
-(56, 'Maricar T. Bahala', '12345678910', '2025-10-10', '14:30:00', 'Checkup', 'Scheduled', '2025-10-04 14:07:00', NULL, 90);
+(56, 'Maricar T. Bahala', '12345678910', '2025-10-10', '14:30:00', 'Checkup', 'Scheduled', '2025-10-04 14:07:00', NULL, 90),
+(57, 'Bulilit Dela Cera', '09392516664', '2025-10-10', '09:30:00', 'Checkup', 'Scheduled', '2025-10-06 13:35:57', NULL, 90),
+(58, 'Maris Awitin', '012345678901', '2025-10-11', '14:30:00', 'Vaccination', 'Scheduled', '2025-10-06 14:28:35', NULL, 90);
 
 -- --------------------------------------------------------
 
@@ -131,7 +133,8 @@ CREATE TABLE `client` (
 INSERT INTO `client` (`client_id`, `client_name`, `client_address`, `client_contact_number`, `status`, `updated_at`) VALUES
 (42, 'Roselyn Villanueva', 'Purok 2, Barangay Cogon, Balingasag, Misamis Oriental', '09176543210', 1, '2025-09-11 04:03:02'),
 (44, 'Roberto Lagbas', 'Brgy. Mandangoa, Balingasag, Misamis Oriental', '09281234567', 1, NULL),
-(47, 'Boknoy Esmaels', 'Barangay 3, Balingasag, Misamis Oriental', '09392516664', 1, NULL);
+(47, 'Boknoy Esmaels', 'Barangay 3, Balingasag, Misamis Oriental', '09392516664', 1, NULL),
+(48, 'Maria Teresa Dela Cruz', 'Poblacion, Balingasag, Misamis Oriental', '09123456789', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -463,7 +466,18 @@ INSERT INTO `logs` (`Log_ID`, `User_ID`, `Role`, `Action_Type`, `Table_Affected`
 (425, 10, NULL, 'Login', 'Veterinarian', 'Maricar T. Bahala logged in', '2025-10-05 00:05:18'),
 (426, 10, NULL, 'Login', 'Veterinarian', 'Maricar T. Bahala logged in', '2025-10-05 00:05:55'),
 (427, 10, NULL, 'Login', 'Veterinarian', 'Maricar T. Bahala logged in', '2025-10-05 00:06:08'),
-(428, 10, NULL, 'Login', 'Veterinarian', 'Maricar T. Bahala logged in', '2025-10-05 00:06:47');
+(428, 10, NULL, 'Login', 'Veterinarian', 'Maricar T. Bahala logged in', '2025-10-05 00:06:47'),
+(429, 0, NULL, 'Appointment', 'Guest', 'Guest Bulilit Dela Cera booked an appointment on October 10, 2025 at 9:30 AM', '2025-10-06 21:35:57'),
+(430, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo logged in', '2025-10-06 21:36:02'),
+(431, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo logged in', '2025-10-06 22:20:19'),
+(432, 0, NULL, 'Appointment', 'Guest', 'Guest Maris Awitin booked an appointment on October 11, 2025 at 2:30 PM', '2025-10-06 22:28:35'),
+(433, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo logged in', '2025-10-07 17:41:39'),
+(434, 4, NULL, 'add', 'Admin', 'samuel added a new client \'Maria Teresa Dela Cruz\', pet \'Budoy\', and medical record', '2025-10-07 17:49:44'),
+(435, 4, NULL, 'update', 'Admin', 'samuel updated client \'Maria Teresa Dela Cruz\' and pet \'Budoy\' and updated/added a medical record', '2025-10-07 17:49:57'),
+(436, 9, NULL, 'Login', 'Admin', 'jonggun logged in', '2025-10-07 17:53:54'),
+(437, 9, NULL, 'Login', 'Admin', 'jonggun logged in', '2025-10-07 18:00:44'),
+(438, 4, NULL, 'Login', 'Veterinarian', 'Samuel Seo logged in', '2025-10-07 18:02:42'),
+(439, 9, NULL, 'Login', 'Admin', 'jonggun logged in', '2025-10-07 18:11:05');
 
 -- --------------------------------------------------------
 
@@ -491,7 +505,8 @@ CREATE TABLE `medical_records` (
 INSERT INTO `medical_records` (`record_id`, `pet_id`, `date`, `medical_condition`, `medical_diagnosis`, `medical_symptoms`, `medical_treatment`, `updated_at`, `status`, `record_date`) VALUES
 (29, 41, '2025-09-11', 'Eye discharge and sneezing', 'Upper respiratory infection (common in kittens)', 'Watery eyes, frequent sneezing, mild nasal discharge', 'Prescribed antibiotics, vitamin supplements, and advised warm, clean shelter', '2025-09-11 04:03:02', 1, '2025-09-11'),
 (31, 43, '2025-10-02', 'Runny noses', 'Problem', 'Vomiting, diarrhea, lethargy', 'IV fluids, antivirals, antibiotics', '2025-10-02 03:18:00', 1, '2025-10-02'),
-(34, 46, '2025-10-04', 'Runny Noses', '123123', '123123', '123123', '2025-10-04 14:05:01', 1, '2025-10-03');
+(34, 46, '2025-10-04', 'Runny Noses', '123123', '123123', '123123', '2025-10-04 14:05:01', 1, '2025-10-03'),
+(35, 47, '2025-10-07', 'Flea Allergy Dermatitis, Runny Noses', 'Skin irritation caused by flea infestation', 'Constant scratching, red patches on skin, mild hair loss', 'Flea shampoo, topical anti-itch cream, and monthly flea preventive drops', '2025-10-07 09:49:57', 1, '2025-10-07');
 
 -- --------------------------------------------------------
 
@@ -565,7 +580,8 @@ CREATE TABLE `pet` (
 INSERT INTO `pet` (`pet_id`, `pet_name`, `pet_sex`, `pet_weight`, `pet_breed`, `pet_birth_date`, `client_id`, `status`, `pet_species`, `updated_at`) VALUES
 (41, 'Mingming', 'Female', 10.00, 'Puspin', '2023-11-12', 42, 1, 'Cat', '2025-09-11 04:03:02'),
 (43, 'Bruno', 'Male', 20.00, 'Labrador', '2024-12-11', 44, 1, 'Dog', NULL),
-(46, 'tigok', 'Male', 12.00, 'Labrador', '2222-02-22', 47, 1, 'Dog', NULL);
+(46, 'tigok', 'Male', 12.00, 'Labrador', '2222-02-22', 47, 1, 'Dog', NULL),
+(47, 'Budoy', 'Male', 12.00, 'Aspin', '2023-03-20', 48, 1, 'Dog', NULL);
 
 -- --------------------------------------------------------
 
@@ -700,7 +716,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `archive`
@@ -712,19 +728,19 @@ ALTER TABLE `archive`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `Log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=429;
+  MODIFY `Log_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=440;
 
 --
 -- AUTO_INCREMENT for table `medical_records`
 --
 ALTER TABLE `medical_records`
-  MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -742,7 +758,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `veterinarian`

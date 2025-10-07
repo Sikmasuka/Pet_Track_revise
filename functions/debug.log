@@ -13746,3 +13746,108 @@ Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
 Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
 Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 1, duration: 90)
 Events found: 3
+Time: 2025-10-06 21:35:43 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Count for 2025-10-10: 1
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Time: 2025-10-06 21:35:54 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Count for 2025-10-10: 1
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 1, duration: 90)
+Events found: 1
+Script executed at 2025-10-06 21:35:57
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Bulilit Dela Cera
+    [contact_number] => 09392516664
+    [appointment_date] => 2025-10-10
+    [appointment_time] => 09:30:00
+    [reason] => Checkup
+)
+
+Appointment logged: Guest Bulilit Dela Cera booked an appointment on October 10, 2025 at 9:30 AM
+Script executed at 2025-10-06 22:20:04
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Maris Awitin
+    [contact_number] => 093925166644
+    [appointment_date] => 2025-10-10
+    [appointment_time] => 08:30:00
+    [reason] => Emergency
+)
+
+Time: 2025-10-06 22:20:38 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Count for 2025-10-10: 2
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 4
+Time: 2025-10-06 22:20:39 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Count for 2025-10-10: 2
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 4
+Time: 2025-10-06 22:28:01 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Count for 2025-10-10: 2
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-10-06 22:28:16 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Count for 2025-10-10: 2
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-10-06 22:28:29 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Count for 2025-10-10: 2
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-10-06 22:28:29 - Start: 2025-10-10, End: 2025-10-10, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-10&end=2025-10-10
+Count for 2025-10-10: 2
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Events found: 2
+Time: 2025-10-06 22:28:31 - Start: 2025-10-11, End: 2025-10-11, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-11&end=2025-10-11
+Events found: 0
+Script executed at 2025-10-06 22:28:35
+Database connection successful.
+Form data: Array
+(
+    [owner_name] => Maris Awitin
+    [contact_number] => 012345678901
+    [appointment_date] => 2025-10-11
+    [appointment_time] => 14:30:00
+    [reason] => Vaccination
+)
+
+Appointment logged: Guest Maris Awitin booked an appointment on October 11, 2025 at 2:30 PM
+Time: 2025-10-07 17:58:51 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Count for 2025-10-10: 2
+Count for 2025-10-11: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Event: Maris Awitin on 2025-10-11 at 14:30:00 (count: 1, duration: 90)
+Events found: 5
+Time: 2025-10-07 17:58:52 - Start: 2025-10-01, End: 2025-11-01, Server: /Pet_Track_revise-3/functions/get-appointments.php?start=2025-10-01&end=2025-11-01
+Count for 2025-10-08: 1
+Count for 2025-10-09: 1
+Count for 2025-10-10: 2
+Count for 2025-10-11: 1
+Event: Mario Santos on 2025-10-08 at 09:00:00 (count: 1, duration: 90)
+Event: Danreb Salvacionss on 2025-10-09 at 14:30:00 (count: 1, duration: 90)
+Event: Bulilit Dela Cera on 2025-10-10 at 09:30:00 (count: 2, duration: 90)
+Event: Maricar T. Bahala on 2025-10-10 at 14:30:00 (count: 2, duration: 90)
+Event: Maris Awitin on 2025-10-11 at 14:30:00 (count: 1, duration: 90)
+Events found: 5

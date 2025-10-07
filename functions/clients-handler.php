@@ -405,38 +405,11 @@ if (isset($_GET['get_client_details'])) {
             error_log("Fetched " . count($medicalRecords) . " medical records for client_id: $clientId");
         }
 
-        // Geocode the address if available
-        $lat = null;
-        $lon = null;
-        if (!empty($client['client_address'])) {
-            $address = $client['client_address'];
-            $url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" . urlencode($address);
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'PetTrackApp/1.0 (your.email@example.com)');  // Replace with your app name and email
-            $response = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            if ($httpCode === 200) {
-                $geoData = json_decode($response, true);
-                if (!empty($geoData)) {
-                    $lat = $geoData[0]['lat'];
-                    $lon = $geoData[0]['lon'];
-                }
-            } else {
-                error_log("Geocoding failed with HTTP code: $httpCode for address: $address");
-            }
-        }
-
         header('Content-Type: application/json');
         echo json_encode([
             'client' => $client,
             'pets' => $pets,
-            'medicalRecords' => $medicalRecords,
-            'lat' => $lat,
-            'lon' => $lon
+            'medicalRecords' => $medicalRecords
         ], JSON_NUMERIC_CHECK);
         exit;
     } catch (PDOException $e) {

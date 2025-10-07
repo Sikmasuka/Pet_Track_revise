@@ -467,94 +467,97 @@
 
     <!-- Appointment Modal -->
     <div id="appointmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
-        <div class="bg-white w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-4 h-[90vh] lg:h-[85vh] rounded-xl shadow-lg flex flex-col" tabindex="-1">
+        <div class="bg-white w-full max-w-5xl mx-4 h-[88vh] rounded-xl shadow-xl flex flex-col" tabindex="-1">
 
             <!-- Header -->
-            <div class="bg-[#169976] px-6 py-4 rounded-t-xl sticky top-0 z-10 flex justify-between items-center">
-                <h2 id="modalTitle" class="text-xl font-semibold text-white text-center">Book an Appointment</h2>
-                <button type="button" onclick="closeModal()" class="text-white hover:text-gray-200 focus:outline-none" aria-label="Close modal">
-                    <i class="fas fa-times text-xl"></i>
+            <div class="bg-[#169976] px-6 py-4 rounded-t-xl flex justify-between items-center">
+                <h2 id="modalTitle" class="text-2xl font-semibold text-white text-center w-full">Book an Appointment</h2>
+                <button type="button" onclick="closeModal()" class="absolute right-6 text-white hover:text-gray-200 focus:outline-none" aria-label="Close modal">
+                    <i class="fas fa-times text-2xl"></i>
                 </button>
             </div>
 
             <!-- Form -->
-            <form id="appointmentForm" method="POST" action="./functions/appointment-handler.php" class="p-6 space-y-4 overflow-y-auto flex-1">
+            <form id="appointmentForm" method="POST" action="./functions/appointment-handler.php" class="flex flex-col justify-between flex-1 p-8">
 
-                <!-- Owner & Contact in one row -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="owner" class="block text-sm font-medium text-gray-700">Owner Name</label>
-                        <input type="text" id="owner" name="owner_name" required
-                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
-                    </div>
-                    <div>
-                        <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
-                        <input type="text" id="contact" name="contact_number" required
-                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
-                    </div>
-                </div>
+                <!-- Content area: Calendar + Inputs -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1">
 
-                <!-- Calendar -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Date</label>
-                    <div id="calendarContainer" class="mt-2 p-2 bg-gray-100 rounded-md border border-gray-300">
-                        <div class="flex justify-between mb-2">
-                            <button type="button" id="prevMonth" class="px-2 bg-[#169976] text-white rounded">&lt;</button>
-                            <span id="monthYear" class="text-sm font-semibold"></span>
-                            <button type="button" id="nextMonth" class="px-2 bg-[#169976] text-white rounded">&gt;</button>
+                    <!-- Left: Calendar -->
+                    <div class="flex flex-col justify-center">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                        <div id="calendarContainer" class="p-4 bg-gray-50 rounded-md border border-gray-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-3">
+                                <button type="button" id="prevMonth" class="px-3 py-1 bg-[#169976] text-white rounded hover:bg-[#137a60]">&lt;</button>
+                                <span id="monthYear" class="text-base font-semibold"></span>
+                                <button type="button" id="nextMonth" class="px-3 py-1 bg-[#169976] text-white rounded hover:bg-[#137a60]">&gt;</button>
+                            </div>
+                            <div id="calendarDays" class="grid grid-cols-7 gap-2 text-center"></div>
+                            <input type="hidden" id="selectedDate" name="appointment_date" required>
                         </div>
-                        <div id="calendarDays" class="grid grid-cols-7 gap-1 text-center"></div>
-                        <input type="hidden" id="selectedDate" name="appointment_date" required>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-1">Please select your preferred date.</p>
-                </div>
-
-                <!-- Time & Reason in one row -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                    <!-- Time -->
-                    <div>
-                        <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
-                        <input type="time" id="time" name="appointment_time" required
-                            class="mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]"
-                            min="08:00" max="18:00" step="1800" />
-                        <p id="timeAvailability" class="text-sm mt-1 hidden">
-                            <span class="indicator"></span>
-                            <span id="timeStatus"></span>
-                        </p>
-                        <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8:00 AM and 6:00 PM.</p>
-                        <div id="takenTimeSlots" class="text-sm mt-1"></div>
-                        <p class="text-sm text-gray-500 mt-1">Please select a time between 8:00 AM and 6:00 PM. Each appointment is 1 hour and 30 minutes.</p>
+                        <p class="text-sm text-gray-500 mt-2">Please select your preferred date.</p>
                     </div>
 
-                    <!-- Reason -->
-                    <div>
-                        <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Visit</label>
-                        <select id="reason" name="reason" required onchange="toggleOtherReason(this)"
-                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
-                            <option value="">-- Select Reason --</option>
-                            <option value="Checkup">Check-up</option>
-                            <option value="Vaccination">Vaccination</option>
-                            <option value="Grooming">Grooming</option>
-                            <option value="Surgery">Surgery</option>
-                            <option value="Emergency">Emergency</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <input type="text" id="other_reason" name="other_reason" placeholder="Please specify"
-                            style="display:none; margin-top:5px;"
-                            class="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
+                    <!-- Right: Form fields -->
+                    <div class="flex flex-col justify-center space-y-4">
+
+                        <!-- Owner -->
+                        <div>
+                            <label for="owner" class="block text-sm font-medium text-gray-700">Owner Name</label>
+                            <input type="text" id="owner" name="owner_name" required
+                                class="mt-1 p-2 text-sm block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
+                        </div>
+
+                        <!-- Contact -->
+                        <div>
+                            <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text" id="contact" name="contact_number" required
+                                class="mt-1 p-2 text-sm block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]" />
+                        </div>
+
+                        <!-- Time -->
+                        <div>
+                            <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
+                            <input type="time" id="time" name="appointment_time" required
+                                class="mt-1 p-2 text-sm w-full rounded-md border border-gray-300 focus:ring-[#169976] focus:border-[#169976]"
+                                min="08:00" max="18:00" step="1800" />
+                            <p id="timeAvailability" class="text-sm mt-1 hidden">
+                                <span class="indicator"></span>
+                                <span id="timeStatus"></span>
+                            </p>
+                            <p id="timeError" class="text-sm text-red-500 mt-1 hidden">Please pick a time between 8:00 AM and 6:00 PM.</p>
+                            <div id="takenTimeSlots" class="text-sm mt-1"></div>
+                            <p class="text-xs text-gray-500 mt-1">Available between 8:00 AM and 6:00 PM. Each appointment is 1 hour and 30 minutes.</p>
+                        </div>
+
+                        <!-- Reason -->
+                        <div>
+                            <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Visit</label>
+                            <select id="reason" name="reason" required onchange="toggleOtherReason(this)"
+                                class="mt-1 p-2 text-sm block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
+                                <option value="">-- Select Reason --</option>
+                                <option value="Checkup">Check-up</option>
+                                <option value="Vaccination">Vaccination</option>
+                                <option value="Grooming">Grooming</option>
+                                <option value="Surgery">Surgery</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <input type="text" id="other_reason" name="other_reason" placeholder="Please specify"
+                                style="display:none; margin-top:5px;"
+                                class="mt-1 p-2 text-sm block w-full rounded-md border border-gray-300 shadow-sm focus:ring-[#169976] focus:border-[#169976]">
+                        </div>
                     </div>
                 </div>
 
                 <!-- Buttons -->
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
-                    <button type="submit" id="submitButton" class="px-4 py-2 bg-[#169976] text-white rounded hover:bg-[#18b98e]">Submit</button>
+                <div class="flex justify-end space-x-3 pt-4 border-t mt-4">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition">Cancel</button>
+                    <button type="submit" id="submitButton" class="px-5 py-2 text-sm bg-[#169976] text-white rounded hover:bg-[#18b98e] transition">Submit</button>
                 </div>
             </form>
         </div>
     </div>
-
 
     <!-- Footer -->
     <footer class="bg-[#169976] py-8 text-white">
@@ -858,4 +861,4 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
-</html>
+</html>w

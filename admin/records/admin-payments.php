@@ -510,7 +510,7 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
 
         <!-- Logout -->
         <div class="pt-4">
-            <a href="../index.php" onclick="confirmLogout(event)"
+            <a href="#" onclick="confirmLogout(event)"
                 class="block text-sm text-gray-200 hover:bg-red-600 px-4 py-2 rounded-md transition-colors">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>

@@ -14,8 +14,9 @@ $itemsPerPage = 10;
 $currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $offset = ($currentPage - 1) * $itemsPerPage;
 
-// Count total logs
-$totalStmt = $pdo->query("SELECT COUNT(*) FROM Logs WHERE Table_Affected IN ('Guest', 'veterinarian')");
+// Count total logs (vet actions + guest actions)
+$totalStmt = $pdo->prepare("SELECT COUNT(*) FROM Logs WHERE User_ID = ? OR Table_Affected = 'Guest'");
+$totalStmt->execute([$_SESSION['vet_id']]);
 $totalLogs = $totalStmt->fetchColumn();
 $totalPages = ceil($totalLogs / $itemsPerPage);
 
@@ -24,20 +25,16 @@ $logQuery = "
     SELECT 
         l.Description,
         l.Timestamp,
-        ap.owner_name AS name
+        COALESCE(v.vet_name, 'Guest') AS name
     FROM Logs l
-    LEFT JOIN appointments ap 
-        ON ap.id = (
-            SELECT MAX(id) 
-            FROM appointments 
-            WHERE owner_name LIKE CONCAT('%', SUBSTRING_INDEX(l.Description, ' ', 2), '%')
-        )
-    WHERE l.Table_Affected IN ('Guest', 'veterinarian')
+    LEFT JOIN veterinarian v ON l.User_ID = v.vet_id
+    WHERE l.User_ID = :vet_id OR l.Table_Affected = 'Guest'
     ORDER BY l.Timestamp DESC
     LIMIT :limit OFFSET :offset
 ";
 
 $stmt = $pdo->prepare($logQuery);
+$stmt->bindValue(':vet_id', $_SESSION['vet_id'], PDO::PARAM_INT);
 $stmt->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
