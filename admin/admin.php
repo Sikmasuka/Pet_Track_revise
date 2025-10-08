@@ -335,13 +335,32 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
 
         <!-- Table -->
         <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg table-container border border-slate-200">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">Veterinarians List</h2>
+            <div class="flex flex-col lg:flex-row justify-between lg:items-center mb-4 gap-4">
+                <h2 class="text-lg lg:text-xl font-semibold text-gray-800">Veterinarians List</h2>
 
-                <!-- Add New Veterinarian Button -->
-                <button id="openAddModal" class="bg-indigo-500 text-white px-4 py-2 text-sm rounded-md hover:bg-indigo-600 mb-8 transition-colors">
-                    Add New Veterinarian
-                </button>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+                    <!-- Search Bar -->
+                    <div class="flex flex-col sm:flex-row items-center gap-2">
+                        <label for="search" class="text-sm font-medium text-gray-700 whitespace-nowrap">Search Veterinarians:</label>
+                        <form method="GET" class="flex items-center w-full sm:w-auto">
+                            <input
+                                type="text"
+                                name="search"
+                                id="search"
+                                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+                                class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none w-full sm:w-64"
+                                placeholder="Search by name, username, or contact...">
+                        </form>
+                    </div>
+
+                    <!-- Add New Veterinarian Button -->
+                    <button
+                        id="openAddModal"
+                        type="button"
+                        class="bg-emerald-500 text-white px-4 py-2 text-sm rounded-md hover:bg-emerald-600 transition-colors">
+                        Add New Veterinarian
+                    </button>
+                </div>
             </div>
 
             <table class="w-full table-auto divide-y divide-slate-200">
@@ -355,28 +374,37 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200">
-                    <?php foreach ($vets as $vet): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_name']) ?></td>
-                            <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_contact_number']) ?></td>
-                            <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_username']) ?></td>
-                            <td class="p-4 text-sm italic text-gray-500">Hidden (encrypted)</td>
-                            <td class="p-4 text-center text-sm">
-                                <a href="#"
-                                    class="text-indigo-500 hover:text-indigo-700 mr-2 edit-btn transition-colors"
-                                    data-vet-id="<?= $vet['vet_id'] ?>"
-                                    data-vet-name="<?= htmlspecialchars($vet['vet_name'], ENT_QUOTES) ?>"
-                                    data-vet-contact="<?= htmlspecialchars($vet['vet_contact_number'], ENT_QUOTES) ?>"
-                                    data-vet-username="<?= htmlspecialchars($vet['vet_username'], ENT_QUOTES) ?>">
-                                    Edit
-                                </a>
-                                <a href="#" onclick="confirmDelete(<?= $vet['vet_id'] ?>)" class="text-red-500 hover:text-red-700 transition-colors">Delete</a>
+                    <?php if (!empty($vets)): ?>
+                        <?php foreach ($vets as $vet): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_name']) ?></td>
+                                <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_contact_number']) ?></td>
+                                <td class="p-4 text-sm"><?= htmlspecialchars($vet['vet_username']) ?></td>
+                                <td class="p-4 text-sm italic text-gray-500">Hidden (encrypted)</td>
+                                <td class="p-4 text-center text-sm">
+                                    <a href="#"
+                                        class="text-indigo-500 hover:text-indigo-700 mr-2 edit-btn transition-colors"
+                                        data-vet-id="<?= $vet['vet_id'] ?>"
+                                        data-vet-name="<?= htmlspecialchars($vet['vet_name'], ENT_QUOTES) ?>"
+                                        data-vet-contact="<?= htmlspecialchars($vet['vet_contact_number'], ENT_QUOTES) ?>"
+                                        data-vet-username="<?= htmlspecialchars($vet['vet_username'], ENT_QUOTES) ?>">
+                                        Edit
+                                    </a>
+                                    <a href="#" onclick="confirmDelete(<?= $vet['vet_id'] ?>)" class="text-red-500 hover:text-red-700 transition-colors">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="text-center py-6 text-gray-500 text-sm sm:text-base">
+                                No veterinarians found matching your search.
                             </td>
                         </tr>
-                    <?php endforeach ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
+
 
         <!-- Edit Veterinarian Modal -->
         <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
@@ -728,6 +756,41 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                 editVetPasswordInput.type = "password";
                 editVetPasswordIcon.classList.remove("fa-eye-slash");
                 editVetPasswordIcon.classList.add("fa-eye");
+            }
+        });
+
+        // Client-side filtering for search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase().trim();
+                    const rows = document.querySelectorAll('tbody tr');
+                    let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        const name = row.cells[0].textContent.toLowerCase();
+                        const address = row.cells[1].textContent.toLowerCase();
+                        const contact = row.cells[2].textContent.toLowerCase();
+
+                        if (name.includes(searchTerm) || address.includes(searchTerm) || contact.includes(searchTerm)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    const noResults = document.getElementById('noResults');
+                    if (noResults) {
+                        noResults.style.display = (visibleCount === 0) ? 'block' : 'none';
+                    }
+                });
+
+                // Trigger filtering on page load if search value is present (from URL)
+                if (searchInput.value) {
+                    searchInput.dispatchEvent(new Event('input'));
+                }
             }
         });
     </script>

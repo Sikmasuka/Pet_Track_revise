@@ -276,7 +276,13 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
         <div class="grid grid-cols-1 gap-6">
             <!-- Table All Clients -->
             <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors mb-6">
-                <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Clients</h3>
+                <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Medical Records</h3>
+
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <label for="search" class="text-sm font-medium text-gray-700 mr-2">Search Pets:</label>
+                    <input type="text" id="search" class="border border-gray-300 rounded-lg px-4 py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Search by name, address, or contact...">
+                </div>
 
                 <?php
                 $medicals = getMedicalRecords($pdo); // Call function from record-handler.php
@@ -395,6 +401,48 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
             recordsMenu.classList.add('max-h-96', 'opacity-100');
             recordsArrow.classList.add('rotate-180');
         }
+
+        // Client-side filtering for search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase().trim();
+                    const rows = document.querySelectorAll('tbody tr');
+                    let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        const clientId = row.cells[0].textContent.toLowerCase();
+                        const name = row.cells[1].textContent.toLowerCase();
+                        const address = row.cells[2].textContent.toLowerCase();
+                        const contact = row.cells[3].textContent.toLowerCase();
+
+                        if (clientId.includes(searchTerm) || name.includes(searchTerm) || address.includes(searchTerm) || contact.includes(searchTerm)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    // Optional: Show "No results" message if no rows visible
+                    let noResults = document.getElementById('noResults');
+                    if (!noResults) {
+                        noResults = document.createElement('p');
+                        noResults.id = 'noResults';
+                        noResults.className = 'text-center text-gray-500 text-sm';
+                        noResults.textContent = 'No clients found matching your search.';
+                        noResults.style.display = 'none';
+                        // Insert after the table
+                        const tableContainer = document.querySelector('.table-container');
+                        if (tableContainer) {
+                            tableContainer.appendChild(noResults);
+                        }
+                    }
+                    noResults.style.display = (visibleCount === 0 && searchTerm) ? 'block' : 'none';
+                });
+            }
+        });
     </script>
 
     <script src="../../js/dashboard.js"></script>

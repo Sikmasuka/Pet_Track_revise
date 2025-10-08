@@ -9,8 +9,19 @@ try {
     error_log('Error including files in logout.php: ' . $e->getMessage());
 }
 
+// Destroy all session data
 session_unset();
 session_destroy();
+
+// ✅ Securely delete the "remember me" cookie
+setcookie('remember_username', '', [
+    'expires' => time() - 3600,
+    'path' => '/',
+    'secure' => isset($_SERVER['HTTPS']),
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 ob_end_clean();
-header("Location: /Pet_Track_revise-3/index.php");
+header("Location: /Pet-Track/index.php");
 exit;

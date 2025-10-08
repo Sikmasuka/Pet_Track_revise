@@ -1007,6 +1007,8 @@ if (isset($_GET['year']) && $_GET['year'] !== 'All' && is_numeric($_GET['year'])
         </script>
         <script src="../../js/sidebarHandler.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="../../js/edit-profile.js"></script>
+        <script src="../../js/profile-dropdown.js"></script>
         <script src="../../js/confirmLogout.js"></script>
         <script src="../../js/admin-notification-bell.js"></script>
         <script src="../../js/customize-loader.js"></script>

@@ -87,8 +87,10 @@ require_once 'functions/authentication.php';
                         <label for="username" class="block text-xs font-semibold text-gray-600 mb-1">Username</label>
                         <div class="relative">
                             <input type="text" id="username" name="username"
+                                value="<?= htmlspecialchars($_COOKIE['remember_username'] ?? '') ?>"
                                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
                                 placeholder="Enter your username" required>
+
                             <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                                 <i class="fa fa-user"></i>
                             </span>
@@ -113,9 +115,8 @@ require_once 'functions/authentication.php';
                     <!-- Remember + Forgot -->
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 text-xs">
                         <label class="flex items-center text-gray-600">
-                            <input type="checkbox" name="remember" class="mr-2"> Remember Me
-                        </label>
-                        <a href="#" class="text-green-600 hover:underline">Forgot password?</a>
+                            <input type="checkbox" name="remember" class="mr-2"
+                                <?php if (isset($_COOKIE['remember_username'])) echo 'checked'; ?>> Remember Me
                     </div>
 
                     <!-- 🔒 CSRF protection -->

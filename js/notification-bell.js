@@ -40,7 +40,7 @@ async function fetchNotifications() {
 
   try {
     const response = await fetch(
-      "/Pet_Track_revise-3/functions/get-recent-activities.php?page=1"
+      "/Pet-Track/functions/get-recent-activities.php?page=1"
     );
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
@@ -109,7 +109,7 @@ async function fetchNotifications() {
 async function fetchNotificationCount() {
   try {
     const response = await fetch(
-      "/Pet_Track_revise-3/functions/get-recent-activities.php?page=1"
+      "/Pet-Track/functions/get-recent-activities.php?page=1"
     );
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();

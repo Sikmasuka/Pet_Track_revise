@@ -55,6 +55,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     // ✅ Check password with password_verify() for both roles
     if (password_verify($password, $user['password'])) {
 
+        // ✅ Remember Me (username only)
+        if (!empty($_POST['remember'])) {
+            // Set a secure cookie that remembers the username for 30 days
+            setcookie(
+                'remember_username',
+                $username,
+                [
+                    'expires' => time() + (86400 * 30), // 30 days
+                    'path' => '/',
+                    'secure' => isset($_SERVER['HTTPS']), // send only over HTTPS
+                    'httponly' => true, // prevent JS access
+                    'samesite' => 'Strict' // prevent cross-site attacks
+                ]
+            );
+        } else {
+            // Clear cookie if "Remember Me" is unchecked
+            setcookie(
+                'remember_username',
+                '',
+                [
+                    'expires' => time() - 3600,
+                    'path' => '/',
+                    'secure' => isset($_SERVER['HTTPS']),
+                    'httponly' => true,
+                    'samesite' => 'Strict'
+                ]
+            );
+        }
+
+
         // Regenerate session ID for security
         session_regenerate_id(true);
 

@@ -199,7 +199,7 @@ ob_end_flush();
             </div>
 
             <!-- Metrics Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4">
                 <div class="bg-white p-3 rounded-md h-full relative shadow-md border border-slate-200 hover:border-indigo-400 transition-colors">
                     <a href="clients.php" class="absolute top-1 right-2 text-gray-500 hover:text-indigo-400 transition-colors text-sm">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>

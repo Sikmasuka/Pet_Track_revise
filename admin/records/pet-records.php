@@ -132,19 +132,23 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                 <!-- Submenu -->
                 <div id="recordsMenu"
                     class="max-h-0 overflow-hidden opacity-0 transition-all duration-200 ease-in-out pl-8 space-y-1">
-                    <a href="./records/pet-records.php"
-                        class="block text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+
+                    <a href="../records/pet-records.php"
+                        class="flex items-center text-sm text-gray-200 bg-teal-800 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-paw mr-2"></i> Pets
                     </a>
-                    <a href="./client-records.php"
-                        class="block text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+
+                    <a href="../records/client-records.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-user mr-2"></i> Clients
                     </a>
-                    <a href="./medical-records.php"
-                        class="flex items-start text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors break-words">
-                        <i class="fas fa-file-medical mr-2 mt-1"></i>
+
+                    <a href="../records/medical-records.php"
+                        class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
+                        <i class="fas fa-file-medical mr-2"></i>
                         <span class="whitespace-normal leading-snug">Medical Records</span>
                     </a>
+
                     <a href="../records/admin-payments.php"
                         class="flex items-center text-sm text-gray-200 hover:bg-emerald-600 px-3 py-2 rounded-md hover:text-white transition-colors">
                         <i class="fas fa-credit-card mr-2"></i> Payments Records
@@ -274,6 +278,12 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
             <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors mb-6">
                 <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Pets</h3>
 
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <label for="search" class="text-sm font-medium text-gray-700 mr-2">Search Pets:</label>
+                    <input type="text" id="search" class="border border-gray-300 rounded-lg px-4 py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Search by name, address, or contact...">
+                </div>
+
                 <?php
                 $pets = getPets($pdo); // Call function from record-handler.php
                 if (isset($error) && !empty($error)) {
@@ -389,6 +399,48 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
             recordsMenu.classList.add('max-h-96', 'opacity-100');
             recordsArrow.classList.add('rotate-180');
         }
+
+        // Client-side filtering for search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase().trim();
+                    const rows = document.querySelectorAll('tbody tr');
+                    let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        const clientId = row.cells[0].textContent.toLowerCase();
+                        const name = row.cells[1].textContent.toLowerCase();
+                        const address = row.cells[2].textContent.toLowerCase();
+                        const contact = row.cells[3].textContent.toLowerCase();
+
+                        if (clientId.includes(searchTerm) || name.includes(searchTerm) || address.includes(searchTerm) || contact.includes(searchTerm)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    // Optional: Show "No results" message if no rows visible
+                    let noResults = document.getElementById('noResults');
+                    if (!noResults) {
+                        noResults = document.createElement('p');
+                        noResults.id = 'noResults';
+                        noResults.className = 'text-center text-gray-500 text-sm';
+                        noResults.textContent = 'No clients found matching your search.';
+                        noResults.style.display = 'none';
+                        // Insert after the table
+                        const tableContainer = document.querySelector('.table-container');
+                        if (tableContainer) {
+                            tableContainer.appendChild(noResults);
+                        }
+                    }
+                    noResults.style.display = (visibleCount === 0 && searchTerm) ? 'block' : 'none';
+                });
+            }
+        });
     </script>
 
     <script src="../../js/dashboard.js"></script>

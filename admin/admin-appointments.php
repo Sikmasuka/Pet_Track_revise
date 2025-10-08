@@ -548,7 +548,7 @@ $paginated_data = array_slice($appoint_list, $start_point, $items_per_page);
                         start,
                         end
                     });
-                    fetch(`/Pet_Track_revise-3/functions/get-appointments.php?start=${start}&end=${end}`)
+                    fetch(`/Pet-Track/functions/get-appointments.php?start=${start}&end=${end}`)
                         .then((response) => {
                             console.log('Fetch response status:', response.status);
                             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

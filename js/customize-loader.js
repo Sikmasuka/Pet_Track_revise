@@ -2,17 +2,17 @@ function showLoader() {
   document.getElementById("loadingScreen").classList.remove("hidden");
 }
 
-// For links
-document.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", function (e) {
-    if (this.href && !this.href.includes("#")) {
-      // Avoid anchor links
-      e.preventDefault();
-      showLoader();
-      setTimeout(() => (window.location.href = this.href), 100); // Small delay to show loader
-    }
-  });
-});
+// For links - Removed to allow immediate navigation without loader
+// document.querySelectorAll("a").forEach((link) => {
+//   link.addEventListener("click", function (e) {
+//     if (this.href && !this.href.includes("#")) {
+//       // Avoid anchor links
+//       e.preventDefault();
+//       showLoader();
+//       setTimeout(() => (window.location.href = this.href), 100); // Small delay to show loader
+//     }
+//   });
+// });
 
 // For forms
 document.querySelectorAll("form").forEach((form) => {

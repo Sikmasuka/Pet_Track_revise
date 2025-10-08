@@ -12,8 +12,8 @@ function confirmLogout(event) {
     cancelButtonText: "Cancel",
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log("Attempting redirect to: /Pet_Track_revise-3/logout.php");
-      window.location.href = "/Pet_Track_revise-3/logout.php"; // Absolute path
+      console.log("Attempting redirect to: /Pet-Track/logout.php");
+      window.location.href = "/Pet-Track/logout.php"; // Absolute path
       // Alternative relative path: "./logout.php"
     }
   });

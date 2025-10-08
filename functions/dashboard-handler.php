@@ -52,24 +52,50 @@ $stmtAppointments = $pdo->prepare("
 $stmtAppointments->execute(['today' => $today]);
 $appointmentsToday = $stmtAppointments->fetchColumn();
 
-// Fetch most common medical conditions: Retrieve top 5 medical conditions by frequency
+// Fetch most common medical conditions: Retrieve and split all medical conditions
 $stmtConditions = $pdo->prepare("
-    SELECT LOWER(TRIM(medical_condition)) AS `condition_name`, COUNT(*) AS condition_count
-    FROM Medical_Records
-    GROUP BY `condition_name`
-    ORDER BY condition_count DESC
-    LIMIT 5
+    SELECT medical_condition
+    FROM Medical_Records 
+    WHERE medical_condition IS NOT NULL AND medical_condition != ''
 ");
 $stmtConditions->execute();
-$conditions = $stmtConditions->fetchAll();
+$allConditions = $stmtConditions->fetchAll(PDO::FETCH_COLUMN);
+
+// Split and count individual conditions
+$conditionCounts = [];
+foreach ($allConditions as $conditionStr) {
+    if (!empty($conditionStr)) {
+        // Split by comma and trim each condition
+        $individualConditions = array_map('trim', explode(',', $conditionStr));
+        foreach ($individualConditions as $condition) {
+            if (!empty($condition)) {
+                $condition = strtolower($condition);
+                if (!isset($conditionCounts[$condition])) {
+                    $conditionCounts[$condition] = 0;
+                }
+                $conditionCounts[$condition]++;
+            }
+        }
+    }
+}
+
+// Sort by count descending and get top conditions
+arsort($conditionCounts);
+$topConditions = array_slice($conditionCounts, 0, 5); // Get top 5 conditions
 
 $conditionLabels = [];
 $conditionCounts = [];
 
-foreach ($conditions as $condition) {
-    // I-format balik para presentable
-    $conditionLabels[] = ucwords($condition['condition_name']);
-    $conditionCounts[] = $condition['condition_count'];
+foreach ($topConditions as $condition => $count) {
+    // Format back to presentable
+    $conditionLabels[] = ucwords($condition);
+    $conditionCounts[] = $count;
+}
+
+// If no conditions found, set defaults
+if (empty($conditionLabels)) {
+    $conditionLabels = ['No conditions recorded'];
+    $conditionCounts = [1];
 }
 
 

@@ -282,6 +282,12 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
             <div class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200 hover:border-indigo-400 transition-colors mb-6">
                 <h3 class="text-lg lg:text-xl font-semibold text-gray-800 mb-4">All Clients</h3>
 
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <label for="search" class="text-sm font-medium text-gray-700 mr-2">Search Clients:</label>
+                    <input type="text" id="search" class="border border-gray-300 rounded-lg px-4 py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Search by name, address, or contact...">
+                </div>
+
                 <?php
                 $clients = getClients($pdo); // Call function from record-handler.php
                 // Apply search filter to clients
@@ -295,23 +301,6 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                     });
                 }
                 ?>
-
-                <!-- Search Filter -->
-                <div class="flex items-center gap-2 mb-4">
-                    <label for="clientSelect" class="text-sm font-medium text-gray-700">
-                        Client:
-                    </label>
-                    <select id="clientSelect" name="client_name" required
-                        class="w-48 px-2 py-1 text-xs border border-slate-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                        <option value="">Select Client</option>
-                        <?php foreach ($clients as $client): ?>
-                            <option value="<?php echo htmlspecialchars($client['client_name']); ?>">
-                                <?php echo htmlspecialchars($client['client_name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
 
                 <?php
                 if (isset($error) && !empty($error)) {
@@ -433,6 +422,49 @@ $adminName = htmlspecialchars($currentAdmin['admin_name'] ?? 'Admin');
                 },
                 placeholder: "Search or select client..."
             });
+        });
+
+
+        // Client-side filtering for search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase().trim();
+                    const rows = document.querySelectorAll('tbody tr');
+                    let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        const clientId = row.cells[0].textContent.toLowerCase();
+                        const name = row.cells[1].textContent.toLowerCase();
+                        const address = row.cells[2].textContent.toLowerCase();
+                        const contact = row.cells[3].textContent.toLowerCase();
+
+                        if (clientId.includes(searchTerm) || name.includes(searchTerm) || address.includes(searchTerm) || contact.includes(searchTerm)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    // Optional: Show "No results" message if no rows visible
+                    let noResults = document.getElementById('noResults');
+                    if (!noResults) {
+                        noResults = document.createElement('p');
+                        noResults.id = 'noResults';
+                        noResults.className = 'text-center text-gray-500 text-sm';
+                        noResults.textContent = 'No clients found matching your search.';
+                        noResults.style.display = 'none';
+                        // Insert after the table
+                        const tableContainer = document.querySelector('.table-container');
+                        if (tableContainer) {
+                            tableContainer.appendChild(noResults);
+                        }
+                    }
+                    noResults.style.display = (visibleCount === 0 && searchTerm) ? 'block' : 'none';
+                });
+            }
         });
     </script>
 

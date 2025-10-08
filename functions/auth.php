@@ -2,7 +2,7 @@
 Session_start();
 // auth.php
 // Define base URL for redirects
-define('BASE_URL', '/Pet_Track_revise-3/');
+define('BASE_URL', '/Pet-Track/');
 
 // Protects admin pages
 function requireAdmin()

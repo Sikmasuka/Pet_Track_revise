@@ -265,39 +265,59 @@ ob_end_flush();
 
         <main class="bg-white p-4 lg:p-6 rounded-lg shadow-lg border border-slate-200">
             <!-- Pets Section -->
-            <h2 class="text-lg sm:text-xl lg:text-xl font-semibold text-gray-800 mb-4">List of Pets</h2>
+            <div class="flex flex-col lg:flex-row justify-between lg:items-center mb-4 gap-4 flex-wrap">
+                <h2 class="text-lg lg:text-xl font-semibold text-gray-800">List of Pets</h2>
 
-            <form method="GET" class="flex flex-row gap-6 mb-4">
-                <div>
-                    <label for="speciesFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Species:</label>
-                    <select name="species" id="speciesFilter" class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="this.form.submit()">
-                        <option value="All" <?php echo (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : ''; ?>>All</option>
-                        <option value="Dog" <?php echo (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : ''; ?>>Dog</option>
-                        <option value="Cat" <?php echo (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : ''; ?>>Cat</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="sexFilter" class="text-sm font-medium text-gray-700 mr-2">Filter by Sex:</label>
-                    <select name="sex" id="sexFilter" class="border border-gray-300 rounded-lg px-4 cursor-pointer py-1 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="this.form.submit()">
-                        <option value="All" <?php echo (!isset($_GET['sex']) || $_GET['sex'] === 'All') ? 'selected' : ''; ?>>All</option>
-                        <option value="Male" <?php echo (isset($_GET['sex']) && $_GET['sex'] === 'Male') ? 'selected' : ''; ?>>Male</option>
-                        <option value="Female" <?php echo (isset($_GET['sex']) && $_GET['sex'] === 'Female') ? 'selected' : ''; ?>>Female</option>
-                    </select>
-                </div>
-            </form>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto flex-wrap">
+                    <!-- Search Bar -->
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <label for="search" class="text-sm font-medium text-gray-700">Search Pets:</label>
+                        <input type="text" name="search" id="search"
+                            value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none w-full sm:w-64"
+                            placeholder="Search by name, breed, or client...">
+                    </div>
 
+                    <!-- Filter Form -->
+                    <form method="GET" class="flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto items-center">
+                        <div class="flex items-center gap-2">
+                            <label for="speciesFilter" class="text-sm font-medium text-gray-700">Species:</label>
+                            <select name="species" id="speciesFilter"
+                                class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none cursor-pointer"
+                                onchange="this.form.submit()">
+                                <option value="All" <?= (!isset($_GET['species']) || $_GET['species'] === 'All') ? 'selected' : ''; ?>>All</option>
+                                <option value="Dog" <?= (isset($_GET['species']) && $_GET['species'] === 'Dog') ? 'selected' : ''; ?>>Dog</option>
+                                <option value="Cat" <?= (isset($_GET['species']) && $_GET['species'] === 'Cat') ? 'selected' : ''; ?>>Cat</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <label for="sexFilter" class="text-sm font-medium text-gray-700">Sex:</label>
+                            <select name="sex" id="sexFilter"
+                                class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none cursor-pointer"
+                                onchange="this.form.submit()">
+                                <option value="All" <?= (!isset($_GET['sex']) || $_GET['sex'] === 'All') ? 'selected' : ''; ?>>All</option>
+                                <option value="Male" <?= (isset($_GET['sex']) && $_GET['sex'] === 'Male') ? 'selected' : ''; ?>>Male</option>
+                                <option value="Female" <?= (isset($_GET['sex']) && $_GET['sex'] === 'Female') ? 'selected' : ''; ?>>Female</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Pets Table -->
             <?php if (count($pets) > 0): ?>
                 <div class="overflow-y-auto max-h-96">
                     <table class="min-w-full divide-y divide-slate-200">
                         <thead class="bg-gray-300 sticky top-0 z-2">
                             <tr class="border-b border-slate-200">
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Pet Name</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Species</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Pet Sex</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Breed</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Weight</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Birth Date</th>
-                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider min-w-[120px] whitespace-nowrap overflow-hidden truncate">Client</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Pet Name</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Species</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Pet Sex</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Breed</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Weight</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Birth Date</th>
+                                <th class="px-2 py-3 text-left text-xs sm:text-sm font-medium text-gray-600 uppercase tracking-wider">Client</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-200">
@@ -315,98 +335,136 @@ ob_end_flush();
                         </tbody>
                     </table>
                 </div>
+                <p id="noResults" class="text-center text-gray-500 text-sm sm:text-base" style="display: none;">No pets found matching your search.</p>
             <?php else: ?>
                 <p class="text-center text-gray-500 text-sm sm:text-base">No pets added yet.</p>
             <?php endif; ?>
         </main>
-    </div>
 
-    <!-- Add/Edit Pet Modal -->
-    <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md border border-slate-200">
-            <div class="w-full bg-gray-50 rounded-t-lg text-gray-800 border-b border-slate-200">
-                <h3 id="petModalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-gray-800 m-0 py-3">
-                    Edit Pet
-                </h3>
+
+        <!-- Add/Edit Pet Modal -->
+        <div id="petModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md border border-slate-200">
+                <div class="w-full bg-gray-50 rounded-t-lg text-gray-800 border-b border-slate-200">
+                    <h3 id="petModalTitle" class="text-lg sm:text-xl lg:text-2xl font-bold text-center text-gray-800 m-0 py-3">
+                        Edit Pet
+                    </h3>
+                </div>
+                <form id="petForm" method="POST" class="p-4 sm:p-6">
+                    <input type="hidden" name="pet_id" id="pet_id" value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_id']) : '' ?>">
+                    <input type="hidden" name="update_pet" value="1">
+                    <input type="hidden" name="client_id" id="clientId" value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['client_id']) : '' ?>">
+                    <div class="mb-4">
+                        <label class="block text-md font-semibold text-gray-700">Pet Name</label>
+                        <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_name']) : '' ?>" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-md font-semibold text-gray-700">Pet Sex</label>
+                        <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
+                            <option value="Male" <?= isset($petToEdit) && $petToEdit['pet_sex'] == 'Male' ? 'selected' : '' ?>>Male</option>
+                            <option value="Female" <?= isset($petToEdit) && $petToEdit['pet_sex'] == 'Female' ? 'selected' : '' ?>>Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-md font-semibold text-gray-700">Pet Breed</label>
+                        <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_breed']) : '' ?>" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-md font-semibold text-gray-700">Pet Weight (kg)</label>
+                        <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_weight']) : '' ?>" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-md font-semibold text-gray-700">Birth Date</label>
+                        <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_birth_date']) : '' ?>" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-md font-semibold text-gray-700">Owner</label>
+                        <input type="text" id="clientName" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50/50 text-gray-600"
+                            value="<?= isset($clientName) ? htmlspecialchars($clientName) : '' ?>" readonly>
+                    </div>
+                    <div class="flex justify-between pt-4 border-t border-slate-200">
+                        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors">Save</button>
+                        <button type="button" onclick="hidePetModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
+                    </div>
+                </form>
             </div>
-            <form id="petForm" method="POST" class="p-4 sm:p-6">
-                <input type="hidden" name="pet_id" id="pet_id" value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_id']) : '' ?>">
-                <input type="hidden" name="update_pet" value="1">
-                <input type="hidden" name="client_id" id="clientId" value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['client_id']) : '' ?>">
-                <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Pet Name</label>
-                    <input type="text" name="pet_name" id="petName" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_name']) : '' ?>" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Pet Sex</label>
-                    <select name="pet_sex" id="petSex" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" required>
-                        <option value="Male" <?= isset($petToEdit) && $petToEdit['pet_sex'] == 'Male' ? 'selected' : '' ?>>Male</option>
-                        <option value="Female" <?= isset($petToEdit) && $petToEdit['pet_sex'] == 'Female' ? 'selected' : '' ?>>Female</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Pet Breed</label>
-                    <input type="text" name="pet_breed" id="petBreed" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_breed']) : '' ?>" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Pet Weight (kg)</label>
-                    <input type="number" name="pet_weight" id="petWeight" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_weight']) : '' ?>" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Birth Date</label>
-                    <input type="date" name="pet_birth_date" id="petBirthDate" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        value="<?= isset($petToEdit) ? htmlspecialchars($petToEdit['pet_birth_date']) : '' ?>" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-md font-semibold text-gray-700">Owner</label>
-                    <input type="text" id="clientName" class="w-full p-2 border border-slate-200 rounded-md bg-gray-50/50 text-gray-600"
-                        value="<?= isset($clientName) ? htmlspecialchars($clientName) : '' ?>" readonly>
-                </div>
-                <div class="flex justify-between pt-4 border-t border-slate-200">
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors">Save</button>
-                    <button type="button" onclick="hidePetModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
-                </div>
-            </form>
         </div>
-    </div>
 
-    <!-- Modal Control Script -->
-    <script>
-        // Show pet modal
-        function showPetModal() {
-            document.getElementById('petModal').classList.remove('hidden');
-        }
-
-        // Hide pet modal
-        function hidePetModal() {
-            document.getElementById('petModal').classList.add('hidden');
-            // Clear URL parameter
-            const url = new URL(window.location.href);
-            url.searchParams.delete('edit_pet_id');
-            window.history.replaceState({}, document.title, url.pathname);
-        }
-
-        function toggleModal(modalId) {
-            console.log("Toggling modal:", modalId); // Debug log
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.toggle('hidden');
-            } else {
-                console.error("Modal not found:", modalId);
+        <!-- Modal Control Script -->
+        <script>
+            // Show pet modal
+            function showPetModal() {
+                document.getElementById('petModal').classList.remove('hidden');
             }
-        }
-    </script>
 
-    <script src="./js/dashboard.js"></script>
-    <script src="./js/sidebarHandler.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./js/confirmLogout.js"></script>
-    <script src="./js/edit-profile.js"></script>
-    <script src="./js/notification-bell.js"></script>
-    <script src="./js/customize-loader.js"></script>
+            // Hide pet modal
+            function hidePetModal() {
+                document.getElementById('petModal').classList.add('hidden');
+                // Clear URL parameter
+                const url = new URL(window.location.href);
+                url.searchParams.delete('edit_pet_id');
+                window.history.replaceState({}, document.title, url.pathname);
+            }
+
+            function toggleModal(modalId) {
+                console.log("Toggling modal:", modalId); // Debug log
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.toggle('hidden');
+                } else {
+                    console.error("Modal not found:", modalId);
+                }
+            }
+        </script>
+
+        <script>
+            // Client-side filtering for search input
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('search');
+                if (searchInput) {
+                    searchInput.addEventListener('input', function() {
+                        const searchTerm = this.value.toLowerCase().trim();
+                        const rows = document.querySelectorAll('tbody tr');
+                        let visibleCount = 0;
+
+                        rows.forEach(row => {
+                            const petName = row.cells[0].textContent.toLowerCase();
+                            const breed = row.cells[3].textContent.toLowerCase();
+                            const client = row.cells[6].textContent.toLowerCase();
+
+                            if (petName.includes(searchTerm) || breed.includes(searchTerm) || client.includes(searchTerm)) {
+                                row.style.display = '';
+                                visibleCount++;
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+
+                        const noResults = document.getElementById('noResults');
+                        if (noResults) {
+                            noResults.style.display = (visibleCount === 0) ? 'block' : 'none';
+                        }
+                    });
+
+                    // Trigger filtering on page load if search value is present (from URL)
+                    if (searchInput.value) {
+                        searchInput.dispatchEvent(new Event('input'));
+                    }
+                }
+            });
+        </script>
+
+        <script src="./js/dashboard.js"></script>
+        <script src="./js/sidebarHandler.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="./js/confirmLogout.js"></script>
+        <script src="./js/edit-profile.js"></script>
+        <script src="./js/notification-bell.js"></script>
+        <script src="./js/customize-loader.js"></script>
 </body>
 
 </html>
